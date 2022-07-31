@@ -1,11 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import './index.css'
+import '@/assets/styles/index.scss';
+// import '@/assets/icons_flat/rocketpot-icons.css';
 
 export const app = createApp(App)
 
-// Router setup (vue-router)
+
 app.use(router)
 
 // Mounting the app
