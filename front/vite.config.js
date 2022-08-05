@@ -19,7 +19,8 @@ export default defineConfig({
         /\.vue$/,
         /\.vue\?vue/, // .vue
       ],
-      imports: ['vue', 'vue-router'],
+      dirs: ['./hooks'],
+      imports: ['vue', 'vue-router', 'pinia'],
       eslintrc: {
         enabled: true,
       },
