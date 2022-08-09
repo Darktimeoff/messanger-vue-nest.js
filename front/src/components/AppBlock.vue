@@ -1,0 +1,18 @@
+<template>
+    <div class="block">
+        <slot />
+    </div>
+</template>
+
+<script lang="ts">
+
+</script>
+
+<style lang="scss" scoped>
+.block {
+    padding: 45px;
+    background: $white;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.04204);
+    border-radius: 3px;
+}
+</style>
