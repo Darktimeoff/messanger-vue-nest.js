@@ -4,6 +4,7 @@
         :class="[props.class, {'button--large': props.size === 'large'}]"
         :type="props.type"
         :size="props.size"
+        :htmlType="props.htmlType"
     >
         <slot />
     </Button>
@@ -18,6 +19,7 @@ interface IProps {
     class?: string;
     type?:  ButtonProps['type']
     size?: ButtonProps['size']
+    htmlType?: ButtonProps['htmlType']
 }
 
 const props = defineProps<IProps>()

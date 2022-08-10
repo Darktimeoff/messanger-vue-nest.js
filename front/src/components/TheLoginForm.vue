@@ -1,17 +1,15 @@
 <template>
     <a-form
-        :model="formState"
-        name="normal_login"
+        name="login"
         class="login-form"
-        @finish="onFinish"
-        @finishFailed="onFinishFailed"
     >
         <a-form-item
             name="email"
-            has-feedback
-            validateStatus="success"
+            :has-feedback="isEmailTouched"
+            :validateStatus="validateStatus(eError || '')"
+            :extra="eError"
         >
-            <a-input size="large" placeholder="Почта" v-model:value="formState.username"  >
+            <a-input size="large" autocomplete="username" placeholder="Почта" v-model:value="email"  >
                 <template #prefix>
                     <MailOutlined class="site-form-item-icon" />
                 </template>
@@ -20,9 +18,11 @@
 
         <a-form-item
             name="password"
-            has-feedback
+            :has-feedback="isPasswordTouched"
+            :validateStatus="validateStatus(pError || '')"
+            :extra="pError"
         >
-            <a-input-password  size="large" placeholder="Пароль" v-model:value="formState.password">
+            <a-input-password autocomplete="current-password" size="large" placeholder="Пароль" v-model:value="password">
                 <template #prefix>
                     <LockOutlined class="site-form-item-icon" />
                 </template>
@@ -30,7 +30,7 @@
         </a-form-item>
 
         <a-form-item>
-            <AppButton type="primary" size="large" :disabled="disabled" class="login-form-button">
+            <AppButton type="primary" htmlType="submit" size="large" :disabled="disabledBtn" @click="onSubmit" class="login-form-button">
                 Войти в аккаунт
             </AppButton>
         </a-form-item>
@@ -40,30 +40,41 @@
 </template>
 <script lang="ts" setup>
 import { MailOutlined, LockOutlined } from '@ant-design/icons-vue';
+import { useLoginForm } from '~/hooks';
+import {sleep} from '~/helpers';
 
-interface FormState {
-  username: string;
-  password: string;
-  remember: boolean;
-}
+const {
+    disabledBtn,
+    email,
+    password,
+    eError,
+    pError,
+    isEmailTouched,
+    isPasswordTouched,
+    submitForm,
+    validateStatus,
+    resetForm,
+    isSubmitting
+} = useLoginForm();
 
-const formState = reactive<FormState>({
-    username: '',
-    password: '',
-    remember: true,
-});
+async function onSubmit() {
+    isSubmitting.value = true;
+    try {
+        await sleep(500);
+        submitForm();
 
-const onFinish = (values: any) => {
-    console.log('Success:', values);
+        if(Math.random() > 0.5) throw new Error('Не правильный пароль');
+
+        resetForm();
+    } catch(e) {
+        if(e instanceof Error) {
+            submitForm(e?.message)
+        }
+        console.log('onSumbit login error')
+    } finally {
+        isSubmitting.value = false;
+    }
 };
-
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-};
-const disabled = computed(() => {
-    return false;
-});
-
 </script>
 <style lang="scss" scoped>
 .login-form-button {
