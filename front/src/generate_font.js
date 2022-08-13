@@ -15,7 +15,7 @@ fs.readdir('src/assets/icons', (err, items) => {
     {
       files,
       dest: 'src/assets/icons_flat',
-      fontName: 'rocketpot-icons',
+      fontName: 'icons',
 
       html: true,
       normalize: true,
@@ -23,8 +23,8 @@ fs.readdir('src/assets/icons', (err, items) => {
 
       cssTemplate: 'src/assets/icons/font-css.hbs',
       templateOptions: {
-        classPrefix: 'r-',
-        baseSelector: '.r',
+        classPrefix: 'i-',
+        baseSelector: '.i',
       },
       types: ['svg', 'ttf', 'woff', 'woff2', 'eot'],
     },

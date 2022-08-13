@@ -1,0 +1,253 @@
+.fadeIn {
+	animation: fadeIn $animationDuration;
+}
+
+.fadeOut {
+	animation: fadeOut $animationDuration;
+}
+
+@keyframes fadeIn {
+	from{opacity: 0;}
+	to{opacity: 1;}
+}
+
+@keyframes fadeOut {
+	from{opacity: 1;}
+	to{opacity: 0;}
+}
+
+@keyframes shimmer {
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.scaleIn {
+	animation: scaleIn $animationDuration;
+}
+
+.scaleOut {
+	animation: scaleOut $animationDuration;
+}
+
+@keyframes scaleIn {
+	from{
+		transform: scale(0);
+
+		opacity: 0;
+	}
+
+	to{
+		transform: scale(1);
+
+		opacity: 1;
+	}
+}
+
+@keyframes scaleOut {
+	from {transform: scale(1);
+
+		opacity: 1;}
+
+	to{transform: scale(0);
+
+		opacity: 0;}
+}
+
+@keyframes shrinkIn {
+	from {width: 0;
+
+		opacity: 0.3;}
+
+	to{width: 100%;
+
+		opacity: 1;}
+}
+
+@keyframes shrinkOut {
+	from{width: 100%;
+
+		opacity: 1;}
+
+	to{width: 0;
+
+		opacity: 0;}
+}
+
+.shrinkIn {
+	animation: shrinkIn 0.5s;
+}
+
+.shrinkOut {
+	animation: shrinkOut 0.5s;
+}
+
+.transformBottom  {
+	animation: transformBottom $animationDuration;
+}
+
+.transformUp {
+	animation: transformUp $animationDuration;
+}
+
+@keyframes transformBottom {
+	from{transform: translateY(0);}
+	to{transform: translateY(100%);}
+}
+
+@keyframes transformUp{
+	from{transform: translateY(100%);}
+	to{transform: translateY(0)}
+}
+
+.transformLeft {
+	animation: transformLeft $animationDuration;
+}
+
+.transformRight {
+	animation: transformRight $animationDuration;
+}
+
+@keyframes lines {
+	from {
+		transform: translateY(-150px);
+	}
+
+	to {
+		transform: translateY(150px);
+	}
+}
+
+@keyframes barAnimation {
+	0% {
+		right: 100%;
+		left: -35%;
+	}
+
+	60% {
+		right: -90%;
+		left: 100%;
+	}
+
+	100% {
+		right: -90%;
+		left: 100%;
+	}
+}
+
+@keyframes transformLeft {
+	from{transform: translateX(0);}
+	to{transform: translateX(-100%);}
+}
+
+@keyframes transformRight{
+	from{transform: translateX(-100%);}
+	to{transform: translateX(0)}
+}
+
+.transformLeftInverse {
+	animation: transformLeftInverse $animationDuration;
+}
+
+.transformRightInverse {
+	animation: transformRightInverse $animationDuration;
+}
+
+@keyframes transformLeftInverse {
+	from{transform: translateX(100%);}
+	to{transform: translateX(0);}
+}
+
+@keyframes transformRightInverse{
+	from{transform: translateX(0);}
+	to{transform: translateX(100%)}
+}
+
+@keyframes swing {
+	20% {
+		transform: rotate3d(0, 0, 1, 10deg);
+	}
+  
+	40% {
+		transform: rotate3d(0, 0, 1, -5deg);
+	}
+
+	80% {
+		transform: rotate3d(0, 0, 1, -1deg);
+	}
+  
+	to {
+		transform: rotate3d(0, 0, 1, 0deg);
+	}
+}
+
+
+
+@keyframes scaleOut8 {
+	from {transform: scale(1);}
+	to{transform: scale(0.8);}
+}
+
+.swing {
+	animation: swing 1s linear forwards;
+	will-change: transform;
+}
+
+.chestopened {
+	animation: swing 1s linear forwards, scaleOut8 $animationDuration 1s ease forwards;
+	will-change: transform;
+}
+
+@keyframes backOutDown {
+	0% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+
+		opacity: 1;
+	}
+  
+	20% {
+		-webkit-transform: translateY(0) scale(0.7);
+		transform: translateY(0) scale(0.7);
+
+		opacity: 0.7;
+	}
+  
+	100% {
+		-webkit-transform: translateY(700px) scale(0.7);
+		transform: translateY(700px) scale(0.7);
+
+		opacity: 0.7;
+	}
+}
+
+.backOutDown {
+	animation: backOutDown $animationDuration;
+}
+
+@keyframes backInUp {
+	0% {
+		-webkit-transform: translateY(1200px) scale(0.7);
+		transform: translateY(1200px) scale(0.7);
+
+		opacity: 0.7;
+	}
+  
+	80% {
+		-webkit-transform: translateY(0) scale(0.7);
+		transform: translateY(0) scale(0.7);
+
+		opacity: 0.7;
+	}
+  
+	100% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+
+		opacity: 1;
+	}
+}
+
+.backInUp {
+	animation: backInUp $animationDuration;
+}

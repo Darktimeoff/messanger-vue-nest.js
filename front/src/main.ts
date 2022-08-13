@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import '@/styles/index.scss';
 import { store } from './store';
-// import '@/assets/icons_flat/rocketpot-icons.css';
+import '@/assets/icons_flat/icons.css';
 
 export const app = createApp(App)
 
