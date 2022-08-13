@@ -10,7 +10,7 @@
             <div class="message__date">{{formatDate}}</div>
         </div>
         <transition enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
-            <AppSvgIcon v-if="isReaded" class="message__readed" icon="read-message" />
+            <AppSvgIcon v-if="isMe && isReaded" class="message__readed" icon="read-message" />
         </transition>
     </div>
 </template>
