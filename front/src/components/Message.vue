@@ -9,8 +9,9 @@
             </div>
             <div class="message__date">{{formatDate}}</div>
         </div>
-        <transition enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
+        <transition mode="out-in" enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
             <AppSvgIcon v-if="isMe && isReaded" class="message__readed" icon="read-message" />
+            <AppSvgIcon v-else-if="isMe" class="message__readed" icon="send-message" />
         </transition>
     </div>
 </template>

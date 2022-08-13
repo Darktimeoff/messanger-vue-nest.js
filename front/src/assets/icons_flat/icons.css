@@ -1,10 +1,10 @@
 @font-face {
   font-family: "icons";
-  src: url("icons.eot?ed4336f12336db52e27429f4d413d330?#iefix") format("embedded-opentype"),
-url("icons.woff2?ed4336f12336db52e27429f4d413d330") format("woff2"),
-url("icons.woff?ed4336f12336db52e27429f4d413d330") format("woff"),
-url("icons.ttf?ed4336f12336db52e27429f4d413d330") format("truetype"),
-url("icons.svg?ed4336f12336db52e27429f4d413d330#icons") format("svg");
+  src: url("icons.eot?348d7f7ce090ee2ff596cb0c2482fa62?#iefix") format("embedded-opentype"),
+url("icons.woff2?348d7f7ce090ee2ff596cb0c2482fa62") format("woff2"),
+url("icons.woff?348d7f7ce090ee2ff596cb0c2482fa62") format("woff"),
+url("icons.ttf?348d7f7ce090ee2ff596cb0c2482fa62") format("truetype"),
+url("icons.svg?348d7f7ce090ee2ff596cb0c2482fa62#icons") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -22,4 +22,7 @@ url("icons.svg?ed4336f12336db52e27429f4d413d330#icons") format("svg");
 
 .i-read-message:before {
   content: "\f101";
+}
+.i-send-message:before {
+  content: "\f102";
 }
