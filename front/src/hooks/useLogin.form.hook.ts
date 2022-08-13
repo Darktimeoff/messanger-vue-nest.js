@@ -1,5 +1,6 @@
 import { useField, useForm, useIsFieldDirty } from 'vee-validate';
-import * as yup from 'yup';
+import {string} from 'zod';
+import { toFieldValidator } from '@vee-validate/zod';
 import {computed, Ref} from 'vue';
 
 export function useLoginForm() {
@@ -12,14 +13,14 @@ export function useLoginForm() {
 
     const {value: email, errorMessage: eError} = useField(
         'email', 
-        yup.string().email('Введите коректный емайл').required('Заполните поле')
+        toFieldValidator(string().email('Введите коректный емайл').min(1, 'Заполните поле'))
     );
 
     const isEmailTouched = useIsFieldDirty('email');
 
     const {value: password, errorMessage: pError} = useField(
         'password',
-        yup.string().min(3, 'Пароль должен быть больше 3 символов').required('Заполните поле')
+        toFieldValidator(string().min(3, 'Пароль должен быть больше 3 символов').min(1, 'Заполните поле'))
     )
 
     const isPasswordTouched = useIsFieldDirty('password');

@@ -1,17 +1,16 @@
 <template>
     <a-form
-        v-if="false"
-        name="normal_login"
-        class="login-form"
-        @finish="onFinish"
-        @finishFailed="onFinishFailed"
+        v-if="!isSuccuses"
+        name="register"
+        class="register-form"
     >
         <a-form-item
             name="email"
-            has-feedback
-            validateStatus="success"
+            :has-feedback="isEmailTouched"
+            :validateStatus="validateStatus(eError || '')"
+            :extra="eError"
         >
-            <a-input size="large" placeholder="Почта"  >
+            <a-input autocomplete="username"  size="large" placeholder="Почта" v-model:value="email"  >
                 <template #prefix>
                     <MailOutlined class="site-form-item-icon" />
                 </template>
@@ -20,8 +19,11 @@
 
          <a-form-item
             name="name"
+            :has-feedback="isNameTouched"
+            :validateStatus="validateStatus(nError || '')"
+            :extra="nError"
         >
-            <a-input size="large" placeholder="Ваше имя">
+            <a-input size="large" placeholder="Ваше имя" v-model:value="name">
                 <template #prefix>
                     <UserOutlined class="site-form-item-icon" />
                 </template>
@@ -30,8 +32,11 @@
 
          <a-form-item
             name="new-password"
+            :has-feedback="isPasswordTouched"
+            :validateStatus="validateStatus(pError || '')"
+            :extra="pError"
         >
-            <a-input-password  size="large" placeholder="Пароль">
+            <a-input-password autocomplete="new-password"  size="large" placeholder="Пароль" v-model:value="password">
                 <template #prefix>
                     <LockOutlined class="site-form-item-icon" />
                 </template>
@@ -39,9 +44,12 @@
         </a-form-item>
 
         <a-form-item
-            name="new-password-repeat"
+            name="confirm-password"
+            :has-feedback="isConPasswordTouched"
+            :validateStatus="validateStatus(cPError || '')"
+            :extra="cPError"
         >
-            <a-input-password  size="large" placeholder="Повторите пароль">
+            <a-input-password autocomplete="confirm-password"  size="large" placeholder="Повторите пароль" v-model:value="conPassword">
                 <template #prefix>
                     <LockOutlined class="site-form-item-icon" />
                 </template>
@@ -49,7 +57,7 @@
         </a-form-item>
 
         <a-form-item>
-            <AppButton type="primary" size="large" :disabled="disabled" class="login-form-button">
+            <AppButton type="primary"  htmlType="submit" size="large" :disabled="disabledBtn"  @click="onSubmit" class="login-form-button">
               Зарегистрироваться
             </AppButton>
         </a-form-item>
@@ -60,19 +68,53 @@
 </template>
 <script lang="ts" setup>
 import { MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import { useRegisterForm } from '~/hooks';
+import {sleep} from '~/helpers';
 
+const {
+    email,
+    eError,
+    isEmailTouched,
+    name,
+    nError,
+    isNameTouched,
+    password,
+    pError,
+    isPasswordTouched,
+    conPassword,
+    cPError,
+    isConPasswordTouched,
+    isSubmitting,
+    submitForm,
+    resetForm,
+    validateStatus,
+    disabledBtn
+} = useRegisterForm();
 
-const onFinish = (values: any) => {
-    console.log('Success:', values);
+const isSuccuses = ref(false);
+
+async function onSubmit() {
+    isSubmitting.value = true;
+    try {
+        await sleep(500);
+        submitForm();
+
+        if(Math.random() > 0.5) throw new Error('Не правильный пароль');
+
+        resetForm();
+        isSuccuses.value = true;
+        
+        await sleep(3000)
+        isSuccuses.value = false;
+    } catch(e) {
+        if(e instanceof Error) {
+            submitForm(e?.message)
+        }
+        console.log('onSumbit login error')
+    } finally {
+        isSubmitting.value = false;
+    }
 };
-
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-};
-const disabled = computed(() => {
-    return false;
-});
-
 </script>
 <style lang="scss" scoped>
 .login-form-button {
