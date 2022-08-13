@@ -3,12 +3,8 @@
         <div class="message__avatar">
             <img class="message__avatar__img" :src="avatar" :alt="`Avatar ${user?.fullname}`" >
         </div>
-        <div class="message__content">
-            <div class="message__bubble">
-                <p class="message__text">{{text}}</p>
-            </div>
-            <div class="message__date">{{formatDate}}</div>
-        </div>
+        <slot />
+        <div class="message__date">{{formatDate}}</div>
         <transition mode="out-in" enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
             <AppSvgIcon v-if="isMe && isReaded" class="message__readed" icon="read-message" />
             <AppSvgIcon v-else-if="isMe" class="message__readed" icon="send-message" />
@@ -23,7 +19,6 @@ import ruLocale from 'date-fns/locale/ru';
 
 interface IProps {
     avatar: string;
-    text: string;
     date: string;
     user: IUser;
     isMe?: boolean;
@@ -40,7 +35,10 @@ const formatDate = computed(() => {
 <style lang="scss" scoped>
 $marginFromDate: 10px;
 $messageReadedM: 10px;
+$avatarSize: 33px;
+$avatarMargin: 13px;
 .message {
+    position: relative;
     display: flex;
     align-items: flex-end;
     max-width: 440px;
@@ -51,20 +49,11 @@ $messageReadedM: 10px;
 }
 .message__avatar__img {
     border-radius: 50%;
-    width: 33px;
-    height: 33px;
-    margin-right: 13px;
+    width: $avatarSize;
+    height: $avatarSize;
+    margin-right: $avatarMargin;
     margin-bottom: $marginFromDate;
     flex-shrink: 0;
-}
-
-.message__bubble {
-    background: $blue;
-    box-shadow: 0px 5px 5px rgba(54, 116, 255, 0.196733);
-    border-radius: 12px 12px 12px 0;
-    padding: 15px;
-    margin-bottom: 10px;
-    width: fit-content;
 }
 
 .message__readed {
@@ -74,46 +63,26 @@ $messageReadedM: 10px;
     margin-left: $messageReadedM;
 }
 
-.message__content {
-    position: relative;
-    text-align: left;
-}
-
-.message__text {
-    color: $white;
-    font-size: 14px;
-    word-break: break-all;
-    line-height: 20px;
-}
-
 .message__date {
     position: absolute;
     font-size: 12px;
     opacity: $opDis;
     white-space: nowrap;
     bottom: -$marginFromDate;
+    left: $avatarSize + $avatarMargin;
 }
 
 .message--isme {
     margin-left: auto;
     flex-direction: row-reverse;
-    .message__bubble {
-        background: $white;
-        border: 1px solid $gray1;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.0220444);
-        border-radius: 12px 12px 0 12px;
-    }
-
-    .message__content {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        text-align: right;
-    }
-
     .message__avatar__img {
         margin-right: 0;
-        margin-left: 13px;
+        margin-left: $avatarMargin;
+    }
+
+    .message__date {
+        left: initial;
+        right: $avatarSize + $avatarMargin;
     }
 
     .message__readed {
@@ -121,10 +90,6 @@ $messageReadedM: 10px;
         color: $blue1;
         margin-bottom: $marginFromDate;
         margin-right: $messageReadedM;
-    }
-
-    .message__text {
-        color: $black;
     }
 }
 </style>

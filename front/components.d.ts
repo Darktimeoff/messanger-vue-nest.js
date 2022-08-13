@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
     AppButton: typeof import('./src/components/AppButton.vue')['default']
     AppSvgIcon: typeof import('./src/components/AppSvgIcon.vue')['default']
     Message: typeof import('./src/components/Message.vue')['default']
+    MesssageText: typeof import('./src/components/MesssageText.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheLoginForm: typeof import('./src/components/TheLoginForm.vue')['default']
