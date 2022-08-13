@@ -5,6 +5,10 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AForm: typeof import('ant-design-vue/es')['Form']
+    AFormItem: typeof import('ant-design-vue/es')['FormItem']
+    AInput: typeof import('ant-design-vue/es')['Input']
+    AInputPassword: typeof import('ant-design-vue/es')['InputPassword']
     AppBlock: typeof import('./src/components/AppBlock.vue')['default']
     AppButton: typeof import('./src/components/AppButton.vue')['default']
     AppSvgIcon: typeof import('./src/components/AppSvgIcon.vue')['default']
