@@ -9,6 +9,7 @@ export function useRegisterForm() {
     const {isSubmitting, resetForm, submitForm} = useForm<IRegisterSchema>();
     const isFormValid = useIsFormValid()
     const isFormTouched = useIsFormDirty();
+    const passValid = passwordValidation("Пароль должен быть больше 8 символов")
 
     const {value: email, errorMessage: eError} = useField<IRegisterSchema['email']>(
         'email', 
@@ -27,14 +28,14 @@ export function useRegisterForm() {
 
     const {value: password, errorMessage: pError} = useField<IRegisterSchema['password']>(
         'password',
-        toFieldValidator(passwordValidation)
+        toFieldValidator(passValid)
     )
 
     const isPasswordTouched = useIsFieldDirty('password');
 
     const {value: conPassword, errorMessage: cPError} = useField<IRegisterSchema['confirmPassword']>(
         'confirmPassword',
-      toFieldValidator(passwordValidation.refine(isConfirmPassword(password), 'Пароль не совпадает'))
+      toFieldValidator(passValid.refine(isConfirmPassword(password), 'Пароль не совпадает'))
     )
 
     const isConPasswordTouched = useIsFieldDirty('confirmPassword');

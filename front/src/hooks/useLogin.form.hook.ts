@@ -18,7 +18,7 @@ export function useLoginForm() {
 
     const {value: password, errorMessage: pError} = useField<string>(
         'password',
-        toFieldValidator(passwordValidation)
+        toFieldValidator(passwordValidation('Неверный пароль'))
     )
 
     const isPasswordTouched = useIsFieldDirty('password');
