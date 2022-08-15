@@ -1,5 +1,7 @@
 <template>
-    <h1>Friends messanger</h1>
+    <h2>
+      <router-link :to="{name: 'Home'}">Home</router-link>
+    </h2>
     <Message 
       avatar="https://avatars.githubusercontent.com/u/60776033?v=4"
       date="2022-08-13T13:08:04.600Z"
