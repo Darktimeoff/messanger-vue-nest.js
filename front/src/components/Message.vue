@@ -1,5 +1,8 @@
 <template>
-    <div class="message" :class="{'message--isme': isMe}">
+    <div class="message" :class="{
+        'message--isme': isMe,
+        'message--attachment': isHasAttachment,
+    }">
         <div class="message__avatar">
             <img class="message__avatar__img" :src="avatar" :alt="`Avatar ${user?.fullname}`" >
         </div>
@@ -23,6 +26,7 @@ interface IProps {
     user: IUser;
     isMe?: boolean;
     isReaded?: boolean;
+    isHasAttachment?: boolean;
 }
 
 const props = defineProps<IProps>()

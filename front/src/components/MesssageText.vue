@@ -1,8 +1,9 @@
 <template>
     <div class="message__content">
-        <div class="message__bubble">
+        <div v-if="text" class="message__bubble">
             <p class="message__text">{{text}}</p>
         </div>
+        <slot />
     </div>
 </template>
 
@@ -15,16 +16,17 @@ defineProps<IProps>()
 </script>
 
 <style lang="scss" scoped>
-
 .message__content {
+    display: flex;
+    flex-direction: column;
     text-align: left;
 }
 .message__bubble {
     background: $blue;
     box-shadow: 0px 5px 5px rgba(54, 116, 255, 0.196733);
     border-radius: 12px 12px 12px 0;
-    padding: 15px;
-    margin-bottom: 10px;
+    padding: 13px;
+    margin-bottom: px($messageMB);
     width: fit-content;
 }
 
@@ -35,7 +37,14 @@ defineProps<IProps>()
     line-height: 20px;
 }
 
+.message--attachment .message__bubble {
+    margin-bottom: px($messageMB / 2);
+}
+
 .message--isme {
+    .message__content {
+        align-items: flex-end;
+    }
     .message__bubble {
         background: $white;
         border: 1px solid $gray1;
