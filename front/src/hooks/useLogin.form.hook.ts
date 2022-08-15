@@ -11,14 +11,14 @@ export function useLoginForm() {
 
     const {isSubmitting, resetForm, submitForm} = useForm<ILoginSchema>();
 
-    const {value: email, errorMessage: eError} = useField(
+    const {value: email, errorMessage: eError} = useField<string>(
         'email', 
         toFieldValidator(string().email('Введите коректный емайл').min(1, 'Заполните поле'))
     );
 
     const isEmailTouched = useIsFieldDirty('email');
 
-    const {value: password, errorMessage: pError} = useField(
+    const {value: password, errorMessage: pError} = useField<string>(
         'password',
         toFieldValidator(string().min(3, 'Пароль должен быть больше 3 символов').min(1, 'Заполните поле'))
     )
