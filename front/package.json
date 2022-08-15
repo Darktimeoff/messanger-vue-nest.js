@@ -2,7 +2,7 @@
   "name": "messanger-vue-nest.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && firebase deploy",
     "serve": "vite preview",
     "genfont": "node ./src/generate_font.js",
     "lint:type": "vue-tsc --noEmit"
