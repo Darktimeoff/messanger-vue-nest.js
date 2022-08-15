@@ -1,32 +1,30 @@
-import { useField, useForm, useIsFieldDirty } from 'vee-validate';
-import {string} from 'zod';
+import { useField, useForm, useIsFieldDirty, useIsFormValid, useIsFormDirty } from 'vee-validate';
 import { toFieldValidator } from '@vee-validate/zod';
 import {computed, Ref} from 'vue';
+import { ILoginSchema } from '~/types/auth';
+import { emailValidation, passwordValidation } from '~/helpers';
 
 export function useLoginForm() {
-    interface ILoginSchema {
-        email: string;
-        password: string;
-    }
-
     const {isSubmitting, resetForm, submitForm} = useForm<ILoginSchema>();
+    const isFormValid = useIsFormValid()
+    const isFormTouched = useIsFormDirty();
 
     const {value: email, errorMessage: eError} = useField<string>(
         'email', 
-        toFieldValidator(string().email('Введите коректный емайл').min(1, 'Заполните поле'))
+        toFieldValidator(emailValidation)
     );
 
     const isEmailTouched = useIsFieldDirty('email');
 
     const {value: password, errorMessage: pError} = useField<string>(
         'password',
-        toFieldValidator(string().min(3, 'Пароль должен быть больше 3 символов').min(1, 'Заполните поле'))
+        toFieldValidator(passwordValidation)
     )
 
     const isPasswordTouched = useIsFieldDirty('password');
 
     const disabledBtn = computed(() => {
-        return Boolean(!isEmailTouched.value || !isPasswordTouched.value  || isSubmitting.value || eError.value || pError.value)
+        return Boolean(!isFormTouched.value  || isSubmitting.value || !isFormValid.value)
     });
 
     const validateStatus = computed(() => (error: string | Ref<string>) => error ? "error" : 'success');
