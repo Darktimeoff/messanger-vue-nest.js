@@ -1,18 +1,26 @@
 <template>
     <div class="message__content">
-        <div v-if="text" class="message__bubble">
-            <p class="message__text">{{text}}</p>
+        <div v-if="text || isTyping" class="message__bubble">
+            <p v-if="text" class="message__text">{{text}}</p>
+            <MessageTyping v-if="isTyping" />
         </div>
-        <slot />
+
+        <MessageAttachments v-if="isHasAttachment" :attachments="(attachments as IAttachment[])" />
     </div>
 </template>
 
 <script setup lang="ts">
+import { IAttachment } from '~/types';
+
 interface IProps {
-    text: string;
+    text: string | null;
+    isTyping?: boolean;
+    attachments?: IAttachment[]
 }
 
-defineProps<IProps>()
+
+const props = defineProps<IProps>()
+const isHasAttachment = computed(() => Boolean(props.attachments?.length))
 </script>
 
 <style lang="scss" scoped>
@@ -28,6 +36,7 @@ defineProps<IProps>()
     padding: 13px;
     margin-bottom: px($messageMB);
     width: fit-content;
+    position: relative;
 }
 
 .message__text {
@@ -54,6 +63,12 @@ defineProps<IProps>()
 
     .message__text {
         color: $black;
+    }
+}
+.message--is-typing {
+    .message__bubble {
+        background: $message-typing-bg;
+        box-shadow: 0px 5px 5px rgba(54, 116, 255, 0.04)
     }
 }
 </style>

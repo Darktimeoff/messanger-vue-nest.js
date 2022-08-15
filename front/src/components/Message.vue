@@ -2,6 +2,7 @@
     <div class="message" :class="{
         'message--isme': isMe,
         'message--attachment': isHasAttachment,
+        'message--is-typing': isTyping
     }">
         <div class="message__avatar">
             <img class="message__avatar__img" :src="avatar" :alt="`Avatar ${user?.fullname}`" >
@@ -22,17 +23,18 @@ import ruLocale from 'date-fns/locale/ru';
 
 interface IProps {
     avatar: string;
-    date: string;
+    date?: string;
     user: IUser;
     isMe?: boolean;
     isReaded?: boolean;
     isHasAttachment?: boolean;
+    isTyping?: boolean
 }
 
 const props = defineProps<IProps>()
 
 const formatDate = computed(() => {
-    return formatDistanceToNow(new Date(props.date), {addSuffix: true, locale: ruLocale});
+    return props.date && formatDistanceToNow(new Date(props.date), {addSuffix: true, locale: ruLocale});
 })
 </script>
 

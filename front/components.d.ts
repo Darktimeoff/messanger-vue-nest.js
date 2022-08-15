@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     AppSvgIcon: typeof import('./src/components/AppSvgIcon.vue')['default']
     Message: typeof import('./src/components/Message.vue')['default']
     MessageAttachments: typeof import('./src/components/MessageAttachments.vue')['default']
+    MessageTyping: typeof import('./src/components/MessageTyping.vue')['default']
     MesssageText: typeof import('./src/components/MesssageText.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

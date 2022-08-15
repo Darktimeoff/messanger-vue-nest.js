@@ -10,9 +10,7 @@
       isReaded
       :isHasAttachment="attachments.length > 0"
     >
-      <MesssageText text="Hello">
-        <MessageAttachments v-if="attachments?.length" :attachments="attachments" />
-      </MesssageText>
+      <MesssageText text="Hello"  :attachments="attachments" />
     </Message>
     <Message 
       avatar="https://avatars.githubusercontent.com/u/1838656?v=4"
@@ -22,9 +20,14 @@
       isReaded
       :isHasAttachment="attachments.length > 0"
     >
-      <MesssageText text="Hi">
-        <MessageAttachments v-if="attachments?.length" :attachments="attachments" />
-      </MesssageText>
+      <MesssageText text="Hi" :attachments="attachments" />
+    </Message>
+     <Message 
+      avatar="https://avatars.githubusercontent.com/u/1838656?v=4"
+      :user="{fullname:'Ivan Borshov'}"
+      isTyping
+    >
+      <MesssageText :text="null" isTyping />
     </Message>
 </template>
 
