@@ -5,7 +5,7 @@
             <MessageTyping v-if="isTyping" />
         </div>
 
-        <MessageAttachments v-if="isHasAttachment" :attachments="(attachments as IAttachment[])" />
+        <MessageAttachments v-if="isHasAttachment" :attachments="(attachments as IAttachment[])" :isLarge="!text"/>
     </div>
 </template>
 
