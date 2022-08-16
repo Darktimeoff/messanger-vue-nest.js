@@ -9,17 +9,13 @@
         </div>
         <slot />
         <div class="message__date">{{formatDate}}</div>
-        <transition mode="out-in" enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
-            <AppSvgIcon v-if="isMe && isReaded" class="message__readed" icon="read-message" />
-            <AppSvgIcon v-else-if="isMe" class="message__readed" icon="send-message" />
-        </transition>
+        <ReadedIcon :isRead="Boolean(isMe && isReaded)" :isSend="Boolean(isMe)" />
     </div>
 </template>
 
 <script setup lang="ts">
 import type {IUser} from '~/types';
-import {formatDistanceToNow} from 'date-fns';
-import ruLocale from 'date-fns/locale/ru';
+import { useTime } from '~/hooks';
 
 interface IProps {
     avatar: string;
@@ -33,8 +29,10 @@ interface IProps {
 
 const props = defineProps<IProps>()
 
+const {getDistanceTime} = useTime()
+
 const formatDate = computed(() => {
-    return props.date && formatDistanceToNow(new Date(props.date), {addSuffix: true, locale: ruLocale});
+    return props.date && getDistanceTime.value(props.date);
 })
 </script>
 
@@ -63,8 +61,6 @@ $avatarMargin: 13px;
 }
 
 .message__readed {
-    font-size: 12px;
-    color: $blue1;
     margin-bottom: $marginFromDate;
     margin-left: $messageReadedM;
 }

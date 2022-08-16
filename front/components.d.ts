@@ -9,15 +9,22 @@ declare module '@vue/runtime-core' {
     AppButton: typeof import('./src/components/AppButton.vue')['default']
     AppImage: typeof import('./src/components/AppImage.vue')['default']
     AppSvgIcon: typeof import('./src/components/AppSvgIcon.vue')['default']
+    Avatar: typeof import('./src/components/Avatar.vue')['default']
+    DialogItem: typeof import('./src/components/DialogItem.vue')['default']
     Message: typeof import('./src/components/Message.vue')['default']
     MessageAttachments: typeof import('./src/components/MessageAttachments.vue')['default']
+    MessageAvatar: typeof import('./src/components/MessageAvatar.vue')['default']
+    MessageReadedIcon: typeof import('./src/components/MessageReadedIcon.vue')['default']
     MessageTyping: typeof import('./src/components/MessageTyping.vue')['default']
     MesssageText: typeof import('./src/components/MesssageText.vue')['default']
+    ReadedIcon: typeof import('./src/components/ReadedIcon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TheDialogs: typeof import('./src/components/TheDialogs.vue')['default']
     TheLoginForm: typeof import('./src/components/TheLoginForm.vue')['default']
     TheRegisterForm: typeof import('./src/components/TheRegisterForm.vue')['default']
     TheRegisterFormSuccess: typeof import('./src/components/TheRegisterFormSuccess.vue')['default']
+    UnReadCount: typeof import('./src/components/UnReadCount.vue')['default']
   }
 }
 
