@@ -1,4 +1,5 @@
 export interface IUser {
+    id: string;
     fullname: string;
     avatar: string | null;
     isOnline?: boolean;
@@ -13,13 +14,14 @@ export interface IDialog {
     id: string;
     avatar: string,
     name: string;
-    user?: IUser;
     lastMessage: {
-        author: IUser['fullname'] | null,
+        id: string;
         text: string; 
         isReaded: boolean;
         created_at: string;
         isMe: boolean;
+        user?: IUser;
     },
+    isDialog: boolean;
     unreadMessageCount: number;
 }

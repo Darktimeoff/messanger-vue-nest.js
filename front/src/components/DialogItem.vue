@@ -18,7 +18,7 @@
                 {{getDialogTime(item.lastMessage.created_at)}}
             </div>
             <div class="dialogs__item__message">
-                <span v-if="isShowAuthor">{{item.lastMessage.author}}</span>
+                <span v-if="isShowAuthor">{{item.lastMessage.user?.fullname}}</span>
                 {{item.lastMessage.text}}
             </div>
             <UnReadCount v-if="isShowUnread" class="dialogs__item__unread">
@@ -50,11 +50,11 @@ const {
 
 const item = computed(() => props.item);
 const lastMessage = computed(() => item.value.lastMessage);
-const isOnline = computed(() => item.value.user?.isOnline)
+const isOnline = computed(() => lastMessage.value.user?.isOnline)
 const isMe = computed(() => lastMessage.value.isMe);
 const isReaded = computed(() => lastMessage.value.isReaded);
 const isShowUnread = computed(() => item.value.unreadMessageCount > 0);
-const isShowAuthor = computed(() => item.value.lastMessage.author && !isMe.value)
+const isShowAuthor = computed(() => !item.value.isDialog && !isMe.value)
 </script>
 
 <style lang="scss" scoped>
@@ -87,6 +87,10 @@ const isShowAuthor = computed(() => item.value.lastMessage.author && !isMe.value
     overflow-x: hidden;
     text-overflow: ellipsis;
     opacity: $opDis;
+    span {
+        color: $blue1;
+        opacity: 1;
+    }
 }
 
 .dialogs__item__unread {
