@@ -15,7 +15,7 @@
     border-radius: 25px;
     min-height: 18px;
     min-width: 18px;
-    line-height: 17px;
+    padding: 3px;
     box-shadow: 0 0 3px $white;
 }
 </style>

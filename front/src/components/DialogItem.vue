@@ -63,7 +63,7 @@ const isShowAuthor = computed(() => item.value.lastMessage.author && !isMe.value
     display: flex;
     align-items: center;
     gap: 0 10px;
-    padding: 10px 0;
+    margin-bottom: 20px;
 }
 .dialogs__item__content {
     display: grid;
@@ -73,7 +73,7 @@ const isShowAuthor = computed(() => item.value.lastMessage.author && !isMe.value
     align-items: center;
 }
 .dialogs__item__name {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 14px;
     grid-area: name;
 }
