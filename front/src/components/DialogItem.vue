@@ -63,7 +63,6 @@ const isShowAuthor = computed(() => item.value.lastMessage.author && !isMe.value
     display: flex;
     align-items: center;
     gap: 0 10px;
-    margin-bottom: 20px;
 }
 .dialogs__item__content {
     display: grid;

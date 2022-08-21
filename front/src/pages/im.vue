@@ -40,8 +40,6 @@
       <MesssageText text="" :attachments="attachmentsLarge" />
     </Message> -->
     <TheDialogs :items="dialogsItem" />
-    <DialogItem :item="dialogsItem[0]" />
-    <DialogItem :item="dialogsItem[0]" />
 </template>
 
 <route lang="yaml">
@@ -73,6 +71,7 @@ import type {IDialog} from '~/types';
 
 const dialogsItem: IDialog[] = [
   { 
+    id: Math.random().toString(),
     avatar: 'https://avatars.githubusercontent.com/u/60776033?v=4',
     name: 'Yevhneii Korolikhin',
     user: {
@@ -84,12 +83,29 @@ const dialogsItem: IDialog[] = [
       author: null,
       text: 'Мы все ожидали начала но не готовились концу',
       isReaded: false,
-      created_at:"2022-08-13T13:26:00.084Z",
+      created_at:"2021-08-13T13:26:00.084Z",
       isMe: false,
     },
     unreadMessageCount: 3
+  },
+  { 
+    id: Math.random().toString(),
+    avatar: 'https://avatars.githubusercontent.com/u/1838656?v=4',
+    name: 'Ivan Borchov',
+    user: {
+      fullname: 'Ivan Borchov',
+      avatar: 'https://avatars.githubusercontent.com/u/1838656?v=4',
+      isOnline: true,
+    },
+    lastMessage: {
+      author: null,
+      text: 'Мы все ожидали начала но не готовились концу',
+      isReaded: true,
+      created_at:"2022-08-13T13:26:00.084Z",
+      isMe: true,
+    },
+    unreadMessageCount: 0
   }
-
 ]
 </script>
 

@@ -10,6 +10,7 @@ export interface IAttachment {
 }
 
 export interface IDialog {
+    id: string;
     avatar: string,
     name: string;
     user?: IUser;
