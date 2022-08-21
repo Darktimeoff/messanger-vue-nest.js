@@ -1,6 +1,7 @@
 export interface IUser {
     fullname: string;
     avatar: string | null;
+    isOnline?: boolean;
 }
 
 export interface IAttachment {
@@ -11,7 +12,7 @@ export interface IAttachment {
 export interface IDialog {
     avatar: string,
     name: string;
-    user: IUser;
+    user?: IUser;
     lastMessage: {
         author: IUser['fullname'] | null,
         text: string; 

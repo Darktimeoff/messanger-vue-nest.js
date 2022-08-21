@@ -77,7 +77,8 @@ const dialogsItem: IDialog[] = [
     name: 'Yevhneii Korolikhin',
     user: {
       fullname: 'Yevhneii Korolikhin',
-      avatar: 'https://avatars.githubusercontent.com/u/60776033?v=4'
+      avatar: 'https://avatars.githubusercontent.com/u/60776033?v=4',
+      isOnline: true,
     },
     lastMessage: {
       author: null,
