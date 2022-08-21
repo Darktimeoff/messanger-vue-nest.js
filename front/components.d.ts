@@ -13,8 +13,6 @@ declare module '@vue/runtime-core' {
     DialogItem: typeof import('./src/components/DialogItem.vue')['default']
     Message: typeof import('./src/components/Message.vue')['default']
     MessageAttachments: typeof import('./src/components/MessageAttachments.vue')['default']
-    MessageAvatar: typeof import('./src/components/MessageAvatar.vue')['default']
-    MessageReadedIcon: typeof import('./src/components/MessageReadedIcon.vue')['default']
     MessageTyping: typeof import('./src/components/MessageTyping.vue')['default']
     MesssageText: typeof import('./src/components/MesssageText.vue')['default']
     ReadedIcon: typeof import('./src/components/ReadedIcon.vue')['default']

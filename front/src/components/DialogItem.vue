@@ -4,8 +4,8 @@
             <Avatar 
                 class="dialogs__item__avatar__img" 
                 :avatar="item.avatar" 
-                :width="32" 
-                :height="32" 
+                :width="40" 
+                :height="40" 
                 :alt="item.name" 
                 isRound
             />
@@ -73,6 +73,8 @@ const isShowAuthor = computed(() => item.value.lastMessage.author && !isMe.value
     align-items: center;
 }
 .dialogs__item__name {
+    font-weight: 500;
+    font-size: 14px;
     grid-area: name;
 }
 .dialogs__item__date {
@@ -86,5 +88,9 @@ const isShowAuthor = computed(() => item.value.lastMessage.author && !isMe.value
 .dialogs__item__unread {
     grid-area: unread;
     justify-self: flex-end;
+}
+.dialogs__item__avatar__img {
+    width: 40px;
+    height: 40px;
 }
 </style>

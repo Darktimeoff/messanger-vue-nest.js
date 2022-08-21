@@ -1,4 +1,4 @@
-import {endOfDay, endOfWeek, format, formatDistanceToNow, getYear, isBefore} from 'date-fns';
+import {endOfWeek, format, formatDistanceToNow, getYear, isSameDay, isSameWeek} from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import {computed} from 'vue';
 
@@ -9,11 +9,11 @@ export function useTime() {
 
     const getDialogTime = computed(() => (time: string) => {
         const date = new Date(time);
-        const isToday = isBefore(date, endOfDay(new Date()));
-
+        const isToday = isSameDay(date, new Date())
+    
         if(isToday) return format(date, 'kk:mm')
 
-        const isThisWeek = isBefore(new Date(), endOfWeek(date));
+        const isThisWeek = isSameWeek(new Date(), endOfWeek(date));
 
         if(isThisWeek) return format(date, 'ccc', {locale: ruLocale})
 
