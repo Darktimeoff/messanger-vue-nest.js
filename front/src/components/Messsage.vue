@@ -1,8 +1,9 @@
 <template>
     <div class="message__content">
-        <div v-if="text || isTyping" class="message__bubble">
+        <div v-if="text || isTyping || audio" class="message__bubble">
             <p v-if="text" class="message__text">{{text}}</p>
             <MessageTyping v-if="isTyping" />
+            <MessageAudio v-if="audio" :audio="audio" />
         </div>
 
         <MessageAttachments v-if="isHasAttachment" :attachments="(attachments as IAttachment[])" :isLarge="!text"/>
@@ -15,7 +16,8 @@ import { IAttachment } from '~/types';
 interface IProps {
     text: string | null;
     isTyping?: boolean;
-    attachments?: IAttachment[]
+    attachments?: IAttachment[];
+    audio?: string;
 }
 
 
@@ -37,6 +39,7 @@ const isHasAttachment = computed(() => Boolean(props.attachments?.length))
     margin-bottom: px($messageMB);
     width: fit-content;
     position: relative;
+    overflow: hidden;
 }
 
 .message__text {
@@ -69,6 +72,12 @@ const isHasAttachment = computed(() => Boolean(props.attachments?.length))
     .message__bubble {
         background: $message-typing-bg;
         box-shadow: 0px 5px 5px rgba(54, 116, 255, 0.04)
+    }
+}
+
+.message--is-audio {
+    .message__bubble {
+        width: 280px;
     }
 }
 </style>

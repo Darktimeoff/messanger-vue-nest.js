@@ -24,8 +24,15 @@ export function useTime() {
         return format(date, 'dd.MM.yy', {locale: ruLocale})
     })
 
+    function convertMediaCurrentTime(number: number) {
+        const mins = Math.floor(number / 60);
+        const secs = Math.floor(number % 60).toFixed();
+        return `${mins < 10 ? '0' : ''}${mins}:${+secs < 10 ? '0' : ''}${secs}`
+    }
+
     return {
         getDialogTime,
-        getDistanceTime
+        getDistanceTime,
+        convertMediaCurrentTime
     }
 }

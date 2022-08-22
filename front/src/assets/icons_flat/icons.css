@@ -1,10 +1,10 @@
 @font-face {
   font-family: "icons";
-  src: url("icons.eot?348d7f7ce090ee2ff596cb0c2482fa62?#iefix") format("embedded-opentype"),
-url("icons.woff2?348d7f7ce090ee2ff596cb0c2482fa62") format("woff2"),
-url("icons.woff?348d7f7ce090ee2ff596cb0c2482fa62") format("woff"),
-url("icons.ttf?348d7f7ce090ee2ff596cb0c2482fa62") format("truetype"),
-url("icons.svg?348d7f7ce090ee2ff596cb0c2482fa62#icons") format("svg");
+  src: url("icons.eot?31d3010b3c3991202ef19e69a84595a4?#iefix") format("embedded-opentype"),
+url("icons.woff2?31d3010b3c3991202ef19e69a84595a4") format("woff2"),
+url("icons.woff?31d3010b3c3991202ef19e69a84595a4") format("woff"),
+url("icons.ttf?31d3010b3c3991202ef19e69a84595a4") format("truetype"),
+url("icons.svg?31d3010b3c3991202ef19e69a84595a4#icons") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -25,4 +25,7 @@ url("icons.svg?348d7f7ce090ee2ff596cb0c2482fa62#icons") format("svg");
 }
 .i-send-message:before {
   content: "\f102";
+}
+.i-waveform:before {
+  content: "\f103";
 }

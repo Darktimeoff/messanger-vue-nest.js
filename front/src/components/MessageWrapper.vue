@@ -2,7 +2,8 @@
     <div class="message" :class="{
         'message--isme': isMe,
         'message--attachment': isHasAttachment,
-        'message--is-typing': isTyping
+        'message--is-typing': isTyping,
+        'message--is-audio': isAudio
     }">
         <div class="message__avatar">
             <img class="message__avatar__img" :src="avatar" :alt="`Avatar ${user?.fullname}`" >
@@ -24,7 +25,8 @@ interface IProps {
     isMe?: boolean;
     isReaded?: boolean;
     isHasAttachment?: boolean;
-    isTyping?: boolean
+    isTyping?: boolean;
+    isAudio?: boolean;
 }
 
 const props = defineProps<IProps>()

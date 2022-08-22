@@ -5,7 +5,11 @@
         :type="props.type"
         :size="props.size"
         :htmlType="props.htmlType"
+        :shape="props.shape"
     >
+        <template #icon>
+            <slot name="icon" />
+        </template>
         <slot />
     </Button>
 </template>
@@ -20,6 +24,7 @@ interface IProps {
     type?:  ButtonProps['type']
     size?: ButtonProps['size']
     htmlType?: ButtonProps['htmlType']
+    shape?: ButtonProps['shape']
 }
 
 const props = defineProps<IProps>()
