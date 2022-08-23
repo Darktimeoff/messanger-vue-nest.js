@@ -6,7 +6,13 @@
         'message--is-audio': isAudio
     }">
         <div class="message__avatar">
-            <img class="message__avatar__img" :src="avatar" :alt="`Avatar ${user?.fullname}`" >
+            <Avatar class="message__avatar__img" 
+                :avatar="avatar" 
+                :username="user?.fullname"
+                :hash="user.id"
+                :alt="`Avatar ${user?.fullname}`" 
+                isRound
+            />
         </div>
         <slot />
         <div class="message__date">{{formatDate}}</div>
@@ -19,7 +25,7 @@ import type {IUser} from '~/types';
 import { useTime } from '~/hooks';
 
 interface IProps {
-    avatar: string;
+    avatar: string | null;
     date?: string;
     user: IUser;
     isMe?: boolean;

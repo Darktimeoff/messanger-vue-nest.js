@@ -3,10 +3,10 @@
       <router-link :to="{name: 'Home'}">Home</router-link>
     </h2>
     <MessageWrapper 
-      avatar="https://avatars.githubusercontent.com/u/60776033?v=4"
+      :avatar="null"
       date="2022-08-13T13:08:04.600Z"
-      :user="{fullname:'Yevhenii Korolikhin'}"
-      isMe
+      :user="{id: '4cc80466d51c25f6d4ec8f9cd26c08ba', fullname:'Yevhenii Korolikhin'}"
+      :isMe="false"
       isReaded
       :isHasAttachment="attachments.length > 0"
     >
