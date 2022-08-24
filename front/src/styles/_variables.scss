@@ -1,10 +1,10 @@
 @use 'sass:math';
 @import 'colors';
 
-$containerSize: 1420;
+$containerSize: 1140;
 $vwMobile: 375;
 $vwDesktop: $containerSize;
-$breakDesktop: 1420px;
+$breakDesktop: px($containerSize);
 $breakMobile: 700px;
 $breakMobileModalH: 680px;
 $headerH: 60;
@@ -24,46 +24,6 @@ $hoverDark: 15%;
 $activeScale: 0.98;
 $zoomScale: 1.02;
 
-$mainBg: #2b2731;
-$mainBg1: #1d1a25;
-$fontFamily: dinpro, -apple-system, blinkmacsystemfont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-$white: #fff;
-$iconColor: #837790;
-$grayText: #a0a0a1;
-$grayTextLow: #bdbcbf;
-$green:  #34e746;
-$green1: #416642;
-$orange: #fe8500;
-$loading: #c4c4c4;
-$grayBg: #393440;
-$grayLight: #e2e2e2;
-$red: #f44336;
-$red1: #ca3136;
-$violet: #f795ff;
-$blueToPink: linear-gradient(to right, #34baff 0%, #f81891 100%);
-$orangeGradient: linear-gradient(to top, #ff6500 0%, #fe8500 100%);
-$orangeGradientHover: linear-gradient(-179deg, rgba(255,129,0,0.8) 0%, rgba(255,99,0,0.8) 100%);
-$grayGradient: linear-gradient(to top, #41374e 0%, #474250 100%);
-$grayGradientHover: linear-gradient(-180deg, rgba(65,60,73,0.8) 0%, rgba(60,52,72,0.8) 100%);
-$blueGradient: linear-gradient(to top, #4585eb 0%, #1ca9e6 100%);
-$blueGradientHover: linear-gradient(to top, #458bfc 0%, #31b5ee 100%);
-$inputBorder: #443e4d;
-$blue: #53a0ed;
-$blue1: #3cc1f4;
-$secondary: #413c49;
-$darkBlack: #26222b;
-$brown: #4f475b;
-
-$chestViolet: #f795ff;
-$chestVioletB: #554075;
-$chestRed: #e8697a;
-$chestRedB: $chestRed;
-$chestGreen: #afd144;
-$chestGreenB: #8da249;
-$chestBlue: #05bdeb;
-$chestBlueB: #00a8d2;
-$chestYellow: #fbaa29;
-$chestYellowB: $chestYellow;
 
 @function px($px) {
 	@return $px * 1px;

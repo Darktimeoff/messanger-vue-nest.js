@@ -8,7 +8,7 @@
         :alt="(alt as string)" 
         :isRound="Boolean(isRound)"
     />
-    <div v-else class="avatar avatar--empty">
+    <div v-else class="avatar avatar--empty" :class="{'avatar--round': isRound}">
         {{username?.slice(0, 1).toUpperCase()}}
     </div>
 </template>
@@ -45,5 +45,8 @@ const avatartGradient = computed(() => {
     background: v-bind(avatartGradient);
     color: $white;
     font-weight: bold;
+}
+.avatar--round {
+    border-radius: 50%;
 }
 </style>

@@ -12,7 +12,7 @@ export interface IAttachment {
 
 export interface IDialog {
     id: string;
-    avatar: string,
+    avatar: string | null,
     name: string;
     lastMessage: {
         id: string;

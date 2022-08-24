@@ -4,6 +4,8 @@
             <Avatar 
                 class="dialogs__item__avatar__img" 
                 :avatar="item.avatar" 
+                :hash="item.lastMessage.user?.id"
+                :username="item.name"
                 :width="40" 
                 :height="40" 
                 :alt="item.name" 
@@ -59,7 +61,7 @@ const isShowAuthor = computed(() => !item.value.isDialog && !isMe.value)
 
 <style lang="scss" scoped>
 .dialogs__item {
-    width: 300px;
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 0 10px;

@@ -5,6 +5,9 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AInput: typeof import('ant-design-vue/es')['Input']
+    ALayout: typeof import('ant-design-vue/es')['Layout']
+    ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
     AppBlock: typeof import('./src/components/AppBlock.vue')['default']
     AppButton: typeof import('./src/components/AppButton.vue')['default']
     AppImage: typeof import('./src/components/AppImage.vue')['default']
@@ -19,10 +22,13 @@ declare module '@vue/runtime-core' {
     ReadedIcon: typeof import('./src/components/ReadedIcon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TheChatDialog: typeof import('./src/components/TheChatDialog.vue')['default']
     TheDialogs: typeof import('./src/components/TheDialogs.vue')['default']
     TheLoginForm: typeof import('./src/components/TheLoginForm.vue')['default']
     TheRegisterForm: typeof import('./src/components/TheRegisterForm.vue')['default']
     TheRegisterFormSuccess: typeof import('./src/components/TheRegisterFormSuccess.vue')['default']
+    TheSidebar: typeof import('./src/components/TheSidebar.vue')['default']
+    TheSidebarSearch: typeof import('./src/components/TheSidebarSearch.vue')['default']
     UnReadCount: typeof import('./src/components/UnReadCount.vue')['default']
   }
 }

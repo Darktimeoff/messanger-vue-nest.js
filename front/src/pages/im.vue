@@ -1,8 +1,6 @@
 <template>
-    <h2>
-      <router-link :to="{name: 'Home'}">Home</router-link>
-    </h2>
-    <MessageWrapper 
+    <TheChatDialog />
+    <!-- <MessageWrapper 
       :avatar="null"
       date="2022-08-13T13:08:04.600Z"
       :user="{id: '4cc80466d51c25f6d4ec8f9cd26c08ba', fullname:'Yevhenii Korolikhin'}"
@@ -50,36 +48,38 @@
       :isAudio="true"
     >
       <Messsage text="" audio="https://s1.muzati.net/files/mp3/markul_-_strely_(feat._tosya_chaikina)_muzati.net_128.mp3" />
-    </MessageWrapper>
+    </MessageWrapper> -->
     <!-- <TheDialogs :items="dialogsItem" /> -->
 </template>
 
 <route lang="yaml">
 name: Test
+meta: 
+  layout: main
 </route>
 
 <script setup lang="ts">
-import type {IDialog} from '~/types';
+// import type {IDialog} from '~/types';
 
-const attachments = [
-  {
-    filename: "image.jpeg",
-    url: `https://source.unsplash.com/100x100/?random=1`,
-  }, {
-    filename: "image.jpeg",
-    url: `https://source.unsplash.com/100x100/?random=2`,
-  }, 
-  {
-    filename: "image.jpeg",
-    url: `https://source.unsplash.com/100x100/?random=3`,
-  }]
+// const attachments = [
+//   {
+//     filename: "image.jpeg",
+//     url: `https://source.unsplash.com/100x100/?random=1`,
+//   }, {
+//     filename: "image.jpeg",
+//     url: `https://source.unsplash.com/100x100/?random=2`,
+//   }, 
+//   {
+//     filename: "image.jpeg",
+//     url: `https://source.unsplash.com/100x100/?random=3`,
+//   }]
 
-const attachmentsLarge = [
-  {
-    filename: "image.jpeg",
-    url: `https://source.unsplash.com/1600x1000/?random=4`,
-  },
-]
+// const attachmentsLarge = [
+//   {
+//     filename: "image.jpeg",
+//     url: `https://source.unsplash.com/1600x1000/?random=4`,
+//   },
+// ]
 
 // const dialogsItem: IDialog[] = [
 //   { 
