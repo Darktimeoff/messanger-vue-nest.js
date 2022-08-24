@@ -65,10 +65,16 @@ const isShowAuthor = computed(() => !item.value.isDialog && !isMe.value)
     display: flex;
     align-items: center;
     gap: 0 10px;
+    padding: 10px px($chatPadding);
+    transition: background $animationDuration;
+    cursor: pointer;
+    &:hover, &.active {
+        background-color: #f3f7ff;
+    }
 }
 .dialogs__item__content {
     display: grid;
-    gap: 7px 0;
+    gap:5px 0;
     height: 100%;
     grid-template: "name date" auto "message unread" 1fr / 1fr auto;
     align-items: center;

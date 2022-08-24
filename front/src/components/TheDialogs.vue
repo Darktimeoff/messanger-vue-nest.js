@@ -23,7 +23,9 @@ const sortItems = computed(() => [...props.items].sort((a, b) => {
 .dialogs {
     display: flex;
     flex-direction: column;
-    gap: 20px 0;
-    padding-top: 20px;
+    padding: px($chatPadding) 0;
+    margin-left: px(-$chatPadding);
+    margin-right: px(-$chatPadding);
+    overflow-y: auto;
 }
 </style>

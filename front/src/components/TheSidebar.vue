@@ -61,10 +61,11 @@ const dialogsItem: IDialog[] = [
 
 <style lang="scss" scoped>
 .sidebar__header {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 0 5px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0 5px;
+  padding-bottom: px($chatPadding);
 }
 .sidebar__header__icon{
     font-size: 12px;

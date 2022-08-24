@@ -10,8 +10,8 @@ export async function sleep(time: number) {
 export function generateGradientFromStr(str: string) {
     if(str.length < 3) return {};
 
-    const color = tinycolor({r: getCode(0),g: getCode(1), b: getCode(2)});
-    const lightenColor = color.clone().lighten(40);
+    const color = tinycolor({r: getCode(0),g: getCode(1), b: getCode(2)}).lighten(10).saturate(10);
+    const lightenColor = color.clone().lighten(30).saturate(30);
 
     function getCode(index: number) {
         const code = str.charCodeAt(index);

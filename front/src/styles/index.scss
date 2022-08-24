@@ -32,3 +32,25 @@ img {
 	width: 100%;
 	max-width: px($containerSize);
 }
+
+::-webkit-scrollbar {
+	width: px(8);
+	height: px(8);
+
+	-webkit-border-radius: px(100);
+	background-color: rgba(0, 0, 0, 0);
+}
+
+
+::-webkit-scrollbar-thumb {
+	-webkit-border-radius: px(100);
+	background: darken($color: #f7f8f9, $amount: 10);
+}
+
+::-webkit-scrollbar-thumb:vertical {
+	min-height: px(10);
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+	min-width: px(10);
+}

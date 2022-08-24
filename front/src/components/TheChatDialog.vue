@@ -24,7 +24,7 @@ import { EllipsisOutlined } from '@ant-design/icons-vue';
 
 <style lang="scss" scoped>
 .chat__dialog {
-    padding-top: 10px;
+    padding-top: px($chatPadding);
 }
 .chat__dialog-header {
     width: 100%;
