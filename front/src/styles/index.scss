@@ -5,9 +5,13 @@
 @import 'animation';
 @import 'ant-design-vue/dist/antd.css';
 
+* {
+	user-select: none;
+}
+
 body {
 	overflow-x: hidden;
-	overflow-y: overlay;
+	overflow-y: hidden;
 	font-family: 'Roboto', sans-serif;
 	background-color: $mainBg !important;
 }

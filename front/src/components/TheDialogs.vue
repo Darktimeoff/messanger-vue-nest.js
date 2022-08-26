@@ -26,6 +26,6 @@ const sortItems = computed(() => [...props.items].sort((a, b) => {
     padding: px($chatPadding) 0;
     margin-left: px(-$chatPadding);
     margin-right: px(-$chatPadding);
-    overflow-y: auto;
+    overflow-y: overlay;
 }
 </style>

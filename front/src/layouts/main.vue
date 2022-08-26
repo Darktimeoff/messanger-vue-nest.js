@@ -20,7 +20,6 @@
     background: none;
     padding: px($chatPadding);
     border-right: 1px solid $divider;
-    overflow-y: auto;
 }
 .chat__content {
     background: $white;

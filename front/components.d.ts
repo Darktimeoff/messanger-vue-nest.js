@@ -5,13 +5,17 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AButton: typeof import('ant-design-vue/es')['Button']
     AInput: typeof import('ant-design-vue/es')['Input']
     ALayout: typeof import('ant-design-vue/es')['Layout']
     ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
     AppBlock: typeof import('./src/components/AppBlock.vue')['default']
     AppButton: typeof import('./src/components/AppButton.vue')['default']
     AppImage: typeof import('./src/components/AppImage.vue')['default']
+    AppInlineIcon: typeof import('./src/components/AppInlineIcon.vue')['default']
+    AppInlineSvg: typeof import('./src/components/AppInlineSvg.vue')['default']
     AppSvgIcon: typeof import('./src/components/AppSvgIcon.vue')['default']
+    ATextarea: typeof import('ant-design-vue/es')['Textarea']
     Avatar: typeof import('./src/components/Avatar.vue')['default']
     DialogItem: typeof import('./src/components/DialogItem.vue')['default']
     MessageAttachments: typeof import('./src/components/MessageAttachments.vue')['default']
@@ -22,7 +26,10 @@ declare module '@vue/runtime-core' {
     ReadedIcon: typeof import('./src/components/ReadedIcon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Status: typeof import('./src/components/Status.vue')['default']
     TheChatDialog: typeof import('./src/components/TheChatDialog.vue')['default']
+    TheChatDialogInput: typeof import('./src/components/TheChatDialogInput.vue')['default']
+    TheChatDialogMessages: typeof import('./src/components/TheChatDialogMessages.vue')['default']
     TheDialogs: typeof import('./src/components/TheDialogs.vue')['default']
     TheLoginForm: typeof import('./src/components/TheLoginForm.vue')['default']
     TheRegisterForm: typeof import('./src/components/TheRegisterForm.vue')['default']

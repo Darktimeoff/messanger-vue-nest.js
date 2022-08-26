@@ -47,6 +47,7 @@ const isHasAttachment = computed(() => Boolean(props.attachments?.length))
     font-size: 14px;
     word-break: break-all;
     line-height: 20px;
+    margin-bottom: 0;
 }
 
 .message--attachment .message__bubble {
