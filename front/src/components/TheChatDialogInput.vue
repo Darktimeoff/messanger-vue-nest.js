@@ -51,6 +51,8 @@ function toggleAudio() {
     grid-template-columns: auto 1fr auto;
     align-items: flex-end;
     padding-top: 0;
+    height: fit-content;
+    align-self: end;
 }
 .inputarea-prefix-wrapper, .inputarea-prefix {
     display: flex;
