@@ -8,57 +8,29 @@
       </AppInlineIcon>
     </div>
 
-    <TheSidebarSearch />
-    <TheDialogs :items="dialogsItem" />
+    <TheSidebarSearch @input="onTextInput" />
+    <TheDialogs :items="filtredItems" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { TeamOutlined, FormOutlined } from '@ant-design/icons-vue';
-import type {IDialog} from '~/types';
+import {dialogsItem} from '~/mocks';
 
-const dialogsItem: IDialog[] = [
-  { 
-    id: Math.random().toString(),
-    avatar: null,
-    name: 'Yevhneii Korolikhin',
-    lastMessage: {
-      id: Math.random().toString(),
-      text: 'Мы все ожидали начала но не готовились концу',
-      isReaded: false,
-      created_at:"2021-08-13T13:26:00.084Z",
-      isMe: false,
-      user: {
-        id: Math.random().toString(),
-        fullname: 'Yevhneii Korolikhin',
-        avatar: 'https://avatars.githubusercontent.com/u/60776033?v=4',
-        isOnline: true,
-      },
-    },
-    isDialog: true,
-    unreadMessageCount: 3
-  },
-  { 
-    id: Math.random().toString(),
-    avatar: 'https://avatars.githubusercontent.com/u/1838656?v=4',
-    name: 'Ivan Borchov',
-    lastMessage: {
-      id: Math.random().toString(),
-      text: 'Мы все ожидали начала но не готовились концу',
-      isReaded: true,
-      created_at:"2022-08-13T13:26:00.084Z",
-      isMe: true,
-      user: {
-        id: Math.random().toString(),
-        fullname: 'Ivan Borchov',
-        avatar: 'https://avatars.githubusercontent.com/u/1838656?v=4',
-        isOnline: true,
-      },
-    },
-    isDialog: true,
-    unreadMessageCount: 0
-  }
-]
+const searchV = ref('');
+
+const filtredItems = computed(() => {
+  return dialogsItem.filter(d => {
+    const result =  d.name.toLowerCase().includes(searchV.value.toLowerCase())
+    console.log(searchV.value.toLowerCase(), result)
+    return result;
+  })
+})
+
+
+function onTextInput(e: InputEvent) {
+  searchV.value = (e.target as HTMLInputElement).value || '';
+}
 </script>
 
 <style lang="scss" scoped>
