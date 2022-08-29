@@ -1,25 +1,30 @@
 <template>
-    <div class="chat__dialog">
-        <div class="chat__dialog-header">
-            <div class="chat__dialog-header-center">
-                <div class="chat__dialog-header-username">
-                    Yevhenii Korolikhin
+    <Transition enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
+        <div v-if="currentDialog" class="chat__dialog">
+            <div class="chat__dialog-header">
+                <div class="chat__dialog-header-center">
+                    <div class="chat__dialog-header-username">
+                        Yevhenii Korolikhin
+                    </div>
+                    <Status class="chat__dialog-header-status" />
                 </div>
-                <Status class="chat__dialog-header-status" />
+                <div class="chat__dialog-header-end">
+                    <AppInlineIcon>
+                        <EllipsisOutlined class="chat__dialog-header-icon" />
+                    </AppInlineIcon>
+                </div>
             </div>
-            <div class="chat__dialog-header-end">
-                <AppInlineIcon>
-                    <EllipsisOutlined class="chat__dialog-header-icon" />
-                </AppInlineIcon>
-            </div>
+            <TheChatDialogMessages class="chat__dialogs-messages" />
+            <TheChatDialogInput class="chat__dialogs-input" />
         </div>
-        <TheChatDialogMessages class="chat__dialogs-messages" />
-        <TheChatDialogInput class="chat__dialogs-input" />
-    </div>
+    </Transition>
 </template>
 
 <script setup lang="ts">
 import { EllipsisOutlined } from '@ant-design/icons-vue';
+import { useDialogs } from '~/hooks';
+
+const {currentDialog} = useDialogs()
 </script>
 
 <style lang="scss" scoped>

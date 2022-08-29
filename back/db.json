@@ -17,7 +17,8 @@
               "avatar": "https://avatars.githubusercontent.com/u/60776033?v=4",
               "isOnline": true
           }
-        }
+        },
+        "unreadMessageCount": 0
       },
       {
           "id": "16e68d13b2678d793d340b51fb0c79297d",
@@ -36,7 +37,8 @@
                   "avatar": "https://avatars.githubusercontent.com/u/1838656?v=4",
                   "isOnline": true
               }
-          }
+          },
+          "unreadMessageCount": 3
       }
   ],
   "messsages":  [
@@ -49,7 +51,7 @@
         "fullname": "Stafford Whitley",
         "avatar": null
       },
-      "dialog": "6e68d13b2678d793d340b5fb0c79297d",
+      "dialog": "35ce83ca80a9906817c95cbe0",
       "isMe": false,
       "isRead": false
     },
@@ -62,7 +64,7 @@
         "fullname": "Nettie Cobb",
         "avatar": null
       },
-      "dialog": "6e68d13b2678d793d340b5fb0c79297d",
+      "dialog": "35ce83ca80a9906817c95cbe0",
       "isMe": true,
       "isRead": false
     },
@@ -75,7 +77,7 @@
         "fullname": "Cole Merritt",
         "avatar": null
       },
-      "dialog": "6e68d13b2678d793d340b5fb0c79297d",
+      "dialog": "35ce83ca80a9906817c95cbe0",
       "isMe": false,
       "isRead": false
     },
@@ -88,7 +90,7 @@
         "fullname": "Haley Norman",
         "avatar": null
       },
-      "dialog": "6e68d13b2678d793d340b5fb0c79297d",
+      "dialog": "35ce83ca80a9906817c95cbe0",
       "isMe": false,
       "isRead": false
     },
@@ -101,7 +103,7 @@
         "fullname": "Jacobs Barry",
         "avatar": null
       },
-      "dialog": "6e68d13b2678d793d340b5fb0c79297d",
+      "dialog": "35ce83ca80a9906817c95cbe0",
       "isMe": true,
       "isRead": false
     },
@@ -114,7 +116,7 @@
         "fullname": "Short Doyle",
         "avatar": null
       },
-      "dialog": "6e68d13b2678d793d340b5fb0c79297d",
+      "dialog": "35ce83ca80a9906817c95cbe0",
       "isMe": true,
       "isRead": false
     }

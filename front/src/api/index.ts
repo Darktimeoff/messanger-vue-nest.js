@@ -1,1 +1,1 @@
-export * as DialogsAPI from './dialogs'
+export * as DialogsAPI from './dialogs.api'

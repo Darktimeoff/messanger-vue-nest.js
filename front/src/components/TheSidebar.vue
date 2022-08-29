@@ -9,24 +9,25 @@
     </div>
 
     <TheSidebarSearch @input="onTextInput" />
-    <TheDialogs :items="filtredItems" />
+    <TheDialogs :items="filtredItems" @selectDialog="currentDialogId = $event.id"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import { TeamOutlined, FormOutlined } from '@ant-design/icons-vue';
-import {dialogsItem} from '~/mocks';
+import { useDialogs } from '~/hooks';
+
+const { items, currentDialogId} = useDialogs()
 
 const searchV = ref('');
 
 const filtredItems = computed(() => {
-  return dialogsItem.filter(d => {
+  return items.value?.filter(d => {
     const result =  d.name.toLowerCase().includes(searchV.value.toLowerCase())
     console.log(searchV.value.toLowerCase(), result)
     return result;
-  })
+  }) || []
 })
-
 
 function onTextInput(e: InputEvent) {
   searchV.value = (e.target as HTMLInputElement).value || '';
