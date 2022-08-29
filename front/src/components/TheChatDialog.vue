@@ -1,12 +1,12 @@
 <template>
     <Transition enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
-        <div v-if="currentDialog" class="chat__dialog">
+        <div v-if="isSelectDialog" class="chat__dialog">
             <div class="chat__dialog-header">
                 <div class="chat__dialog-header-center">
                     <div class="chat__dialog-header-username">
-                        Yevhenii Korolikhin
+                        {{currentDialog?.name}}
                     </div>
-                    <Status class="chat__dialog-header-status" />
+                    <Status class="chat__dialog-header-status" :online="isOnline"/>
                 </div>
                 <div class="chat__dialog-header-end">
                     <AppInlineIcon>
@@ -14,7 +14,7 @@
                     </AppInlineIcon>
                 </div>
             </div>
-            <TheChatDialogMessages class="chat__dialogs-messages" />
+            <TheChatDialogMessages :items="messages" class="chat__dialogs-messages" />
             <TheChatDialogInput class="chat__dialogs-input" />
         </div>
     </Transition>
@@ -24,7 +24,7 @@
 import { EllipsisOutlined } from '@ant-design/icons-vue';
 import { useDialogs } from '~/hooks';
 
-const {currentDialog} = useDialogs()
+const {messages, isSelectDialog, currentDialog, isOnline} = useDialogs();
 </script>
 
 <style lang="scss" scoped>

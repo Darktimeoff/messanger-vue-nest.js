@@ -5,7 +5,7 @@ import { storeToRefs } from "pinia";
 
 export function useDialogs() {
     const dialogsStore = useDialogStore();
-    const {items, currentDialog, currentDialogId, isSelectDialog} = storeToRefs(dialogsStore);
+    const {items, messages, currentDialogId, isSelectDialog, currentDialog,isOnline} = storeToRefs(dialogsStore);
   
     const dialogsQuery = useDialogsQuery();
     const dialogQuery = useDialogQuery();
@@ -24,18 +24,21 @@ export function useDialogs() {
             enabled: isSelectDialog,
             select: (dialog) => dialog.data,
             onSuccess(data) {
-                currentDialog.value = data
+                messages.value = data
             }
         })
     }
  
 
     return {
+        currentDialog,
         dialogQuery,
         dialogsQuery,
         useDialogsQuery,
         items,
-        currentDialog,
-        currentDialogId
+        messages,
+        currentDialogId,
+        isSelectDialog,
+        isOnline
     }
 }
