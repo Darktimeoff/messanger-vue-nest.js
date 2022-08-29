@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     AppImage: typeof import('./src/components/AppImage.vue')['default']
     AppInlineIcon: typeof import('./src/components/AppInlineIcon.vue')['default']
     AppSvgIcon: typeof import('./src/components/AppSvgIcon.vue')['default']
+    ASpin: typeof import('ant-design-vue/es')['Spin']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     Avatar: typeof import('./src/components/Avatar.vue')['default']
     DialogItem: typeof import('./src/components/DialogItem.vue')['default']
