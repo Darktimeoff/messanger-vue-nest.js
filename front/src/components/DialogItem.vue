@@ -1,5 +1,5 @@
 <template>
-    <div class="dialogs__item" :class="{'dialogs__item--online': isOnline}">
+    <div class="dialogs__item" :class="{'dialogs__item--online': isOnline, 'active': isActive}">
         <div class="dialogs__item__avatar">
             <Avatar 
                 class="dialogs__item__avatar__img" 
@@ -41,7 +41,8 @@ import { useTime } from '~/hooks';
 import { IDialog } from '~/types';
 
 interface IProps {
-    item: IDialog
+    item: IDialog,
+    isActive?: boolean
 }
 
 const props = defineProps<IProps>();

@@ -8,7 +8,13 @@
             </a-empty>
             <div v-else class="dialogs__list">
                 <TransitionGroup enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
-                    <DialogItem v-for="c in sortItems" :key="c.id" :item="c" @click="onSelectDialog(c)"/>
+                    <DialogItem 
+                        v-for="c in sortItems" 
+                        :key="c.id" 
+                        :item="c" 
+                        :isActive="c.id === activeDialogId"
+                        @click="onSelectDialog(c)"
+                    />
                 </TransitionGroup>
             </div>
         </Transition>
@@ -27,10 +33,12 @@ interface IEmits {
 const emit = defineEmits<IEmits>()
 
 interface IProps {
-    items: IDialog[]
+    items: IDialog[],
 }
 
 const props = defineProps<IProps>()
+
+const activeDialogId = ref();
 
 const sortItems = computed(() => [...props.items].sort((a, b) => {
     return compareAsc(new Date(b.lastMessage.created_at),new Date(a.lastMessage.created_at))
@@ -38,6 +46,7 @@ const sortItems = computed(() => [...props.items].sort((a, b) => {
 const isEmpty = computed(() => !props.items.length);
 
 function onSelectDialog(c: IDialog) {
+    activeDialogId.value = c.id;
     emit('selectDialog', c);
 }
 </script>
