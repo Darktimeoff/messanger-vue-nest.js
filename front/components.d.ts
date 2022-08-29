@@ -5,16 +5,11 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AEmpty: typeof import('ant-design-vue/es')['Empty']
-    AInput: typeof import('ant-design-vue/es')['Input']
-    ALayout: typeof import('ant-design-vue/es')['Layout']
-    ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
     AppBlock: typeof import('./src/components/AppBlock.vue')['default']
     AppButton: typeof import('./src/components/AppButton.vue')['default']
     AppImage: typeof import('./src/components/AppImage.vue')['default']
     AppInlineIcon: typeof import('./src/components/AppInlineIcon.vue')['default']
     AppSvgIcon: typeof import('./src/components/AppSvgIcon.vue')['default']
-    ATextarea: typeof import('ant-design-vue/es')['Textarea']
     Avatar: typeof import('./src/components/Avatar.vue')['default']
     DialogItem: typeof import('./src/components/DialogItem.vue')['default']
     MessageAttachments: typeof import('./src/components/MessageAttachments.vue')['default']

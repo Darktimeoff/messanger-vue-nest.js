@@ -1,0 +1,1 @@
+export * as DialogsAPI from './dialogs'

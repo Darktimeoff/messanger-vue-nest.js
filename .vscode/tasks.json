@@ -9,6 +9,12 @@
 		},
 		{
 			"type": "npm",
+			"script": "start",
+			"path": "back",
+			"label": "Run backend",
+		},
+		{
+			"type": "npm",
 			"script": "build",
 			"path": "front",
 			"problemMatcher": [],
