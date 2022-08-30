@@ -67,10 +67,22 @@ const isShowAuthor = computed(() => !item.value.isDialog && !isMe.value)
     align-items: center;
     gap: 0 10px;
     padding: 10px px($chatPadding);
-    transition: background $animationDuration;
     cursor: pointer;
-    &:hover, &.active {
+    &:hover {
         background-color: #f3f7ff;
+    }
+    &.active {
+        background-color: #3590ec;
+        color: $white;
+        .dialogs__item__date {
+            opacity: 1;
+        }
+        .dialogs__item__message {
+            opacity: 1;
+        }
+        .dialogs__item__unread  {
+            box-shadow: none;
+        }
     }
 }
 .dialogs__item__content {
