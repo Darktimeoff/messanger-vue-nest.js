@@ -14,7 +14,7 @@
                     </AppInlineIcon>
                 </div>
             </div>
-            <TheChatDialogMessages :items="messages" class="chat__dialogs-messages" />
+            <TheChatDialogMessages :items="messages" class="chat__dialogs-messages" :isLoading="isLoading" />
             <TheChatDialogInput class="chat__dialogs-input" />
         </div>
     </Transition>
@@ -24,7 +24,11 @@
 import { EllipsisOutlined } from '@ant-design/icons-vue';
 import { useDialogs } from '~/hooks';
 
-const {messages, isSelectDialog, currentDialog, isOnline} = useDialogs();
+const {messages, isSelectDialog, currentDialog, isOnline, dialogQuery} = useDialogs();
+
+const isLoading = computed(() => {
+    return dialogQuery.isLoading.value
+})
 </script>
 
 <style lang="scss" scoped>

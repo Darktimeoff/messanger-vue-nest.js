@@ -1,7 +1,9 @@
 <template>
     <div class="messages">
       <Transition mode="out-in" enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
-        <AEmpty v-if="isEmpty">
+        <a-spin v-if="isLoading" class="messages__loading" :indicator="indicator" />
+
+        <AEmpty v-else-if="isEmpty">
           <template #description>
             Нету сообщений
           </template>
@@ -26,15 +28,19 @@
 </template>
 
 <script lang="ts" setup>
+import { LoadingOutlined } from '@ant-design/icons-vue';
 import { IMessage } from '~/types';
 
 interface IProps {
-  items: IMessage[] | undefined
+  items: IMessage[] | undefined,
+  isLoading?: boolean
 }
 
 const props = defineProps<IProps>();
 
-const isEmpty = computed(() => !props.items?.length)
+const isEmpty = computed(() => !props.items?.length);
+
+const indicator = h(LoadingOutlined, { spin: true})
 </script>
 
 <style lang="scss" scoped>
@@ -42,5 +48,12 @@ const isEmpty = computed(() => !props.items?.length)
     padding: 0 px($chatPadding);
     overflow-x: hidden;
     overflow-y: overlay;
+}
+
+.messages__loading {
+  display: block;
+  &:deep([role="img"]) {
+    font-size: 34px;
+  }
 }
 </style>
