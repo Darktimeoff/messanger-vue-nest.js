@@ -35,7 +35,7 @@
         </div>
         <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
             <Picker
-                v-if="showEmojii"
+                v-if="showEmojii && emojiIndex"
                 :style="{ position: 'absolute', bottom: '120%', left: '0px', zIndex: '1000' }"
                 :data="emojiIndex"
                 set="google"
