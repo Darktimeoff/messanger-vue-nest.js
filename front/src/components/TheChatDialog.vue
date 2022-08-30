@@ -27,7 +27,7 @@ import { useDialogs } from '~/hooks';
 const {messages, isSelectDialog, currentDialog, isOnline, dialogQuery} = useDialogs();
 
 const isLoading = computed(() => {
-    return dialogQuery.isLoading.value
+    return dialogQuery.isFetching.value
 })
 </script>
 
