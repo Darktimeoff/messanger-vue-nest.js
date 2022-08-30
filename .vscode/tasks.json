@@ -12,6 +12,24 @@
 			"script": "start",
 			"path": "back",
 			"label": "Run backend",
+			"presentation": {
+				"reveal": "always",
+				"panel": "new",
+				"group": "develop"
+			},
+		},
+		{
+			"label": "Run Database",
+			"type": "shell",
+			"command": "cd deploy && docker-compose  -f mongo-local.yml up --build",
+			"presentation": {
+			  "reveal": "always",
+			  "panel": "new",
+			  "group": "develop"
+			},
+			"runOptions": {
+			  "runOn": "folderOpen"
+			}
 		},
 		{
 			"type": "npm",
