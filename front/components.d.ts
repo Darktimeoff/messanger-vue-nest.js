@@ -3,6 +3,8 @@
 // Read more: https://github.com/vuejs/core/pull/3399
 import '@vue/runtime-core'
 
+export {}
+
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AEmpty: typeof import('ant-design-vue/es')['Empty']
@@ -11,6 +13,7 @@ declare module '@vue/runtime-core' {
     ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
     AppBlock: typeof import('./src/components/AppBlock.vue')['default']
     AppButton: typeof import('./src/components/AppButton.vue')['default']
+    AppFileUpload: typeof import('./src/components/AppFileUpload.vue')['default']
     AppImage: typeof import('./src/components/AppImage.vue')['default']
     AppInlineIcon: typeof import('./src/components/AppInlineIcon.vue')['default']
     AppSvgIcon: typeof import('./src/components/AppSvgIcon.vue')['default']
@@ -18,6 +21,7 @@ declare module '@vue/runtime-core' {
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     Avatar: typeof import('./src/components/Avatar.vue')['default']
     DialogItem: typeof import('./src/components/DialogItem.vue')['default']
+    FileUpload: typeof import('./src/components/FileUpload.vue')['default']
     MessageAttachments: typeof import('./src/components/MessageAttachments.vue')['default']
     MessageAudio: typeof import('./src/components/MessageAudio.vue')['default']
     MessageTyping: typeof import('./src/components/MessageTyping.vue')['default']
@@ -37,7 +41,6 @@ declare module '@vue/runtime-core' {
     TheSidebar: typeof import('./src/components/TheSidebar.vue')['default']
     TheSidebarSearch: typeof import('./src/components/TheSidebarSearch.vue')['default']
     UnReadCount: typeof import('./src/components/UnReadCount.vue')['default']
+    UploadFile: typeof import('./src/components/UploadFile.vue')['default']
   }
 }
-
-export {}

@@ -7,9 +7,11 @@
         </div>
         <a-textarea v-model:value="input" class="inputarea__input" placeholder="Введите текст сообщения"  :bordered="false" auto-size  />
         <div class="inputarea-prefix">
-            <AppInlineIcon>
-                <PaperClipOutlined class="inputarea__icon" />
-            </AppInlineIcon>
+            <AppFileUpload accept="image/*" multiple>
+                <AppInlineIcon>
+                    <PaperClipOutlined class="inputarea__icon" />
+                </AppInlineIcon>
+            </AppFileUpload>
             <transition mode="out-in" enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
                 <transition v-if="isEmpty" mode="out-in" enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
                     <AppInlineIcon v-if="!isAudio" @click="toggleAudio">
