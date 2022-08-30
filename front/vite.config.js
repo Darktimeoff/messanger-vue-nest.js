@@ -6,7 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import {
   AntDesignVueResolver
 } from 'unplugin-vue-components/resolvers'
-import * as path from 'path'
+import {resolve} from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 
 export default defineConfig({
@@ -44,8 +44,8 @@ export default defineConfig({
   },
   resolve: {
     alias: [
-      { find: '@', replacement: path.resolve(__dirname, './src') },
-      { find: '~', replacement: path.resolve(__dirname, './src') },
+      { find: '@', replacement: resolve(__dirname, './src') },
+      { find: '~', replacement: resolve(__dirname, './src') },
     ],
   },
   server: {

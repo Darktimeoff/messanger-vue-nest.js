@@ -1,7 +1,7 @@
 <template>
     <div class="messages">
       <Transition mode="out-in" enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
-        <a-spin v-if="isLoading" class="messages__loading" :indicator="indicator" />
+        <a-spin v-if="isLoading" class="messages__loading" :indicator="indicator" tip="Загрузка сообщений..." />
 
         <AEmpty v-else-if="isEmpty">
           <template #description>
