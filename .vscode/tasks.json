@@ -3,13 +3,7 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "dev",
-			"path": "front",
-			"label": "Run SPA",
-		},
-		{
-			"type": "npm",
-			"script": "start",
+			"script": "start:dev",
 			"path": "back",
 			"label": "Run backend",
 			"presentation": {
@@ -17,26 +11,6 @@
 				"panel": "new",
 				"group": "develop"
 			},
-		},
-		{
-			"label": "Run Database",
-			"type": "shell",
-			"command": "cd deploy && docker-compose  -f mongo-local.yml up --build",
-			"presentation": {
-			  "reveal": "always",
-			  "panel": "new",
-			  "group": "develop"
-			},
-			"runOptions": {
-			  "runOn": "folderOpen"
-			}
-		},
-		{
-			"type": "npm",
-			"script": "build",
-			"path": "front",
-			"problemMatcher": [],
-			"label": "Run BUILD",
 		},
 		{
 			"type": "npm",
