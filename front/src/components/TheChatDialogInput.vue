@@ -51,10 +51,9 @@ import { SmileOutlined, SendOutlined, InstagramOutlined, AudioOutlined, PaperCli
 //@ts-ignore
 import { Picker, EmojiIndex } from "emoji-mart-vue-fast/src";
 import 'emoji-mart-vue-fast/css/emoji-mart.css';
-import data from 'emoji-mart-vue-fast/data/google.json';
 import {EmojiSelect} from '~/types'
 
-const emojiIndex = new EmojiIndex(data);
+const emojiIndex = ref<EmojiIndex>()
 
 const isAudio = ref(true);
 const input = ref('');
@@ -64,13 +63,20 @@ const isEmpty = computed(() => {
     return !input.value.trim()
 })
 
+loadEmojiData();
+
 function toggleAudio() {
     isAudio.value = !isAudio.value
 }
 
 function onSelectEmojii(event: EmojiSelect) {
-    console.log('emoji', event)
     input.value += event.native;
+}
+
+
+async function loadEmojiData() {
+    const data = (await import('emoji-mart-vue-fast/data/google.json')).default;
+    emojiIndex.value = new EmojiIndex(data);
 }
 </script>
 
