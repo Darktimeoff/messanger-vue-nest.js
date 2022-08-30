@@ -1,11 +1,18 @@
 <template>
     <div class="inputarea">
         <div class="inputarea-prefix">
-            <AppInlineIcon>
+            <AppInlineIcon @click="showEmojii = !showEmojii">
                 <SmileOutlined class="inputarea__icon" />
             </AppInlineIcon>
         </div>
-        <a-textarea v-model:value="input" class="inputarea__input" placeholder="Введите текст сообщения"  :bordered="false" auto-size  />
+        <a-textarea 
+            v-model:value="input" 
+            class="inputarea__input" 
+            placeholder="Введите текст сообщения"  
+            :bordered="false" 
+            auto-size 
+            @focusin="showEmojii = false"
+        />
         <div class="inputarea-prefix">
             <AppFileUpload accept="image/*" multiple>
                 <AppInlineIcon>
@@ -26,13 +33,32 @@
                 </AppInlineIcon>
             </transition>
         </div>
+        <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
+            <Picker
+                v-if="showEmojii"
+                :style="{ position: 'absolute', bottom: '120%', left: '0px', zIndex: '1000' }"
+                :data="emojiIndex"
+                set="google"
+                autoFocus
+                @select="onSelectEmojii"
+            />
+        </transition>
     </div>
 </template>
 
 <script setup lang="ts">
 import { SmileOutlined, SendOutlined, InstagramOutlined, AudioOutlined, PaperClipOutlined } from '@ant-design/icons-vue';
+//@ts-ignore
+import { Picker, EmojiIndex } from "emoji-mart-vue-fast/src";
+import 'emoji-mart-vue-fast/css/emoji-mart.css';
+import data from 'emoji-mart-vue-fast/data/google.json';
+import {EmojiSelect} from '~/types'
+
+const emojiIndex = new EmojiIndex(data);
+
 const isAudio = ref(true);
 const input = ref('');
+const showEmojii = ref(false)
 
 const isEmpty = computed(() => {
     return !input.value.trim()
@@ -40,6 +66,11 @@ const isEmpty = computed(() => {
 
 function toggleAudio() {
     isAudio.value = !isAudio.value
+}
+
+function onSelectEmojii(event: EmojiSelect) {
+    console.log('emoji', event)
+    input.value += event.native;
 }
 </script>
 
@@ -55,6 +86,7 @@ function toggleAudio() {
     padding-top: 0;
     height: fit-content;
     align-self: end;
+    position: relative;
 }
 .inputarea-prefix-wrapper, .inputarea-prefix {
     display: flex;
