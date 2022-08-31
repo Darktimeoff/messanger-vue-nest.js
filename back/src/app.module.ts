@@ -14,7 +14,7 @@ import { DialogModule } from './dialog/dialog.module';
       inject: [ConfigService],
     }),
     UserModule,
-    DialogModule,
+    DialogModule
   ],
 })
 export class AppModule { }

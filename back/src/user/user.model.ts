@@ -7,10 +7,10 @@ export type UserDocument = User & Document;
 
 @Schema({ timestamps: true, _id: true, id: true})
 export class User {
-    @Prop({unique: true})
+    @Prop({unique: true, required: true})
     email: string;
     
-    @Prop()
+    @Prop({required: true})
     fullname: string;
 
     @Prop({unique: true})
@@ -19,13 +19,13 @@ export class User {
     @Prop()
     avatar: string
 
-    @Prop()
+    @Prop({required: true})
     password: string;
 
-    @Prop()
+    @Prop({default: false})
     isOnline: boolean;
 
-    @Prop() 
+    @Prop({default: false}) 
     isConfirmed: boolean;
 
     @Prop({type: Date})
