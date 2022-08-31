@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { User } from 'src/user/user.model';
+import { User } from 'src/user/entities/user.entity';
 
 export type DialogDocument = Dialog & Document;
 

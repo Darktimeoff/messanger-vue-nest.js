@@ -1,0 +1,1 @@
+export const USER_NOT_FOUND = 'Пользователя с таким id не существует';

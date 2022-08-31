@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { DialogController } from "./dialog.controller";
-import { DialogSchema } from "./dialog.model";
+import { DialogSchema } from "./entities/dialog.entity";
 import { DialogService } from "./dialog.sevice";
 
 @Module({
