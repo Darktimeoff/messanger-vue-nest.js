@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UsePipes, ValidationPipe } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
-import { ID_VALIDATION_ERROR } from "src/pipe/id-validation.contstants";
+import { ID_VALIDATION_ERROR } from "./../pipe/id-validation.contstants";
 import { IdValidationPipe } from './../pipe/id-validation.pipe';
 import { USER_NOT_FOUND } from "./const";
 import { CreateUserDto } from "./dto/create-user.dto";
