@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UsePipes, ValidationPipe } from "@nestjs/common";
-import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ID_VALIDATION_ERROR } from "src/pipe/id-validation.contstants";
 import { IdValidationPipe } from './../pipe/id-validation.pipe';
 import { USER_NOT_FOUND } from "./const";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -35,6 +36,9 @@ export class UserController {
     @ApiNotFoundResponse({
         description: USER_NOT_FOUND
     })
+    @ApiBadRequestResponse({
+        description: ID_VALIDATION_ERROR
+    })
     @Get(':id')
     async getUser(@Param('id', IdValidationPipe) id: string) {
         const user = await this.userService.getUser(id)
@@ -53,6 +57,9 @@ export class UserController {
     @ApiNotFoundResponse({
         description: USER_NOT_FOUND
     })
+    @ApiBadRequestResponse({
+        description: ID_VALIDATION_ERROR
+    })
     @Patch(':id')
     async updateUser(@Param('id', IdValidationPipe) id: string, @Body() dto: UpdateUserDto) {
         const user = await this.userService.updateUser(id, dto);
@@ -70,9 +77,12 @@ export class UserController {
     @ApiNotFoundResponse({
         description: USER_NOT_FOUND
     })
+    @ApiBadRequestResponse({
+        description: ID_VALIDATION_ERROR
+    })
     @Delete(':id')
     async deleteUser(@Param('id', IdValidationPipe) id: string) {
-        const user = await this.userService.getUser(id)
+        const user = await this.userService.deleteUser(id)
 
         if (!user) {
             throw new NotFoundException(USER_NOT_FOUND);
