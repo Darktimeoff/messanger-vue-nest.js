@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { getMongoConfig } from './config/mongo.config';
 import { UserModule } from './user/user.module';
 import { DialogModule } from './dialog/dialog.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { DialogModule } from './dialog/dialog.module';
       inject: [ConfigService],
     }),
     UserModule,
-    DialogModule
+    DialogModule,
+    MessageModule
   ],
 })
 export class AppModule { }
