@@ -41,4 +41,8 @@ export class DialogService {
             }
         })
     }
+
+    async deleteDialog(id: string) {
+       return this.dialogModel.findByIdAndRemove(id);
+    }
 }

@@ -1,0 +1,1 @@
+export const DIALOG_NOT_FOUND = 'Диалог с таким id не найден';

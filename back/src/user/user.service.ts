@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { AddDialogDto } from "./dto/addDialog-user.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
+import { RemoveDialogDto } from "./dto/removeDialog-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import {UserDocument} from './entities/user.entity';
 
@@ -36,6 +37,16 @@ class UserService {
                 dialog: dto.dialogId
             }
         });
+    }
+
+    async removeDialog(dto: RemoveDialogDto) {
+        return this.userModel.findByIdAndUpdate(dto.userId, {
+            $pull: {
+                dialog: {
+                    $in: dto.dialogId
+                }
+            }
+        })
     }
 }
 
