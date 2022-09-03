@@ -11,13 +11,13 @@ export class Dialog {
    isDialog: boolean;
 
    @Prop({type: Types.ObjectId, ref: "Message"})
-   lastMessage: Message[]
+   lastMessage: Message
 
    @Prop({type: [{type: Types.ObjectId, ref: 'User'}]}) 
    members: User[]
 
    @Prop({type: [{type: Types.ObjectId, ref: 'Message'}]}) 
-   messsage: Message[]
+   message: Message[]
 }
 
 export const DialogSchema = SchemaFactory.createForClass(Dialog);

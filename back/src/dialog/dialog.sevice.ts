@@ -1,5 +1,5 @@
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { AddMesageDialogDto } from "./dto/addMessage-dialog.dto";
 import { CreateDialogDto } from "./dto/create-dialog.dto";
 import { DialogDocument } from "./entities/dialog.entity";
@@ -12,7 +12,14 @@ export class DialogService {
     }
 
     findAll(userId: string): Promise<DialogDocument[]> {
-        return this.dialogModel.find({"members._id": userId}).exec()
+        console.log('user id',  new Types.ObjectId(userId))
+        return this.dialogModel.find({
+            members: {
+                $elemMatch: {
+                    $in: new Types.ObjectId(userId)
+                }
+            }
+        }).populate(['message', 'members', 'lastMessage']).exec()
     }
 
     find(id: string) {
@@ -28,8 +35,9 @@ export class DialogService {
 
     async addMessage(dto: AddMesageDialogDto) {
         return this.dialogModel.findByIdAndUpdate(dto.dialogId, {
+            lastMessage: dto.messageId,
             $push: {
-                messsage: dto.messageId
+                message: dto.messageId
             }
         })
     }
