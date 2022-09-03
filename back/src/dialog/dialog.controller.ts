@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post } from "@nestjs/common";
-import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateMessageDto } from "./../message/dto/create-message.dto";
 import { MessageService } from "./../message/message.service";
 import UserService from "./../user/user.service";
@@ -8,6 +8,7 @@ import { DialogService } from "./dialog.sevice";
 import { CreateDialogDto } from "./dto/create-dialog.dto";
 import { Dialog } from "./entities/dialog.entity";
 import { DIALOG_NOT_FOUND } from "./const";
+import { ID_VALIDATION_ERROR } from "~/pipe/id-validation.contstants";
 
 @ApiTags('dialog')
 @Controller('dialog')
@@ -55,6 +56,9 @@ export class DialogController {
         description: 'Get list of user dialog',
         type: [Dialog]
     })
+    @ApiBadRequestResponse({
+        description: ID_VALIDATION_ERROR
+    })
     @Get(':id')
     async findAll(@Param('id', IdValidationPipe) userId: string) {
         const dialogs = await this.dialogService.findAll(userId);
@@ -66,6 +70,9 @@ export class DialogController {
     })
     @ApiNotFoundResponse({
         description: DIALOG_NOT_FOUND
+    })
+    @ApiBadRequestResponse({
+        description: ID_VALIDATION_ERROR
     })
     @Delete(':id')
     async deleteDialog(@Param('id', IdValidationPipe) dialogId: string) {
