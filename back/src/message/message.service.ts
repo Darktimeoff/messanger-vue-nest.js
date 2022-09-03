@@ -1,11 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
+import { MessageDocument } from './entities/message.entity';
 
 @Injectable()
 export class MessageService {
-  create(createMessageDto: CreateMessageDto) {
-    return 'This action adds a new message';
+  constructor(
+    @InjectModel('Message') private readonly messageModel: Model<MessageDocument>
+  ) {
+
+  }
+
+  create(dto: CreateMessageDto) {
+    return this.messageModel.create({
+      text: dto.text,
+      author: new Types.ObjectId(dto.authorId),
+      dialog: dto.dialogId
+    })
   }
 
   findAll() {

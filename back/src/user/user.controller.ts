@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UsePipes, ValidationPipe } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UsePipes, ValidationPipe } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import mongoose, { MongooseError } from "mongoose";
 import { ID_VALIDATION_ERROR } from "./../pipe/id-validation.contstants";
 import { IdValidationPipe } from './../pipe/id-validation.pipe';
 import { USER_NOT_FOUND } from "./const";
@@ -24,9 +25,14 @@ export class UserController {
     @Post('') 
     @UsePipes(new ValidationPipe())
     async createUser(@Body() dto: CreateUserDto) {
-        const user = await this.userService.create(dto);
-
-        return user;
+        try {
+            const user = await this.userService.create(dto);
+            return user;
+        } catch(e) {
+            if(e instanceof Error) {
+                throw new BadRequestException(e.message);
+            }
+        }
     }
 
     @ApiOkResponse({

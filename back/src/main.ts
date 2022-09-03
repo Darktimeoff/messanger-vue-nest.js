@@ -10,9 +10,8 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
   .setTitle('IFriends')
-  .setDescription('The cats IFriends description')
+  .setDescription('IFriends, api for messanger')
   .setVersion('1.0')
-  .addTag('ifriends')
   .build();
 
   const document = SwaggerModule.createDocument(app, config);

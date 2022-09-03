@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
-import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
 import { Types } from "mongoose";
 import { Dialog } from "src/dialog/entities/dialog.entity";
 import { User } from "src/user/entities/user.entity";

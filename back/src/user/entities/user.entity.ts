@@ -16,8 +16,8 @@ export class User {
     fullname: string;
 
     @ApiProperty()
-    @Prop({unique: true})
-    username: string;
+    @Prop()
+    username?: string;
 
     @ApiProperty()
     @Prop()

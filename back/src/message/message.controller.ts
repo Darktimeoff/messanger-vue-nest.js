@@ -3,6 +3,7 @@ import { MessageService } from './message.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IdValidationPipe } from './../pipe/id-validation.pipe';
 
 @ApiTags('message')
 @Controller('message')
@@ -24,7 +25,7 @@ export class MessageController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', IdValidationPipe) id: string) {
     return this.messageService.findOne(+id);
   }
 

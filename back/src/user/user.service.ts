@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
+import { AddDialogDto } from "./dto/addDialog-user.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import {UserDocument} from './entities/user.entity';
@@ -27,6 +28,14 @@ class UserService {
 
     async updateUser(id: string, dto: UpdateUserDto) {
         return this.userModel.findByIdAndUpdate(id, dto, {new: true}).exec()
+    }
+
+    async addDialog(dto: AddDialogDto) {
+        return this.userModel.findByIdAndUpdate(dto.userId, {
+            $push: {
+                dialog: dto.dialogId
+            }
+        });
     }
 }
 

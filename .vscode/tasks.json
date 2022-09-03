@@ -3,7 +3,7 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "start",
+			"script": "start:dev",
 			"path": "back",
 			"label": "Run backend",
 			"presentation": {
