@@ -19,7 +19,7 @@ export class DialogService {
                     $in: new Types.ObjectId(userId)
                 }
             }
-        }).populate(['message', 'members', 'lastMessage']).exec()
+        }).populate(['members', 'lastMessage']).exec()
     }
 
     find(id: string) {
