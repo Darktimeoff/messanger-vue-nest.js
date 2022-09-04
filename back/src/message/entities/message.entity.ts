@@ -10,7 +10,7 @@ export class Message {
     @Prop()
     text: string;
     
-    @Prop()
+    @Prop({default: false})
     isRead: boolean;
 
     @Prop({type: [String]})
