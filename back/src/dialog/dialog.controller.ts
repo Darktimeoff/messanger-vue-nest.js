@@ -36,7 +36,7 @@ export class DialogController {
         const messageDto: CreateMessageDto = {
             ...dto.message,
             dialogId: dialog._id,
-            authorId: req.user.id
+            authorId: req.user._id as any
         }
 
         const message = await this.messageService.create(messageDto);
@@ -66,7 +66,7 @@ export class DialogController {
     })
     @Get('')
     async findAll(@Request() req: IReqAuth) {
-        const dialogs = await this.dialogService.findAll(req.user.id);
+        const dialogs = await this.dialogService.findAll(req.user._id as any);
         return dialogs;
     }
 
