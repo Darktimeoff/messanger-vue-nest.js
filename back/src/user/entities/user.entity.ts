@@ -36,7 +36,7 @@ export class User {
     isConfirmed: boolean;
 
     @ApiProperty()
-    @Prop({type: Date})
+    @Prop({type: Date, default: new Date()})
     last_seen: Date;
 
     @ApiHideProperty()
