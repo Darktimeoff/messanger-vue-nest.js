@@ -23,7 +23,7 @@ export class DialogService {
     }
 
     find(id: string) {
-        return this.dialogModel.findById(id);
+        return this.dialogModel.findById(id).populate('message').exec();
     }
 
     async create(dto: CreateDialogDto) {
