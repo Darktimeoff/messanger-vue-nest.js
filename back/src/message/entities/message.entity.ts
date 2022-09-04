@@ -19,10 +19,10 @@ export class Message {
     @Prop()
     audio: string;
 
-    @Prop({type: Types.ObjectId, ref: 'User'})
+    @Prop({type: Types.ObjectId, ref: 'User', required: true})
     author: User
 
-    @Prop({type: Types.ObjectId, ref: 'Dialog'})
+    @Prop({type: Types.ObjectId, ref: 'Dialog', required: true})
     dialog: Dialog
 }
 
