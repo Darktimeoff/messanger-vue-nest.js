@@ -4,6 +4,8 @@
 mongo-data-4.4
 /uploads
 
+.env
+
 # Logs
 logs
 *.log

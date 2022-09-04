@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateMessageDto } from "./../message/dto/create-message.dto";
 import { MessageService } from "./../message/message.service";
@@ -10,7 +10,9 @@ import { Dialog } from "./entities/dialog.entity";
 import { DIALOG_NOT_FOUND } from "./const";
 import { ID_VALIDATION_ERROR } from "~/pipe/id-validation.contstants";
 import { Message } from "~/message/entities/message.entity";
+import { JwtAuthGuard } from "~/auth/guard/jwt-auth.guard";
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('dialog')
 @Controller('dialog')
 export class DialogController {

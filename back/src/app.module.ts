@@ -5,6 +5,9 @@ import { getMongoConfig } from './config/mongo.config';
 import { UserModule } from './user/user.module';
 import { DialogModule } from './dialog/dialog.module';
 import { MessageModule } from './message/message.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,7 +19,9 @@ import { MessageModule } from './message/message.module';
     }),
     UserModule,
     DialogModule,
-    MessageModule
+    MessageModule,
+    AuthModule
   ],
+  providers: [AuthService],
 })
 export class AppModule { }

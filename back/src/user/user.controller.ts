@@ -1,6 +1,7 @@
-import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UsePipes, ValidationPipe } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import mongoose, { MongooseError } from "mongoose";
+import { JwtAuthGuard } from "~/auth/guard/jwt-auth.guard";
 import { ID_VALIDATION_ERROR } from "./../pipe/id-validation.contstants";
 import { IdValidationPipe } from './../pipe/id-validation.pipe';
 import { USER_NOT_FOUND } from "./const";
@@ -9,6 +10,7 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "./entities/user.entity";
 import UserService from "./user.service";
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('user')
 @Controller('user')
 export class UserController {

@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { InjectModel } from "@nestjs/mongoose";
+import { hash } from "bcrypt";
 import { Model, Types } from "mongoose";
 import { AddDialogDto } from "./dto/addDialog-user.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -10,17 +12,31 @@ import {UserDocument} from './entities/user.entity';
 @Injectable()
 class UserService {
     constructor(
-        @InjectModel('User') private readonly userModel: Model<UserDocument>
+        @InjectModel('User') private readonly userModel: Model<UserDocument>,
+        private readonly configService: ConfigService
     ) {
 
     }
 
     async create(dto: CreateUserDto) {
-        return this.userModel.create(dto);
+        const salt = this.configService.get<string>('PASSWORD_SALT') || '';
+
+        const passwordHash = await hash(dto.password, salt);
+        
+        return this.userModel.create({
+            ...dto,
+            password: passwordHash
+        });
     }
 
     async getUser(id: string) {
         return this.userModel.findById(id).exec()
+    }
+
+    async findByEmail(email: string) {
+        return this.userModel.findOne({
+            email
+        })
     }
 
     async deleteUser(id: string) {
