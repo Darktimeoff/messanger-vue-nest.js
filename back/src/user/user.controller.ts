@@ -1,11 +1,10 @@
-import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
-import mongoose, { MongooseError } from "mongoose";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, UseGuards, Request} from "@nestjs/common";
+import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "~/auth/guard/jwt-auth.guard";
+import { IReqAuth } from "~/auth/interface/jwt.interface";
 import { ID_VALIDATION_ERROR } from "./../pipe/id-validation.contstants";
 import { IdValidationPipe } from './../pipe/id-validation.pipe';
 import { USER_NOT_FOUND } from "./const";
-import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "./entities/user.entity";
 import UserService from "./user.service";
@@ -20,22 +19,66 @@ export class UserController {
 
     }
 
-    @ApiCreatedResponse({
-        description: 'The record has been successfully created.',
+    @ApiOkResponse({
+        description: 'get current user',
         type: User
     })
-    @Post('') 
-    @UsePipes(new ValidationPipe())
-    async createUser(@Body() dto: CreateUserDto) {
-        try {
-            const user = await this.userService.create(dto);
-            return user;
-        } catch(e) {
-            if(e instanceof Error) {
-                throw new BadRequestException(e.message);
-            }
+    @ApiNotFoundResponse({
+        description: USER_NOT_FOUND
+    })
+    @ApiBadRequestResponse({
+        description: ID_VALIDATION_ERROR
+    })
+    @Get('')
+    async getUser(@Request() req: IReqAuth) {
+        const user = await this.userService.getUser(req.user.id)
+
+        if (!user) {
+            throw new NotFoundException(USER_NOT_FOUND);
+        }
+
+        return user;
+    }
+
+    @ApiOkResponse({
+        description: 'Update information about current user',
+        type: User
+    })
+    @ApiNotFoundResponse({
+        description: USER_NOT_FOUND
+    })
+    @ApiBadRequestResponse({
+        description: ID_VALIDATION_ERROR
+    })
+    @Patch('')
+    async updateCurrentUser(@Request() req: IReqAuth, @Body() dto: UpdateUserDto) {
+        const user = await this.userService.updateUser(req.user.id, dto);
+
+        if(!user) {
+            throw new NotFoundException(USER_NOT_FOUND)
+        }
+
+        return user;
+    }
+
+    @ApiOkResponse({
+        description: 'Current user successfully deleted'
+    })
+    @ApiNotFoundResponse({
+        description: USER_NOT_FOUND
+    })
+    @ApiBadRequestResponse({
+        description: ID_VALIDATION_ERROR
+    })
+    @Delete('')
+    async deleteCurrentUser(@Request() req: IReqAuth) {
+        const user = await this.userService.deleteUser(req.user.id)
+
+        if (!user) {
+            throw new NotFoundException(USER_NOT_FOUND);
         }
     }
+
 
     @ApiOkResponse({
         description: 'User successfully finded',
@@ -48,7 +91,7 @@ export class UserController {
         description: ID_VALIDATION_ERROR
     })
     @Get(':id')
-    async getUser(@Param('id', IdValidationPipe) id: string) {
+    async findUser(@Param('id', IdValidationPipe) id: string) {
         const user = await this.userService.getUser(id)
 
         if (!user) {

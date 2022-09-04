@@ -4,8 +4,9 @@ export class CreateMessageDto {
     @IsString()
     text: string;
 
+    @IsOptional()
     @IsString()
-    authorId: string;
+    authorId?: string;
 
     @IsString()
     @IsOptional()

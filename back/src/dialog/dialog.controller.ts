@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query, UseGuards, Request } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateMessageDto } from "./../message/dto/create-message.dto";
 import { MessageService } from "./../message/message.service";
@@ -11,6 +11,7 @@ import { DIALOG_NOT_FOUND } from "./const";
 import { ID_VALIDATION_ERROR } from "~/pipe/id-validation.contstants";
 import { Message } from "~/message/entities/message.entity";
 import { JwtAuthGuard } from "~/auth/guard/jwt-auth.guard";
+import {  IReqAuth } from "~/auth/interface/jwt.interface";
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('dialog')
@@ -29,12 +30,13 @@ export class DialogController {
         type: Dialog
     })
     @Post()
-    async create(@Body() dto: CreateDialogDto) {
+    async create(@Body() dto: CreateDialogDto, @Request() req: IReqAuth) {
         const dialog = await this.dialogService.create(dto);
 
         const messageDto: CreateMessageDto = {
             ...dto.message,
-            dialogId: dialog._id
+            dialogId: dialog._id,
+            authorId: req.user.id
         }
 
         const message = await this.messageService.create(messageDto);
@@ -62,9 +64,9 @@ export class DialogController {
     @ApiBadRequestResponse({
         description: ID_VALIDATION_ERROR
     })
-    @Get('?') //#ToDo replace on root get because id we have when make auth
-    async findAll(@Query('userId', IdValidationPipe) userId: string) {
-        const dialogs = await this.dialogService.findAll(userId);
+    @Get('')
+    async findAll(@Request() req: IReqAuth) {
+        const dialogs = await this.dialogService.findAll(req.user.id);
         return dialogs;
     }
 
@@ -107,7 +109,6 @@ export class DialogController {
         }
 
         dialog.message.forEach(async m => {
-            console.log('m', m)
             await this.messageService.remove(m as any)
         });
 

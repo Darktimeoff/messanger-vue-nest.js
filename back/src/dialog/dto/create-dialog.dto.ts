@@ -4,9 +4,6 @@ import { CreateMessageDto } from "./../../message/dto/create-message.dto";
 
 
 export class CreateDialogDto {
-    @IsString()
-    userId: string;
-
     @IsArray()
     @IsString({ each: true })
     membersId: string[]

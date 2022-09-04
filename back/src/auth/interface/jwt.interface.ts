@@ -1,4 +1,5 @@
 import { User } from "~/user/entities/user.entity";
+import { Request } from 'express'
 
 export interface IJWTPayload {
     email: string;
@@ -12,4 +13,8 @@ export interface IJWTResponse {
 
 export class LoginReponse extends User {
     token: string;
+}
+
+export interface IReqAuth extends Request {
+    user: IJWTResponse
 }
