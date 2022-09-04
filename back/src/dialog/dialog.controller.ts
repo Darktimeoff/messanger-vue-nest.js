@@ -60,7 +60,7 @@ export class DialogController {
     @ApiBadRequestResponse({
         description: ID_VALIDATION_ERROR
     })
-    @Get('?')
+    @Get('?') //#ToDo replace on root get because id we have when make auth
     async findAll(@Query('userId', IdValidationPipe) userId: string) {
         const dialogs = await this.dialogService.findAll(userId);
         return dialogs;
