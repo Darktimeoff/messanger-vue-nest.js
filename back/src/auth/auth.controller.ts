@@ -39,6 +39,9 @@ export class AuthController {
         description: 'User register and login',
         type: LoginReponse
     })
+    @ApiBadRequestResponse({
+        description: USER_EXISTS,
+    })
     @Post('register')
     @HttpCode(200)
     async register(@Body() dto: CreateUserDto) {
@@ -49,7 +52,7 @@ export class AuthController {
         }
 
         const user = await this.userService.create(dto);
-        const response = await this.authService.login(user);
+        const response = await this.authService.login(user.toObject());
 
         return response;
     }
