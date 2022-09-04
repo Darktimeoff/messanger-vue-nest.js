@@ -6,6 +6,7 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '~/user/entities/user.entity';
 import { IJWTPayload } from './interface/jwt.interface';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
             throw new NotFoundException(USER_NOT_FOUND)
         }
 
-        const {password: passwordHash, ...userData} = user;
+        const {password: passwordHash, ...userData} = user.toObject<User>();
 
         const isMatch = await compare(password, passwordHash);
 
@@ -31,13 +32,11 @@ export class AuthService {
             throw new UnauthorizedException(USER_WRONG_PASSWORD)
         }
 
-        return {
-            ...userData
-        }
+        return userData;
     }
 
-    async login(user: Omit<User & {_id: string}, 'password'>) {
-        const payload: IJWTPayload = {email: user.email, sub: user._id}
+    async login(user: Omit<User & {_id: string | Types.ObjectId}, 'password'>) {
+        const payload: IJWTPayload = {email: user.email, sub: user._id as any}
         const token = await this.jwtService.signAsync(payload);
 
         return {

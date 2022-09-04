@@ -48,8 +48,8 @@ export class AuthController {
             throw new BadRequestException(USER_EXISTS)
         }
 
-        const {password, ...userData} = await this.userService.create(dto);
-        const response = await this.authService.login(userData);
+        const user = await this.userService.create(dto);
+        const response = await this.authService.login(user);
 
         return response;
     }
