@@ -31,7 +31,7 @@ export class UserController {
     })
     @Get('')
     async getUser(@Request() req: IReqAuth) {
-        const user = await this.userService.getUser(req.user.id)
+        const user = await this.userService.getUser(req.user._id as any)
 
         if (!user) {
             throw new NotFoundException(USER_NOT_FOUND);
@@ -52,7 +52,7 @@ export class UserController {
     })
     @Patch('')
     async updateCurrentUser(@Request() req: IReqAuth, @Body() dto: UpdateUserDto) {
-        const user = await this.userService.updateUser(req.user.id, dto);
+        const user = await this.userService.updateUser(req.user._id as any, dto);
 
         if(!user) {
             throw new NotFoundException(USER_NOT_FOUND)
@@ -72,7 +72,7 @@ export class UserController {
     })
     @Delete('')
     async deleteCurrentUser(@Request() req: IReqAuth) {
-        const user = await this.userService.deleteUser(req.user.id)
+        const user = await this.userService.deleteUser(req.user._id as any)
 
         if (!user) {
             throw new NotFoundException(USER_NOT_FOUND);
