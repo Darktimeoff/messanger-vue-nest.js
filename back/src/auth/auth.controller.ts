@@ -1,5 +1,6 @@
 import { BadRequestException, Body, Controller, HttpCode, Post } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { TypesFailedResponse } from '~/types';
 import { CreateUserDto } from '~/user/dto/create-user.dto';
 import UserService from '~/user/user.service';
 import { AuthService } from './auth.service';
@@ -7,6 +8,7 @@ import { USER_EXISTS, USER_NOT_FOUND, USER_WRONG_PASSWORD } from './const';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { LoginReponse } from './interface/jwt.interface';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -19,6 +21,10 @@ export class AuthController {
     @ApiOkResponse({
         description: 'User login',
         type: LoginReponse
+    })
+    @ApiBadRequestResponse({
+        description: 'Validation data failed',
+        type: TypesFailedResponse
     })
     @ApiNotFoundResponse({
         description: USER_NOT_FOUND,
@@ -41,6 +47,7 @@ export class AuthController {
     })
     @ApiBadRequestResponse({
         description: USER_EXISTS,
+        type: TypesFailedResponse
     })
     @Post('register')
     @HttpCode(200)

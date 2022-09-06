@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query, UseGuards, Request } from "@nestjs/common";
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiResponse, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { CreateMessageDto } from "./../message/dto/create-message.dto";
 import { MessageService } from "./../message/message.service";
 import UserService from "./../user/user.service";
@@ -12,8 +12,18 @@ import { ID_VALIDATION_ERROR } from "~/pipe/id-validation.contstants";
 import { Message } from "~/message/entities/message.entity";
 import { JwtAuthGuard } from "~/auth/guard/jwt-auth.guard";
 import {  IReqAuth } from "~/auth/interface/jwt.interface";
+import { USER_NOT_FOUND } from "~/user/const";
+import { FailedRequestResponse, TypesFailedResponse } from "~/types";
 
 @UseGuards(JwtAuthGuard)
+@ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    type: FailedRequestResponse
+})
+@ApiNotFoundResponse({
+    description: USER_NOT_FOUND,
+    type: FailedRequestResponse
+})
 @ApiTags('dialog')
 @Controller('dialog')
 export class DialogController {
@@ -28,6 +38,10 @@ export class DialogController {
     @ApiCreatedResponse({
         description: "Create Dialog for user",
         type: Dialog
+    })
+    @ApiBadRequestResponse({
+        description: "Failed body date validation",
+        type: TypesFailedResponse
     })
     @Post()
     async create(@Body() dto: CreateDialogDto, @Request() req: IReqAuth) {
@@ -60,9 +74,6 @@ export class DialogController {
     @ApiResponse({
         description: 'Get list of user dialog',
         type: [Dialog]
-    })
-    @ApiBadRequestResponse({
-        description: ID_VALIDATION_ERROR
     })
     @Get('')
     async findAll(@Request() req: IReqAuth) {
