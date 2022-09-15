@@ -34,13 +34,7 @@ export class UserController {
     })
     @Get('')
     async getUser(@Request() req: IReqAuth) {
-        const user = await this.userService.getUser(req.user._id as any)
-
-        if (!user) {
-            throw new NotFoundException(USER_NOT_FOUND);
-        }
-
-        return user;
+        return req.user;
     }
 
     @ApiOkResponse({
