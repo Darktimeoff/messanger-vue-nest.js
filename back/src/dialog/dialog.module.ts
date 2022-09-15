@@ -5,6 +5,7 @@ import { DialogSchema } from "./entities/dialog.entity";
 import { DialogService } from "./dialog.sevice";
 import { MessageModule } from "~/message/message.module";
 import { UserModule } from "~/user/user.module";
+import { DialogGateway } from "./dialog.gateway";
 
 @Module({
     imports: [
@@ -17,7 +18,7 @@ import { UserModule } from "~/user/user.module";
         MessageModule,
         UserModule
     ],
-    providers: [DialogService],
+    providers: [DialogService, DialogGateway],
     controllers: [DialogController],
 })
 export class DialogModule {}
