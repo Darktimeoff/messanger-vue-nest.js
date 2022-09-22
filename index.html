@@ -9,11 +9,21 @@
 <body>
     <script type="module">
         import { io } from "https://cdn.socket.io/4.5.1/socket.io.esm.min.js";
+
+        const token = `eyJhbGciOiJIUzI1NiIsInR51cCI6IkpXVCJ9.eyJlbWFpbCI6InlldmhlbmlpQGRldmZvcnRoLmlvIiwic3ViIjoiNjMxNDkzNDBhYWY4YmVhNjJkYjdkNWNjIiwiaWF0IjoxNjYzODY4Njk1LCJleHAiOjE2NjQ0NzM0OTV9.cP_ZGErqE-88187qfkp8y_OyeXgrJw3awcW380iukKA`
         
-        const socket = io('http://localhost:3002/');
+        const socket = io('http://localhost:3002/', {
+           auth: {
+            token
+           }
+        });
         socket.on('connect', () => {
             window.socket = socket;
             console.log('client connected')
+        })
+
+        socket.on("connect_error", (err) => {
+            console.error('Error Socket', err.message)
         })
         
         socket.on("test", (data) => {

@@ -6,6 +6,7 @@ import { DialogService } from "./dialog.sevice";
 import { MessageModule } from "~/message/message.module";
 import { UserModule } from "~/user/user.module";
 import { DialogGateway } from "./dialog.gateway";
+import { UtilsModule } from "~/utils/utils.module";
 
 @Module({
     imports: [
@@ -16,7 +17,8 @@ import { DialogGateway } from "./dialog.gateway";
             }
         ]),
         MessageModule,
-        UserModule
+        UserModule,
+        UtilsModule
     ],
     providers: [DialogService, DialogGateway],
     controllers: [DialogController],
