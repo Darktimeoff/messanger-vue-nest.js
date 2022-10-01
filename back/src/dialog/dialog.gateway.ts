@@ -59,9 +59,10 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         @ConnectedSocket() client: Socket
     ) {
         try {
-            this.logger.log(`get message\nuser:${client.data.user._id}\ndialog: ${data.dialogId}\nmessage:${data.message}`)
+            const userId = client.data.user._id;
+            this.logger.log(`get message\nuser:${userId}\ndialog: ${data.dialogId}\nmessage:${data.message}`)
 
-            let dialog = await this.dialogService.find(data.dialogId);
+            let dialog = await this.dialogService.dialogWhereUserMember(data.dialogId, userId);
 
             if(!dialog) {
                 this.messageException(DIALOG_NOT_FOUND)
@@ -70,7 +71,7 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
             const messageDto: CreateMessageDto = {
                 ...data.message,
                 dialogId: dialog._id,
-                authorId: client.data.user._id
+                authorId: userId
             }
 
             const message = await this.dialogService.addMessage(messageDto.dialogId, messageDto);

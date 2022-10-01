@@ -17,6 +17,17 @@ export class DialogService {
 
     }
 
+    dialogWhereUserMember(dialogId: string | Types.ObjectId, userId: string | Types.ObjectId) {
+        return this.dialogModel.findOne({
+            _id: new Types.ObjectId(dialogId),
+            members: {
+                $elemMatch: {
+                    $in: new Types.ObjectId(userId)
+                }
+            }
+        }).exec();
+    }
+
     findAll(userId: string): Promise<DialogDocument[]> {
         console.log('user id',  new Types.ObjectId(userId))
         return this.dialogModel.find({
