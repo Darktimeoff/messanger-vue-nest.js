@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document1</title>
+</head>
+<body>
+    <script type="module">
+        import { io } from "https://cdn.socket.io/4.5.1/socket.io.esm.min.js";
+
+        const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW4rMUBkZXZmb3J0aC5pbyIsInN1YiI6IjYzMTQ5NjU1NTdkNTJhMjkxYzAzNjgzZCIsImlhdCI6MTY2NDYxNTYyMywiZXhwIjoxNjY1MjIwNDIzfQ.OHkeJcVmBJMoscImDpk48fyX73DA6VlxBEUyvGUTVAI`
+        
+     
+        const socket = io('http://localhost:3002/', {
+            auth: {
+             token
+            }
+         });
+         socket.on('connect', () => {
+             window.socket = socket;
+             console.log('client connected')
+             setTimeout(() => {
+                socket.emit('test1', 'index.html2');
+            }, 5000);
+         })
+ 
+         socket.on("connect_error", (err) => {
+             console.error('Error Socket', err.message)
+         })
+         
+         socket.on("test", (data) => {
+            console.log('test', data);
+         })
+
+        
+         socket.on("onlines", (data) => {
+             console.log('onlines', data);
+        })
+    </script>
+</body>
+</html>

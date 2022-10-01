@@ -1,5 +1,6 @@
 export enum EMIT_EVENT  {
-    'test' = 'test'
+    'test' = 'test',
+    'onlines' = 'onlines'
 }
 
 export enum SEND_EVENT {

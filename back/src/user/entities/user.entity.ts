@@ -44,6 +44,7 @@ export class User {
     dialog: Dialog[]
 }
 
+export type IUserId = User  & {_id: Types.ObjectId};
 export type IUser = Omit<User, 'dialog' | 'isConfirmed'>
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -28,6 +28,13 @@ class UserService {
         });
     }
 
+    async updateOnline(id: string, isOnline: boolean) {
+        return this.userModel.findByIdAndUpdate(id, {
+            isOnline,
+            last_seen: new Date()
+        })
+    }
+
     async getUser(id: string) {
         return this.userModel.findById(id).exec()
     }
