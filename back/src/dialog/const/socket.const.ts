@@ -4,6 +4,6 @@ export enum EMIT_EVENT  {
     'messages' = 'messages'
 }
 
-export enum SEND_EVENT {
+export enum SUBSCRIBE_EVENT {
     'message' = 'message'
 }

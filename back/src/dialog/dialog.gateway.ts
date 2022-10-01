@@ -7,7 +7,7 @@ import { wsAuthMiddleware } from "~/middleware/ws-auth.middleware";
 import { IUserId } from "~/user/entities/user.entity";
 import UserService from "~/user/user.service";
 import { AuthUtils } from "~/utils/auth.utils";
-import { DIALOG_NOT_FOUND, EMIT_EVENT, SEND_EVENT } from "./const";
+import { DIALOG_NOT_FOUND, EMIT_EVENT, SUBSCRIBE_EVENT } from "./const";
 import { DialogService } from "./dialog.sevice";
 import { CreateDialogDto } from "./dto/create-dialog.dto";
 import { MessageDialogDto } from "./dto/message-dialog.dto";
@@ -50,7 +50,7 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     }
 
     @UsePipes(ValidationPipe)
-    @SubscribeMessage(SEND_EVENT.message)
+    @SubscribeMessage(SUBSCRIBE_EVENT.message)
     async message(
         @MessageBody() data: MessageDialogDto,
         @ConnectedSocket() client: Socket
