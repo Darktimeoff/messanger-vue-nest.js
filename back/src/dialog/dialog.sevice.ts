@@ -51,12 +51,14 @@ export class DialogService {
     async addMessage(dialogId: string, messageDto: CreateMessageDto) {
         const message  = await this.messageService.create(messageDto);
 
-        return this.dialogModel.findByIdAndUpdate(dialogId, {
+        await this.dialogModel.findByIdAndUpdate(dialogId, {
             lastMessage: message._id,
             $push: {
                 message: message._id
             }
         }).exec()
+
+        return message;
     }
 
     async deleteDialog(id: string) {

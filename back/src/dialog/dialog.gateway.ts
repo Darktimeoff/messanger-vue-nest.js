@@ -1,18 +1,25 @@
-import { Logger } from "@nestjs/common";
-import { WebSocketGateway,OnGatewayInit, SubscribeMessage, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, MessageBody, ConnectedSocket} from "@nestjs/websockets";
+import { Logger, UsePipes, ValidationPipe } from "@nestjs/common";
+import { WebSocketGateway,OnGatewayInit, SubscribeMessage, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, MessageBody, ConnectedSocket, WsException} from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
+import { CreateMessageDto } from "~/message/dto/create-message.dto";
+import { Message } from "~/message/entities/message.entity";
 import { wsAuthMiddleware } from "~/middleware/ws-auth.middleware";
 import { IUserId } from "~/user/entities/user.entity";
 import UserService from "~/user/user.service";
 import { AuthUtils } from "~/utils/auth.utils";
-import { EMIT_EVENT, SEND_EVENT } from "./const";
+import { DIALOG_NOT_FOUND, EMIT_EVENT, SEND_EVENT } from "./const";
+import { DialogService } from "./dialog.sevice";
+import { CreateDialogDto } from "./dto/create-dialog.dto";
+import { MessageDialogDto } from "./dto/message-dialog.dto";
+import { Dialog } from "./entities/dialog.entity";
 
 @WebSocketGateway(3002, {cors: true})
 export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
     constructor(
         private readonly authUtils: AuthUtils,
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly dialogService: DialogService
     ) {
 
     }
@@ -51,6 +58,27 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         this.logger.log(`test1 message: ${data}, ${client.rooms}`)
     }
 
+    @UsePipes(ValidationPipe)
+    @SubscribeMessage(SEND_EVENT.message)
+    async message(
+        @MessageBody() data: MessageDialogDto,
+        @ConnectedSocket() client: Socket
+    ) {
+        let dialog = await this.dialogService.find(data.dialogId);
+
+        if(!dialog) throw new WsException(DIALOG_NOT_FOUND)
+
+        const messageDto: CreateMessageDto = {
+            ...data.message,
+            dialogId: dialog._id,
+            authorId: client.data.user._id
+        }
+
+        const message = await this.dialogService.addMessage(messageDto.dialogId, messageDto);
+
+        this.messagesEmit(dialog, message);
+    }
+
     getRoom(client: Socket): string {
         return client.data.user._id.toString();
     }
@@ -69,6 +97,15 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         this.onlinesEmit(user, false);
     }
 
+    dialogMembersConnectedEmit<D>(dialog: Dialog, event: `${EMIT_EVENT}`, data: D) {
+        dialog.members.forEach(u => {
+            const id = (u as any).toString();
+            if(id in this.connectedUser) {
+                this.server.to(id).emit(event, data)
+            }
+        })
+    }
+
     onlinesEmit(user: IUserId, isOnline: boolean) {
         const data = {
             userId: user._id.toString(),
@@ -77,5 +114,14 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
         this.server.emit(EMIT_EVENT.onlines, data);
         this.logger.log('onlinesEmit:'+ `${data.userId}-${isOnline}`)
+    }
+
+
+    dialogsEmit(dialog: Dialog) {
+        this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.dialogs, dialog);
+    }
+
+    messagesEmit(dialog: Dialog, message: Message) {
+        this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.messages, message)
     }
 }
