@@ -53,19 +53,7 @@ export class DialogController {
             authorId: req.user._id as any
         }
 
-        const message = await this.messageService.create(messageDto);
-
-        await this.dialogService.addMessage({
-            messageId: message._id as any,
-            dialogId: dialog._id
-        })
-
-        dto.membersId.forEach(async (id) => {
-            await this.userService.addDialog({
-                userId: id,
-                dialogId: dialog._id
-            })
-        })
+        await this.dialogService.addMessage(dialog._id, messageDto);
 
         return dialog
     }

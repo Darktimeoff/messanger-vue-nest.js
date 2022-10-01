@@ -32,7 +32,7 @@ class UserService {
         return this.userModel.findByIdAndUpdate(id, {
             isOnline,
             last_seen: new Date()
-        })
+        }, {new: true}).exec()
     }
 
     async getUser(id: string) {
@@ -42,7 +42,7 @@ class UserService {
     async findByEmail(email: string) {
         return this.userModel.findOne({
             email
-        })
+        }).exec()
     }
 
     async deleteUser(id: string) {
@@ -58,7 +58,7 @@ class UserService {
             $push: {
                 dialog: dto.dialogId
             }
-        });
+        }).exec();
     }
 
     async removeDialog(dto: RemoveDialogDto) {
@@ -68,7 +68,7 @@ class UserService {
                     $in: dto.dialogId
                 }
             }
-        })
+        }).exec()
     }
 }
 
