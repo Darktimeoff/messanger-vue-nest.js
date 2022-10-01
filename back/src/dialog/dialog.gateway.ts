@@ -1,5 +1,7 @@
 import { Logger, UseFilters, UsePipes, ValidationPipe } from "@nestjs/common";
 import { WebSocketGateway,OnGatewayInit, SubscribeMessage, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, MessageBody, ConnectedSocket, WsException, BaseWsExceptionFilter} from "@nestjs/websockets";
+import { ValidationError } from "class-validator";
+import { MongooseError } from "mongoose";
 import { Server, Socket } from "socket.io";
 import { BadRequestTransformationFilter } from "~/filter/badRequestException.filter";
 import { CreateMessageDto } from "~/message/dto/create-message.dto";
@@ -8,7 +10,7 @@ import { wsAuthMiddleware } from "~/middleware/ws-auth.middleware";
 import { IUserId } from "~/user/entities/user.entity";
 import UserService from "~/user/user.service";
 import { AuthUtils } from "~/utils/auth.utils";
-import { DIALOG_NOT_FOUND, EMIT_EVENT, SUBSCRIBE_EVENT } from "./const";
+import { DIALOG_NOT_FOUND, EMIT_EVENT, EXCEPTION, SUBSCRIBE_EVENT } from "./const";
 import { DialogService } from "./dialog.sevice";
 import { MessageDialogDto } from "./dto/message-dialog.dto";
 import { Dialog } from "./entities/dialog.entity";
@@ -56,25 +58,45 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         @MessageBody() data: MessageDialogDto,
         @ConnectedSocket() client: Socket
     ) {
-        this.logger.log(`get message\nuser:${client.data.user._id}\ndialog: ${data.dialogId}\nmessage:${data.message}`)
+        try {
+            this.logger.log(`get message\nuser:${client.data.user._id}\ndialog: ${data.dialogId}\nmessage:${data.message}`)
 
-        let dialog = await this.dialogService.find(data.dialogId);
+            let dialog = await this.dialogService.find(data.dialogId);
 
-        if(!dialog) throw new WsException(DIALOG_NOT_FOUND)
+            if(!dialog) {
+                this.messageException(DIALOG_NOT_FOUND)
+            }
 
-        const messageDto: CreateMessageDto = {
-            ...data.message,
-            dialogId: dialog._id,
-            authorId: client.data.user._id
+            const messageDto: CreateMessageDto = {
+                ...data.message,
+                dialogId: dialog._id,
+                authorId: client.data.user._id
+            }
+
+            const message = await this.dialogService.addMessage(messageDto.dialogId, messageDto);
+
+            this.messagesEmit(dialog, message);
+        } catch(e) {
+            if(e instanceof Error) {
+                this.logger.error(`get message ${e}`) 
+                this.messageException(e.message)
+            }
         }
-
-        const message = await this.dialogService.addMessage(messageDto.dialogId, messageDto);
-
-        this.messagesEmit(dialog, message);
     }
 
     getRoom(client: Socket): string {
         return client.data.user._id.toString();
+    }
+
+    exception(type: `${EXCEPTION}`, message: string): never {
+        throw new WsException({
+            type,
+            message
+        })
+    }
+
+    messageException(message: string): never {
+        this.exception(EXCEPTION.message, message);
     }
 
     addConnectedUser(user: IUserId, socket: Socket) {
@@ -115,7 +137,8 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.dialogs, dialog);
     }
 
-    messagesEmit(dialog: Dialog, message: Message) {
-        this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.messages, message)
+    messagesEmit(dialog: Dialog & {_id: any}, message: Message & {_id: any}) {
+        this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.messages, message);
+        this.logger.log(`messagesEmit\n author: ${message.author} dialog: ${dialog._id}-${message._id} `)
     }
 }

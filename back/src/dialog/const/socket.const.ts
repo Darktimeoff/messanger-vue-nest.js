@@ -7,3 +7,8 @@ export enum EMIT_EVENT  {
 export enum SUBSCRIBE_EVENT {
     'message' = 'message'
 }
+
+export enum EXCEPTION {
+    'socket' = 'socket',
+    'message' = 'message'
+}

@@ -22,9 +22,9 @@
             console.log('client connected')
             setTimeout(() => {
                 socket.emit('message', {
-                    dialogId1: '6315ff24992560254ed4e1fd',
+                    dialogId: '6315ff24992560254ed4e1fd',
                     message: {
-                        text: "Hi, Jeny",
+                        text: "Hi, Ivan2",
                     }
                 });
             }, 5000);
@@ -35,11 +35,16 @@
          })
 
         socket.on("connect_error", (err) => {
-            console.error('Error Socket', err.message)
+            console.error('Error Socket', err)
         })
 
         socket.on("exception", (err) => {
             console.error('Error Socket', err)
+        })
+
+
+        socket.on('messages', (data) => {
+            console.log('messages', data);
         })
         
        

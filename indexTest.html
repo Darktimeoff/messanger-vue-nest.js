@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document1</title>
+    <title>DocumentTest</title>
 </head>
 <body>
     <script type="module">
         import { io } from "https://cdn.socket.io/4.5.1/socket.io.esm.min.js";
 
-        const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2YW4rMUBkZXZmb3J0aC5pbyIsInN1YiI6IjYzMTQ5NjU1NTdkNTJhMjkxYzAzNjgzZCIsImlhdCI6MTY2NDYxNTYyMywiZXhwIjoxNjY1MjIwNDIzfQ.OHkeJcVmBJMoscImDpk48fyX73DA6VlxBEUyvGUTVAI`
+        const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZGV2Zm9ydGguaW8iLCJzdWIiOiI2MzM4MzZlZDYwMmM4MzE5NDdhZmQ2ZGEiLCJpYXQiOjE2NjQ2Mjg2MjAsImV4cCI6MTY2NTIzMzQyMH0.OUToB1rNQC16nqtSofdXghKpJnEi1xZxQVwVOh2c-aE`
         
      
         const socket = io('http://localhost:3002/', {
@@ -20,15 +20,6 @@
          });
          socket.on('connect', () => {
              window.socket = socket;
-             console.log('client connected')
-             setTimeout(() => {
-                socket.emit('message', {
-                    dialogId: '6315ff24992560254ed4e1fd',
-                    message: {
-                        text: "Hi, Jeny2",
-                    }
-                });
-            }, 5000);
          })
  
          socket.on("connect_error", (err) => {
