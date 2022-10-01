@@ -49,15 +49,6 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         this.logger.log('handleDisconnect:' + client.data.user._id);
     }
 
-    @SubscribeMessage(SEND_EVENT.test1)
-    test1(
-        @MessageBody() data: any,
-        @ConnectedSocket() client: Socket,
-    ) {
-        this.server.to(this.getRoom(client)).emit('test', data);
-        this.logger.log(`test1 message: ${data}, ${client.rooms}`)
-    }
-
     @UsePipes(ValidationPipe)
     @SubscribeMessage(SEND_EVENT.message)
     async message(
