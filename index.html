@@ -21,7 +21,12 @@
             window.socket = socket;
             console.log('client connected')
             setTimeout(() => {
-                socket.emit('test1', 'index.html');
+                socket.emit('message', {
+                    dialogId1: '6315ff24992560254ed4e1fd',
+                    message: {
+                        text: "Hi, Jeny",
+                    }
+                });
             }, 5000);
         })
 
@@ -31,6 +36,10 @@
 
         socket.on("connect_error", (err) => {
             console.error('Error Socket', err.message)
+        })
+
+        socket.on("exception", (err) => {
+            console.error('Error Socket', err)
         })
         
        

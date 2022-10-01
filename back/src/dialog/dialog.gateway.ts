@@ -1,6 +1,7 @@
-import { Logger, UsePipes, ValidationPipe } from "@nestjs/common";
-import { WebSocketGateway,OnGatewayInit, SubscribeMessage, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, MessageBody, ConnectedSocket, WsException} from "@nestjs/websockets";
+import { Logger, UseFilters, UsePipes, ValidationPipe } from "@nestjs/common";
+import { WebSocketGateway,OnGatewayInit, SubscribeMessage, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, MessageBody, ConnectedSocket, WsException, BaseWsExceptionFilter} from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
+import { BadRequestTransformationFilter } from "~/filter/badRequestException.filter";
 import { CreateMessageDto } from "~/message/dto/create-message.dto";
 import { Message } from "~/message/entities/message.entity";
 import { wsAuthMiddleware } from "~/middleware/ws-auth.middleware";
@@ -9,10 +10,11 @@ import UserService from "~/user/user.service";
 import { AuthUtils } from "~/utils/auth.utils";
 import { DIALOG_NOT_FOUND, EMIT_EVENT, SUBSCRIBE_EVENT } from "./const";
 import { DialogService } from "./dialog.sevice";
-import { CreateDialogDto } from "./dto/create-dialog.dto";
 import { MessageDialogDto } from "./dto/message-dialog.dto";
 import { Dialog } from "./entities/dialog.entity";
 
+@UseFilters(BadRequestTransformationFilter)
+@UsePipes(ValidationPipe)
 @WebSocketGateway(3002, {cors: true})
 export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
@@ -49,12 +51,13 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         this.logger.log('handleDisconnect:' + client.data.user._id);
     }
 
-    @UsePipes(ValidationPipe)
     @SubscribeMessage(SUBSCRIBE_EVENT.message)
     async message(
         @MessageBody() data: MessageDialogDto,
         @ConnectedSocket() client: Socket
     ) {
+        this.logger.log(`get message\nuser:${client.data.user._id}\ndialog: ${data.dialogId}\nmessage:${data.message}`)
+
         let dialog = await this.dialogService.find(data.dialogId);
 
         if(!dialog) throw new WsException(DIALOG_NOT_FOUND)
