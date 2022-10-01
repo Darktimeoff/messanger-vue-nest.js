@@ -1,9 +1,10 @@
+import { NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { CreateMessageDto } from "~/message/dto/create-message.dto";
 import { MessageService } from "~/message/message.service";
 import UserService from "~/user/user.service";
-import { AddMesageDialogDto } from "./dto/addMessage-dialog.dto";
+import { DIALOG_NOT_FOUND } from "./const";
 import { CreateDialogDto } from "./dto/create-dialog.dto";
 import { DialogDocument } from "./entities/dialog.entity";
 
@@ -59,6 +60,23 @@ export class DialogService {
     }
 
     async deleteDialog(id: string) {
-       return this.dialogModel.findByIdAndRemove(id).exec();
+        const dialog = await this.find(id);
+
+        if(!dialog) {
+            throw new NotFoundException(DIALOG_NOT_FOUND)
+        }
+
+        dialog.message.forEach(async m => {
+            await this.messageService.remove(m as any)
+        });
+
+        dialog.members.forEach(async m => {
+            await this.userService.removeDialog({
+                userId: m as any,
+                dialogId: id
+            })
+        });
+
+        return this.dialogModel.findByIdAndRemove(id).exec();
     }
 }

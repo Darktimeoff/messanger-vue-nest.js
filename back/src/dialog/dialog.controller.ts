@@ -28,9 +28,7 @@ import { FailedRequestResponse, TypesFailedResponse } from "~/types";
 @Controller('dialog')
 export class DialogController {
     constructor(
-        private readonly dialogService: DialogService,
-        private readonly messageService: MessageService,
-        private readonly userService: UserService
+        private readonly dialogService: DialogService
     ) {
 
     }
@@ -101,25 +99,7 @@ export class DialogController {
     })
     @Delete(':id')
     async deleteDialog(@Param('id', IdValidationPipe) dialogId: string) {
-        const dialog = await this.dialogService.find(dialogId);
-
-        if(!dialog) {
-            throw new NotFoundException(DIALOG_NOT_FOUND)
-        }
-
-        dialog.message.forEach(async m => {
-            await this.messageService.remove(m as any)
-        });
-
-        dialog.members.forEach(async m => {
-            await this.userService.removeDialog({
-                userId: m as any,
-                dialogId: dialogId
-            })
-        });
-
         await this.dialogService.deleteDialog(dialogId);
-
         return;
     }
 }
