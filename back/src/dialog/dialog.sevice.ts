@@ -29,7 +29,7 @@ export class DialogService {
         }).exec();
     }
 
-    async getAllIdUsers(userId: Types.ObjectId) {
+    async getAllIdUserWithDialogs(userId: Types.ObjectId) {
         const dialogs = await this.dialogModel.find({
             members: {
                 $elemMatch: {

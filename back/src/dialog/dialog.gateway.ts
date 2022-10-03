@@ -130,7 +130,7 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
             isOnline
         }
 
-        const idUsers = await this.dialogService.getAllIdUsers(user._id);
+        const idUsers = await this.dialogService.getAllIdUserWithDialogs(user._id);
 
         idUsers.forEach(id => {
             const idString = id.toString();
