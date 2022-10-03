@@ -20,14 +20,14 @@
         socket.on('connect', () => {
             window.socket = socket;
             console.log('client connected')
-            setTimeout(() => {
-                socket.emit('message', {
-                    dialogId: '6315ff24992560254ed4e1fd',
-                    message: {
-                        text: "Hi, Ivan2",
-                    }
-                });
-            }, 5000);
+            // setTimeout(() => {
+            //     socket.emit('message', {
+            //         dialogId: '6315ff24992560254ed4e1fd',
+            //         message: {
+            //             text: "Hi, Ivan2",
+            //         }
+            //     });
+            // }, 5000);
         })
 
         socket.on("test", (data) => {

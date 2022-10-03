@@ -139,7 +139,10 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     }
 
     messagesEmit(dialog: Dialog & {_id: any}, message: Message & {_id: any}) {
-        this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.messages, message);
+        this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.messages, {
+            dialogId: dialog._id,
+            message: message
+        });
         this.logger.log(`messagesEmit\n author: ${message.author} dialog: ${dialog._id}-${message._id} `)
     }
 }
