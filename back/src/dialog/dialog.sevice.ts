@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { CreateMessageDto } from "~/message/dto/create-message.dto";
 import { MessageService } from "~/message/message.service";
+import { User } from "~/user/entities/user.entity";
 import UserService from "~/user/user.service";
 import { DIALOG_NOT_FOUND } from "./const";
 import { CreateDialogDto } from "./dto/create-dialog.dto";
@@ -28,7 +29,19 @@ export class DialogService {
         }).exec();
     }
 
-    findAll(userId: string): Promise<DialogDocument[]> {
+    async getAllIdUsers(userId: Types.ObjectId) {
+        const dialogs = await this.dialogModel.find({
+            members: {
+                $elemMatch: {
+                    $in: new Types.ObjectId(userId)
+                }
+            }
+        }).select('members');
+
+        return dialogs.flatMap<Types.ObjectId>(d => d.members as any[]).filter(id => id.toString() !== userId.toString());
+    }
+
+    async findAll(userId: string): Promise<DialogDocument[]> {
         console.log('user id',  new Types.ObjectId(userId))
         return this.dialogModel.find({
             members: {
@@ -39,7 +52,7 @@ export class DialogService {
         }).populate(['members', 'lastMessage']).exec()
     }
 
-    find(id: string) {
+    async find(id: string) {
         return this.dialogModel.findById(id).populate('message').exec();
     }
 

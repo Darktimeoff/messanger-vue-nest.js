@@ -124,14 +124,21 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         })
     }
 
-    onlinesEmit(user: IUserId, isOnline: boolean) {
+    async onlinesEmit(user: IUserId, isOnline: boolean) {
         const data = {
             userId: user._id.toString(),
             isOnline
         }
 
-        this.server.emit(EMIT_EVENT.onlines, data);
-        this.logger.log('onlinesEmit:'+ `${data.userId}-${isOnline}`)
+        const idUsers = await this.dialogService.getAllIdUsers(user._id);
+
+        idUsers.forEach(id => {
+            const idString = id.toString();
+            if(idString in this.connectedUser) {
+                this.server.to(idString).emit(EMIT_EVENT.onlines, data);
+                this.logger.log('onlinesEmit:'+ `${data.userId}-${isOnline}`)
+            }
+        })
     }
 
 
