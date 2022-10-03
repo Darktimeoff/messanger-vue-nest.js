@@ -113,11 +113,14 @@ export class DialogController {
         @Request() req: IReqAuth,
         @Param('id', IdValidationPipe) dialogId: string
     ) {
-        const isUserMembers = Boolean(await this.dialogService.dialogWhereUserMember(dialogId, req.user._id));
+        const dialog = await this.dialogService.dialogWhereUserMember(dialogId, req.user._id);
 
-        if(!isUserMembers) throw new ForbiddenException(DIALOG_CANT_DELETE)
+        if(!dialog) throw new ForbiddenException(DIALOG_CANT_DELETE)
 
         await this.dialogService.deleteDialog(dialogId);
+
+        this.dialogGateway.dialogsEmit(dialog, true)
+
         return;
     }
 }

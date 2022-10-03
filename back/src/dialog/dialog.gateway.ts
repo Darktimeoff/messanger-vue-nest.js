@@ -135,8 +135,11 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     }
 
 
-    dialogsEmit(dialog: Dialog) {
-        this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.dialogs, dialog);
+    dialogsEmit(dialog: Dialog, isDeleted = false) {
+        this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.dialogs, {
+            dialog,
+            isDeleted
+        });
         this.logger.log(`dialogsEmit\n members: ${dialog.members}`)
     }
 
