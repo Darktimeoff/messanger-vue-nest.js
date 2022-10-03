@@ -45,14 +45,15 @@
 
         socket.on('messages', (data) => {
             console.log('messages', data);
+        });
+
+        socket.on('dialogs', (data) => {
+            console.log('dialogs', data);
         })
         
        
         socket.on("onlines", (data) => {
             console.log('onlines', data);
-            setTimeout(() => {
-                socket.emit('test1', 'index.html');
-            }, 5000);
         });
     </script>
 </body>
