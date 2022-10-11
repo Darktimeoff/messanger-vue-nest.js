@@ -85,45 +85,6 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         }
     }
 
-    getRoom(client: Socket): string {
-        return client.data.user._id.toString();
-    }
-
-    exception(type: `${EXCEPTION}`, message: string): never {
-        throw new WsException({
-            type,
-            message
-        })
-    }
-
-    messageException(message: string): never {
-        this.exception(EXCEPTION.message, message);
-    }
-
-    addConnectedUser(user: IUserId, socket: Socket) {
-        this.connectedUser[user._id.toString()] = user._id.toString();
-        this.userService.updateOnline(user._id.toString(), true);
-        socket.join(user._id.toString());
-        this.onlinesEmit(user, true)
-    }
-
-    removeConnectedUser(user: IUserId, socket: Socket) {
-        delete this.connectedUser[user._id.toString()];
-        this.userService.updateOnline(user._id.toString(), false);
-        socket.leave(user._id.toString())
-        this.onlinesEmit(user, false);
-    }
-
-    dialogMembersConnectedEmit<D>(dialog: Dialog, event: `${EMIT_EVENT}`, data: D) {
-        dialog.members.forEach(u => {
-            const id = (u as any).toString();
-            console.log(`dialogMembersConnectedEmit: ${event}:${id}`);
-            if(id in this.connectedUser) {
-                this.server.to(id).emit(event, data)
-            }
-        })
-    }
-
     async onlinesEmit(user: IUserId, isOnline: boolean) {
         const data = {
             userId: user._id.toString(),
@@ -156,5 +117,40 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
             message: message
         });
         this.logger.log(`messagesEmit\n author: ${message.author} dialog: ${dialog._id}-${message._id} `)
+    }
+
+    private exception(type: `${EXCEPTION}`, message: string): never {
+        throw new WsException({
+            type,
+            message
+        })
+    }
+
+    private messageException(message: string): never {
+        this.exception(EXCEPTION.message, message);
+    }
+
+    private addConnectedUser(user: IUserId, socket: Socket) {
+        this.connectedUser[user._id.toString()] = user._id.toString();
+        this.userService.updateOnline(user._id.toString(), true);
+        socket.join(user._id.toString());
+        this.onlinesEmit(user, true)
+    }
+
+    private removeConnectedUser(user: IUserId, socket: Socket) {
+        delete this.connectedUser[user._id.toString()];
+        this.userService.updateOnline(user._id.toString(), false);
+        socket.leave(user._id.toString())
+        this.onlinesEmit(user, false);
+    }
+
+    private dialogMembersConnectedEmit<D>(dialog: Dialog, event: `${EMIT_EVENT}`, data: D) {
+        dialog.members.forEach(u => {
+            const id = (u as any).toString();
+            console.log(`dialogMembersConnectedEmit: ${event}:${id}`);
+            if(id in this.connectedUser) {
+                this.server.to(id).emit(event, data)
+            }
+        })
     }
 }
