@@ -3,13 +3,13 @@ import { WebSocketGateway,OnGatewayInit, SubscribeMessage, WebSocketServer, OnGa
 import { ValidationError } from "class-validator";
 import { MongooseError } from "mongoose";
 import { Server, Socket } from "socket.io";
+import { AuthService } from "~/auth/auth.service";
 import { BadRequestTransformationFilter } from "~/filter/badRequestException.filter";
 import { CreateMessageDto } from "~/message/dto/create-message.dto";
 import { Message } from "~/message/entities/message.entity";
 import { wsAuthMiddleware } from "~/middleware/ws-auth.middleware";
 import { IUserId } from "~/user/entities/user.entity";
 import UserService from "~/user/user.service";
-import { AuthUtils } from "~/utils/auth.utils";
 import { DIALOG_NOT_FOUND, EMIT_EVENT, EXCEPTION, SUBSCRIBE_EVENT } from "./const";
 import { DialogService } from "./dialog.sevice";
 import { MessageDialogDto } from "./dto/message-dialog.dto";
@@ -21,7 +21,7 @@ import { Dialog } from "./entities/dialog.entity";
 export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
     constructor(
-        private readonly authUtils: AuthUtils,
+        private readonly authService: AuthService,
         private readonly userService: UserService,
         private readonly dialogService: DialogService
     ) {
@@ -35,7 +35,7 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
 
     async afterInit(server: Server) {
-        const authUtils = this.authUtils;
+        const authUtils = this.authService;
 
         server.use(wsAuthMiddleware(authUtils))
         this.logger.log('Init socket middlewares');

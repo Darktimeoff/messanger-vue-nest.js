@@ -1,11 +1,10 @@
 import { WsException } from "@nestjs/websockets";
 import { Socket } from "socket.io";
 import { ExtendedError } from "socket.io/dist/namespace";
-import { USER_UNATHORIZED } from "~/auth/const";
+import { AuthService } from "~/auth/auth.service";
 import { EXCEPTION } from "~/dialog/const";
-import { AuthUtils } from "~/utils/auth.utils";
 
-export function wsAuthMiddleware(authUtils: AuthUtils) {
+export function wsAuthMiddleware(authService: AuthService) {
     return async function(socket: Socket, next: (err?: ExtendedError) => void) {
         
         const token = socket.handshake.auth?.token;
@@ -19,7 +18,7 @@ export function wsAuthMiddleware(authUtils: AuthUtils) {
         }
 
         try {
-            const user = await authUtils.validate(token);
+            const user = await authService.validateToken(token);
             socket.data.user = user;
             next()
         } catch(err) {

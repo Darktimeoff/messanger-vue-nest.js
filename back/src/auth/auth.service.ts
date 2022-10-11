@@ -1,18 +1,20 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import UserService from '~/user/user.service';
-import { USER_NOT_FOUND, USER_WRONG_PASSWORD } from './const';
+import { JWT_SECRET, USER_NOT_FOUND, USER_WRONG_PASSWORD } from './const';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '~/user/entities/user.entity';
 import { IJWTPayload } from './interface/jwt.interface';
 import { Types } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly userService: UserService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private readonly configService: ConfigService,
     ) {
 
     }
@@ -33,6 +35,18 @@ export class AuthService {
         }
 
         return userData;
+    }
+
+    async validateToken(token: string) {
+        const secret = this.configService.get<string>(JWT_SECRET);
+        const jwtPayload = await this.jwtService.verifyAsync<IJWTPayload>(token, {secret});
+        const user = (await this.userService.getUser(jwtPayload.sub))?.toObject();
+
+        if(!user) {
+            throw new Error(USER_NOT_FOUND);
+        }
+
+        return user;
     }
 
     async login(user: Omit<User & {_id: string | Types.ObjectId}, 'password'>) {
