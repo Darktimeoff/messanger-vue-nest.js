@@ -10,8 +10,8 @@ const router = createRouter({ history: createWebHistory(), routes });
 router.beforeEach((to, __, next) => {
     const {isAuth} = useAuth();
 
-    if(!isAuth.value && to.name !== 'Login') {
-       next({name: 'Login'})
+    if(!isAuth.value && !['Login', 'Register'].includes(to.name)) {
+        next({name: 'Login'})
     } else if(isAuth.value && ['Login', 'Register'].includes(to.name)) {
         next({name: "Home"})
     } else next()
