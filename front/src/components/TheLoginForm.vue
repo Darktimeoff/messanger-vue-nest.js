@@ -19,8 +19,8 @@
         <a-form-item
             name="password"
             :has-feedback="isPasswordTouched"
-            :validateStatus="validateStatus(isCustomError || pError || '')"
-            :extra="isCustomError || pError"
+            :validateStatus="validateStatus(customError || pError || '')"
+            :extra="customError || pError"
         >
             <a-input-password autocomplete="current-password" size="large" placeholder="Пароль" v-model:value="password">
                 <template #prefix>
@@ -56,7 +56,7 @@ const {
     validateStatus,
     resetForm,
     isSubmitting,
-    isCustomError
+    customError
 } = useLoginForm();
 
 const {
@@ -93,7 +93,7 @@ async function onSubmit() {
          
             submitForm(message);
             
-            isCustomError.value = message;
+            customError.value = message;
             console.log('axios error', message)
         } else if(e instanceof Error) {
             submitForm(e?.message)

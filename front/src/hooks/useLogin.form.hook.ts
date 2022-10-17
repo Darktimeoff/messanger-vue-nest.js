@@ -23,7 +23,7 @@ export function useLoginForm() {
 
     const isPasswordTouched = useIsFieldDirty('password');
 
-    const isCustomError = ref<string>();
+    const customError = ref<string>();
 
     const disabledBtn = computed(() => {
         return Boolean(!isFormTouched.value  || isSubmitting.value || !isFormValid.value)
@@ -32,8 +32,8 @@ export function useLoginForm() {
     const validateStatus = computed(() => (error: string | Ref<string>) => error ? "error" : 'success');
 
     watch([password, email], () => {
-        if(isCustomError.value) {
-            isCustomError.value = ''
+        if(customError.value) {
+            customError.value = ''
         }
     })
 
@@ -49,6 +49,6 @@ export function useLoginForm() {
         submitForm,
         validateStatus,
         resetForm,
-        isCustomError
+        customError
     }
 }

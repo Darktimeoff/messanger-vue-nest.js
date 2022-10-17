@@ -1,6 +1,6 @@
 import { useField, useForm, useIsFieldDirty, useIsFormValid, useIsFormDirty } from 'vee-validate';
 import { toFieldValidator } from '@vee-validate/zod';
-import {computed, Ref} from 'vue';
+import {computed, Ref, ref, watch} from 'vue';
 import { IRegisterSchema } from '~/types/auth';
 import { emailValidation, nameValidation, passwordValidation, isConfirmPassword } from '~/helpers';
 
@@ -40,11 +40,20 @@ export function useRegisterForm() {
 
     const isConPasswordTouched = useIsFieldDirty('confirmPassword');
 
+    const customError = ref<string>();
+
     const disabledBtn = computed(() => {
         return Boolean(!isFormTouched.value || isSubmitting.value || !isFormValid.value)
     });
 
     const validateStatus = computed(() => (error: string | Ref<string>) => error ? "error" : 'success');
+
+
+    watch([password, email, name], () => {
+        if(customError.value) {
+            customError.value = ''
+        }
+    })
 
     return {
         email,
@@ -63,6 +72,7 @@ export function useRegisterForm() {
         submitForm,
         validateStatus,
         resetForm,
-        isConPasswordTouched
+        isConPasswordTouched,
+        customError
     }
 }

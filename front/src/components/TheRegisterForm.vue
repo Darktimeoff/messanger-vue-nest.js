@@ -46,8 +46,8 @@
         <a-form-item
             name="confirm-password"
             :has-feedback="isConPasswordTouched"
-            :validateStatus="validateStatus(cPError || '')"
-            :extra="cPError"
+            :validateStatus="validateStatus(customError || cPError || '')"
+            :extra="customError || cPError"
         >
             <a-input-password autocomplete="confirm-password"  size="large" placeholder="Повторите пароль" v-model:value="conPassword">
                 <template #prefix>
@@ -68,8 +68,9 @@
 </template>
 <script lang="ts" setup>
 import { MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-import { useRegisterForm } from '~/hooks';
-import {sleep} from '~/helpers';
+import { useAuth, useRegisterForm } from '~/hooks';
+import {IRegisterRequest, ILoginResponseFailed} from '~/api/auth.api';
+import { AxiosError } from 'axios';
 
 const {
     email,
@@ -88,26 +89,49 @@ const {
     submitForm,
     resetForm,
     validateStatus,
-    disabledBtn
+    disabledBtn,
+    customError
 } = useRegisterForm();
 
+const {
+ AuthAPI,
+ onLogin
+} = useAuth();
+
+const router = useRouter()
+
 const isSuccuses = ref(false);
+const data = computed<IRegisterRequest>(() => ({
+    email: email.value,
+    fullname: name.value,
+    password: password.value
+}))
 
 async function onSubmit() {
     isSubmitting.value = true;
     try {
-        await sleep(500);
+        const response = await AuthAPI.register(data.value);
+
+        const respData = response.data;
+        const {access_token, ...user} = respData;
+
+        onLogin(user, access_token);
+
         submitForm();
-
-        if(Math.random() > 0.5) throw new Error('Не правильный пароль');
-
         resetForm();
-        isSuccuses.value = true;
-        
-        await sleep(3000)
-        isSuccuses.value = false;
+
+        router.push({name: "Home"})
     } catch(e) {
-        if(e instanceof Error) {
+        if(e instanceof AxiosError<ILoginResponseFailed>) {
+            const error = e as AxiosError<ILoginResponseFailed>;
+            const messageData = error.response?.data.message || '';
+            const message = typeof messageData === 'string' ? messageData : messageData[0];
+         
+            submitForm(message);
+            
+            customError.value = message;
+            console.log('axios error', message)
+        } else if(e instanceof Error) {
             submitForm(e?.message)
         }
         console.log('onSumbit login error')
