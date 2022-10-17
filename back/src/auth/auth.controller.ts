@@ -26,12 +26,6 @@ export class AuthController {
         description: 'Validation data failed',
         type: TypesFailedResponse
     })
-    @ApiNotFoundResponse({
-        description: USER_NOT_FOUND,
-    })
-    @ApiUnauthorizedResponse({
-        description: USER_WRONG_PASSWORD
-    })
     @Post('login') 
     @HttpCode(200)
     async login(@Body() dto: LoginAuthDto) {

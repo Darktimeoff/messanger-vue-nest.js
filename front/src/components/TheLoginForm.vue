@@ -19,8 +19,8 @@
         <a-form-item
             name="password"
             :has-feedback="isPasswordTouched"
-            :validateStatus="validateStatus(pError || '')"
-            :extra="pError"
+            :validateStatus="validateStatus(isCustomError || pError || '')"
+            :extra="isCustomError || pError"
         >
             <a-input-password autocomplete="current-password" size="large" placeholder="Пароль" v-model:value="password">
                 <template #prefix>
@@ -40,8 +40,9 @@
 </template>
 <script lang="ts" setup>
 import { MailOutlined, LockOutlined } from '@ant-design/icons-vue';
-import { useLoginForm } from '~/hooks';
-import {sleep} from '~/helpers';
+import { useAuth, useLoginForm } from '~/hooks';
+import {ILoginRequest, ILoginResponseFailed} from '~/api/auth.api';
+import { AxiosError } from 'axios';
 
 const {
     disabledBtn,
@@ -54,23 +55,50 @@ const {
     submitForm,
     validateStatus,
     resetForm,
-    isSubmitting
+    isSubmitting,
+    isCustomError
 } = useLoginForm();
+
+const {
+ AuthAPI,
+ onLogin
+} = useAuth();
+
+const router = useRouter()
+
+const data = computed<ILoginRequest>(() => ({
+    email: email.value,
+    password: password.value
+}))
 
 async function onSubmit() {
     isSubmitting.value = true;
     try {
-        await sleep(500);
+        const response = await AuthAPI.login(data.value);
+
+        const respData = response.data;
+        const {access_token, ...user} = respData;
+
+        onLogin(user, access_token);
+
         submitForm();
-
-        if(Math.random() > 0.5) throw new Error('Не правильный пароль');
-
         resetForm();
+
+        router.push({name: "Home"})
     } catch(e) {
-        if(e instanceof Error) {
+        if(e instanceof AxiosError<ILoginResponseFailed>) {
+            const error = e as AxiosError<ILoginResponseFailed>;
+            const messageData = error.response?.data.message || '';
+            const message = typeof messageData === 'string' ? messageData : messageData[0];
+         
+            submitForm(message);
+            
+            isCustomError.value = message;
+            console.log('axios error', message)
+        } else if(e instanceof Error) {
             submitForm(e?.message)
         }
-        console.log('onSumbit login error')
+        console.log('onSumbit login error', e)
     } finally {
         isSubmitting.value = false;
     }

@@ -69,7 +69,7 @@
 <script lang="ts" setup>
 import { MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { useRegisterForm } from '~/hooks';
-import {sleep} from '~/helpers';
+import {sleep} from '~/api/helpers';
 
 const {
     email,

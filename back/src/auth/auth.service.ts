@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import UserService from '~/user/user.service';
 import { JWT_SECRET, USER_NOT_FOUND, USER_WRONG_PASSWORD } from './const';
@@ -23,7 +23,7 @@ export class AuthService {
         const user = await this.userService.findByEmail(email);
 
         if(!user) {
-            throw new NotFoundException(USER_NOT_FOUND)
+            throw new BadRequestException(USER_WRONG_PASSWORD)
         }
 
         const {password: passwordHash, ...userData} = user.toObject<User>();
@@ -31,7 +31,7 @@ export class AuthService {
         const isMatch = await compare(password, passwordHash);
 
         if(!isMatch) {
-            throw new UnauthorizedException(USER_WRONG_PASSWORD)
+            throw new BadRequestException(USER_WRONG_PASSWORD)
         }
 
         return userData;

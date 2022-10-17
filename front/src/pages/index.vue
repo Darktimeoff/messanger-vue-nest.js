@@ -1,10 +1,9 @@
 <template>
-    <h1>IFriends</h1>
-    <h2>
-        <router-link :to="{name: 'Test'}">Test Page</router-link>
-    </h2>
+    <TheChatDialog />
 </template>
 
 <route lang="yaml">
 name: Home
+meta:
+    layout: main
 </route>

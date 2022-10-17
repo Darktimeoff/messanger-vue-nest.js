@@ -1,6 +1,6 @@
 import { useField, useForm, useIsFieldDirty, useIsFormValid, useIsFormDirty } from 'vee-validate';
 import { toFieldValidator } from '@vee-validate/zod';
-import {computed, Ref} from 'vue';
+import {computed, Ref, ref, watch} from 'vue';
 import { ILoginSchema } from '~/types/auth';
 import { emailValidation, passwordValidation } from '~/helpers';
 
@@ -23,11 +23,19 @@ export function useLoginForm() {
 
     const isPasswordTouched = useIsFieldDirty('password');
 
+    const isCustomError = ref<string>();
+
     const disabledBtn = computed(() => {
         return Boolean(!isFormTouched.value  || isSubmitting.value || !isFormValid.value)
     });
 
     const validateStatus = computed(() => (error: string | Ref<string>) => error ? "error" : 'success');
+
+    watch([password, email], () => {
+        if(isCustomError.value) {
+            isCustomError.value = ''
+        }
+    })
 
     return {
         email,
@@ -40,6 +48,7 @@ export function useLoginForm() {
         disabledBtn,
         submitForm,
         validateStatus,
-        resetForm
+        resetForm,
+        isCustomError
     }
 }

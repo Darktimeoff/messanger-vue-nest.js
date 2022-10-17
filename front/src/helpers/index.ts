@@ -1,4 +1,6 @@
 export * from './validations.helper';
+export * as Storage from './storage';
+
 import tinycolor from 'tinycolor2';
 
 export async function sleep(time: number) {
