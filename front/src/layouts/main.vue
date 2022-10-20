@@ -10,12 +10,15 @@
 </template>
 
 <script lang="ts" setup>
-import { useAuth } from '~/hooks';
+import { useAuth, useSocket } from '~/hooks';
 
 
-const {useUserQuery} = useAuth()
+const {useUserQuery} = useAuth();
+const {createSocketConnection} = useSocket()
 
 useUserQuery();
+
+createSocketConnection('http://localhost:3002/')
 </script>
 
 <style lang="scss" scoped>

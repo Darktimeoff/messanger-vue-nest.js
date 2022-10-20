@@ -55,7 +55,7 @@ export class DialogController {
 
         await this.dialogService.addMessage(dialog._id, messageDto);
 
-        const dialogActual = await this.dialogService.find(dialog._id);
+        const dialogActual = await this.dialogService.find(dialog._id, ['lastMessage', 'members']);
         
         if(!dialogActual) throw new BadRequestException(DIALOG_CREATE_ERROR);
 

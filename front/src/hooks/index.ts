@@ -5,3 +5,4 @@ export * from './useDialogs.hook';
 export * from './useInitApp.hook';
 export * from './useFileUpload.hook';
 export * from './useAuth.hook';
+export * from './useSocket.hook';

@@ -1,13 +1,13 @@
 import { NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
+import { Model, PopulateOptions, Types } from "mongoose";
 import { CreateMessageDto } from "~/message/dto/create-message.dto";
 import { MessageService } from "~/message/message.service";
 import { User } from "~/user/entities/user.entity";
 import UserService from "~/user/user.service";
 import { DIALOG_NOT_FOUND } from "./const";
 import { CreateDialogDto } from "./dto/create-dialog.dto";
-import { DialogDocument } from "./entities/dialog.entity";
+import { Dialog, DialogDocument } from "./entities/dialog.entity";
 
 export class DialogService {
     constructor(
@@ -52,8 +52,8 @@ export class DialogService {
         }).populate(['members', 'lastMessage']).exec()
     }
 
-    async find(id: string) {
-        return this.dialogModel.findById(id).populate('message').exec();
+    async find(id: string, populate: string | string[] = 'message') {
+        return this.dialogModel.findById(id).populate(populate).exec();
     }
 
     async create(dto: CreateDialogDto) {
