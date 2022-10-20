@@ -1,13 +1,22 @@
 <template>
     <a-layout class="container chat" >
         <a-layout-sider class="chat__sidebar-wrapper" :width="340">
-            <TheSidebar class />
+            <TheSidebar />
         </a-layout-sider>
         <a-layout class="chat__content">
            <router-view />
         </a-layout>
   </a-layout>
 </template>
+
+<script lang="ts" setup>
+import { useAuth } from '~/hooks';
+
+
+const {useUserQuery} = useAuth()
+
+useUserQuery();
+</script>
 
 <style lang="scss" scoped>
 .chat {

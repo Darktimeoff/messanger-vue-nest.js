@@ -9,7 +9,7 @@
     </div>
 
     <TheSidebarSearch @input="onTextInput" />
-    <TheDialogs :items="filtredItems" @selectDialog="currentDialogId = $event.id" :isLoading="isLoading"/>
+    <TheDialogs :items="filtredItems" @selectDialog="currentDialogId = $event._id" :isLoading="isLoading"/>
   </div>
 </template>
 
@@ -17,13 +17,16 @@
 import { TeamOutlined, FormOutlined } from '@ant-design/icons-vue';
 import { useDialogs } from '~/hooks';
 
-const { items, currentDialogId, dialogsQuery} = useDialogs()
+const { items, currentDialogId, useDialogsQuery, dialogPartner} = useDialogs()
+
+const dialogsQuery = useDialogsQuery()
 
 const searchV = ref('');
 
 const filtredItems = computed(() => {
   return items.value?.filter(d => {
-    const result =  d.name.toLowerCase().includes(searchV.value.toLowerCase())
+    const partner = dialogPartner.value(d);
+    const result =  partner?.fullname.toLowerCase().includes(searchV.value.toLowerCase())
     console.log(searchV.value.toLowerCase(), result)
     return result;
   }) || []

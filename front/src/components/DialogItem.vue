@@ -3,31 +3,31 @@
         <div class="dialogs__item__avatar">
             <Avatar 
                 class="dialogs__item__avatar__img" 
-                :avatar="item.avatar" 
-                :hash="item.lastMessage.user?.id"
-                :username="item.name"
+                :avatar="partner?.avatar || null" 
+                :hash="partner?._id"
+                :username="partner?.fullname"
                 :width="40" 
                 :height="40" 
-                :alt="item.name" 
+                :alt="partner?.fullname" 
                 isRound
             />
         </div>
         <div class="dialogs__item__content">
             <div class="dialogs__item__name">
-                {{item.name}}
+                {{partner?.fullname}}
             </div>
             <div class="dialogs__item__date">
                 {{getDialogTime(item.lastMessage.created_at)}}
             </div>
             <div class="dialogs__item__message">
-                <span v-if="isShowAuthor">{{item.lastMessage.user?.fullname}}</span>
+                <span v-if="isShowAuthor">{{item.lastMessage.author?.fullname}}</span>
                 {{item.lastMessage.text}}
             </div>
             <UnReadCount v-if="isShowUnread" class="dialogs__item__unread">
-                {{item.unreadMessageCount}}
+                <!-- TODO IMPLEMETED UNREAD MESSAGE COUND -->
             </UnReadCount>
             <ReadedIcon
-                v-else-if="isMe" 
+                v-else-if="isMyMessage" 
                 class="dialogs__item__unread"
                 :isRead="isReaded"
                 :isSend="!isReaded"
@@ -37,11 +37,11 @@
 </template>
 
 <script setup lang="ts">
-import { useTime } from '~/hooks';
-import { IDialog } from '~/types';
+import { useAuth, useDialogs, useTime } from '~/hooks';
+import { IDialog1 } from '~/types';
 
 interface IProps {
-    item: IDialog,
+    item: IDialog1,
     isActive?: boolean
 }
 
@@ -49,14 +49,25 @@ const props = defineProps<IProps>();
 
 const {
     getDialogTime
-} = useTime()
+} = useTime();
+
+const {
+    isMe
+} = useAuth();
+
+const {
+    dialogPartner
+} = useDialogs()
+
 
 const item = computed(() => props.item);
+const partner = computed(() => dialogPartner.value(item.value));
 const lastMessage = computed(() => item.value.lastMessage);
-const isOnline = computed(() => lastMessage.value.user?.isOnline)
-const isMe = computed(() => lastMessage.value.isMe);
-const isReaded = computed(() => lastMessage.value.isReaded);
-const isShowUnread = computed(() => item.value.unreadMessageCount > 0);
+const isOnline = computed(() => lastMessage.value.author?.isOnline);
+const authorId = computed(() => lastMessage.value.author._id);
+const isMyMessage = computed(() => isMe.value(authorId.value));
+const isReaded = computed(() => lastMessage.value.isRead);
+const isShowUnread = computed(() => false);
 const isShowAuthor = computed(() => !item.value.isDialog && !isMe.value)
 </script>
 

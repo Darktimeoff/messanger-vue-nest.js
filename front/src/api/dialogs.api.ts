@@ -1,8 +1,10 @@
-import { IDialog, IMessage } from "~/types";
+import { IDialog1, IMessage } from "~/types";
 import { apiAxios } from "./core";
 
+export type IGetAllSuccessResponse = IDialog1[];
+
 export function getAll() {
-    return apiAxios.get<IDialog[]>('/dialogs');
+    return apiAxios.get<IGetAllSuccessResponse>('/dialog');
 }
 
 export function getById(id: string) {

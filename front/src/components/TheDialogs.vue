@@ -11,9 +11,9 @@
                 <TransitionGroup enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
                     <DialogItem 
                         v-for="c in sortItems" 
-                        :key="c.id" 
+                        :key="c._id" 
                         :item="c" 
-                        :isActive="c.id === activeDialogId"
+                        :isActive="c._id === activeDialogId"
                         @click="onSelectDialog(c)"
                     />
                 </TransitionGroup>
@@ -25,18 +25,18 @@
 
 <script lang="ts" setup>
 import { compareAsc } from 'date-fns';
-import { IDialog } from '~/types';
+import { IDialog1 } from '~/types';
 import { Empty } from 'ant-design-vue';
 import { LoadingOutlined } from '@ant-design/icons-vue';
 
 interface IEmits {
-    (event: 'selectDialog', dialog: IDialog): void
+    (event: 'selectDialog', dialog: IDialog1): void
 }
 
 const emit = defineEmits<IEmits>()
 
 interface IProps {
-    items: IDialog[];
+    items: IDialog1[];
     isLoading?: boolean;
 }
 
@@ -50,8 +50,8 @@ const sortItems = computed(() => [...props.items].sort((a, b) => {
 const isEmpty = computed(() => !props.items.length);
 const indicator = h(LoadingOutlined, { spin: true})
 
-function onSelectDialog(c: IDialog) {
-    activeDialogId.value = c.id;
+function onSelectDialog(c: IDialog1) {
+    activeDialogId.value = c._id;
     emit('selectDialog', c);
 }
 </script>

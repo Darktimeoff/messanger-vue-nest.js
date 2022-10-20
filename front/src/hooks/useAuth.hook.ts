@@ -1,22 +1,44 @@
-import { AuthAPI } from "~/api";
+import {computed} from 'vue';
+import { AuthAPI, UserAPI } from "~/api";
 import { useUserStore } from "~/store";
 import { IUser1 } from "~/types";
-import {storeToRefs} from 'pinia'
+import {Pinia, storeToRefs} from 'pinia'
+import { useQuery } from "vue-query";
 
-export function useAuth() {
-    const userStore = useUserStore();
-    const {user, token, isAuth} = storeToRefs(userStore);
+export function useAuth(store?: Pinia) {
+    const userStore = useUserStore(store);
+    const {user, token, isAuth, userId} = storeToRefs(userStore);
+
+    const isMe = computed(() => (id: string) => userId.value === id);
 
     function onLogin(userData: IUser1, access_token: string) {
         user.value = userData;
         userStore.setToken(access_token)
     }
 
+    function onLogout() {
+        userStore.$reset();
+        userStore.removeToken();
+    }
+
+    function useUserQuery() {
+        return useQuery('user', UserAPI.getMe, {
+            select: (user) => user.data,
+            onSuccess(data) {
+                user.value = data
+            },
+        });
+    }
+
     return {
+        userId,
         user,
         token,
         isAuth,
         AuthAPI,
-        onLogin
+        onLogin,
+        onLogout,
+        useUserQuery,
+        isMe
     }
 }

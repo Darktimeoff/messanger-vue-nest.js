@@ -8,13 +8,14 @@ export interface IUser {
 export interface IUser1 {
     _id: string;
     email: string;
+    avatar: string;
     fullname: string;
     isOnline: string;
     isConfirmed: boolean;
     last_seen: string;
     dialog: [];
-    createdAt: string;
-    updatedAt: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface IAttachment {
