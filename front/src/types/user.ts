@@ -10,7 +10,7 @@ export interface IUser1 {
     email: string;
     avatar: string;
     fullname: string;
-    isOnline: string;
+    isOnline: boolean;
     isConfirmed: boolean;
     last_seen: string;
     dialog: [];

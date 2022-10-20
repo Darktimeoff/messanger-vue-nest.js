@@ -1,7 +1,7 @@
 import {  IDialog, IMessage } from "~/types"
 import { defineStore } from "pinia";
 import {ref, computed} from 'vue';
-
+import type {IOnlinesDataEmit} from '~/socket'
 export const useDialogStore = defineStore('dialogs', () => {
     const items = ref<IDialog[]>();
     const messages = ref<IMessage[]>();
@@ -13,6 +13,13 @@ export const useDialogStore = defineStore('dialogs', () => {
         return Boolean(currentDialog.value?.lastMessage.author?.isOnline || false)
     })
 
+    function updateOnlines({userId, isOnline}: IOnlinesDataEmit) {
+        items.value?.forEach(d => {
+            const member = d.members.find(u => u._id === userId);
+            if(member) member.isOnline = isOnline;
+        })
+    }
+
 
     return {
         currentDialog,
@@ -20,6 +27,7 @@ export const useDialogStore = defineStore('dialogs', () => {
         messages,
         currentDialogId,
         isSelectDialog,
-        isOnline
+        isOnline,
+        updateOnlines
     }
 })

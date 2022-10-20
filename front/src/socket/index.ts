@@ -1,6 +1,8 @@
+import { useDialogs } from "~/hooks";
+import { store } from "~/store";
 import { IDialog, IMessage1 } from "~/types";
 
-interface IOnlinesDataEmit {
+export interface IOnlinesDataEmit {
     userId: string;
     isOnline: boolean;
 }
@@ -16,6 +18,8 @@ interface IMessageDataEmit {
 }
 
 export function onlines(data: IOnlinesDataEmit) {
+    const {updateOnlines} = useDialogs(store)
+    updateOnlines(data);
     console.log('event: onlines', data)
 }
 

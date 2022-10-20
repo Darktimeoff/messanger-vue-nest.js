@@ -2,18 +2,16 @@ import {computed} from 'vue';
 import { DialogsAPI } from "~/api";
 import { useDialogStore } from "~/store";
 import { useQuery } from "vue-query";
-import { storeToRefs } from "pinia";
+import { Pinia, storeToRefs } from "pinia";
 import { IDialog } from "~/types";
 import { useAuth } from "./useAuth.hook";
 
-export function useDialogs() {
-    const dialogsStore = useDialogStore();
-    const {isMe} = useAuth()
+export function useDialogs(store?: Pinia) {
+    const dialogsStore = useDialogStore(store);
+    const {isMe} = useAuth(store)
     const {items, messages, currentDialogId, isSelectDialog, currentDialog,isOnline} = storeToRefs(dialogsStore);
 
     const dialogPartner = computed(() => (dialog: IDialog) => dialog?.members.find(u => !isMe.value(u._id)));
-  
-    const dialogQuery = useDialogQuery();
 
     function useDialogsQuery() {
         return useQuery('dialogs', DialogsAPI.getAll, {
@@ -39,12 +37,12 @@ export function useDialogs() {
         dialogPartner,
         useDialogQuery,
         currentDialog,
-        dialogQuery,
         useDialogsQuery,
         items,
         messages,
         currentDialogId,
         isSelectDialog,
-        isOnline
+        isOnline,
+        updateOnlines: dialogsStore.updateOnlines
     }
 }
