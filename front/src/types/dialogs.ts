@@ -3,7 +3,7 @@ import { IUser, IUser1 } from "./user";
 export interface IMessage {
     id:         string;
     text:       string;
-    created_at: string;
+    createdAt: string;
     user:       IUser;
     dialog:     string;
     isMe:       boolean;
@@ -17,8 +17,8 @@ export interface IMessage1 {
     audio: string;
     author: IUser1;
     dialog: IDialog;
-    created_at: string;
-    updated_at: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface IDialog {

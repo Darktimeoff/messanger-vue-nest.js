@@ -14,8 +14,8 @@ export interface IUser1 {
     isConfirmed: boolean;
     last_seen: string;
     dialog: [];
-    created_at: string;
-    updated_at: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface IAttachment {

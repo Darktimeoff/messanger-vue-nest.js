@@ -45,7 +45,7 @@ const props = defineProps<IProps>()
 const activeDialogId = ref();
 
 const sortItems = computed(() => [...props.items].sort((a, b) => {
-    return compareAsc(new Date(b.lastMessage.created_at),new Date(a.lastMessage.created_at))
+    return compareAsc(new Date(b.lastMessage.createdAt),new Date(a.lastMessage.createdAt))
 }));
 const isEmpty = computed(() => !props.items.length);
 const indicator = h(LoadingOutlined, { spin: true})

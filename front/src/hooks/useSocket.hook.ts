@@ -18,7 +18,7 @@ export function useSocket() {
         if (state.connected) return;
 
         socket.value = io(url, {
-            secure: true,
+            secure: false,
             auth: {
                 token: token.value 
             },

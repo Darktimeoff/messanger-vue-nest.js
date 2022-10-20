@@ -17,7 +17,7 @@
                 {{partner?.fullname}}
             </div>
             <div class="dialogs__item__date">
-                {{getDialogTime(item.lastMessage.created_at)}}
+                {{getDialogTime(item.lastMessage.createdAt)}}
             </div>
             <div class="dialogs__item__message">
                 <span v-if="isShowAuthor">{{item.lastMessage.author?.fullname}}</span>
