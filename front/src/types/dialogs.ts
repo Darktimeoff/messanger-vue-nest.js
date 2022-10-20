@@ -1,21 +1,5 @@
 import { IUser, IUser1 } from "./user";
 
-export interface IDialog {
-    id: string;
-    avatar: string | null,
-    name: string;
-    lastMessage: {
-        id: string;
-        text: string; 
-        isReaded: boolean;
-        created_at: string;
-        isMe: boolean;
-        user?: IUser;
-    },
-    isDialog: boolean;
-    unreadMessageCount: number;
-}
-
 export interface IMessage {
     id:         string;
     text:       string;
@@ -31,13 +15,13 @@ export interface IMessage1 {
     isRead: boolean;
     attachments: string[]
     audio: string;
-    author: IUser1
-    dialog: IDialog1
+    author: IUser1;
+    dialog: IDialog;
     created_at: string;
     updated_at: string;
 }
 
-export interface IDialog1 {
+export interface IDialog {
     _id: string;
     isDialog: boolean;
     lastMessage: IMessage1;

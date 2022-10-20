@@ -3,7 +3,7 @@ import { DialogsAPI } from "~/api";
 import { useDialogStore } from "~/store";
 import { useQuery } from "vue-query";
 import { storeToRefs } from "pinia";
-import { IDialog1 } from "~/types";
+import { IDialog } from "~/types";
 import { useAuth } from "./useAuth.hook";
 
 export function useDialogs() {
@@ -11,7 +11,7 @@ export function useDialogs() {
     const {isMe} = useAuth()
     const {items, messages, currentDialogId, isSelectDialog, currentDialog,isOnline} = storeToRefs(dialogsStore);
 
-    const dialogPartner = computed(() => (dialog: IDialog1) => dialog?.members.find(u => !isMe.value(u._id)));
+    const dialogPartner = computed(() => (dialog: IDialog) => dialog?.members.find(u => !isMe.value(u._id)));
   
     const dialogQuery = useDialogQuery();
 

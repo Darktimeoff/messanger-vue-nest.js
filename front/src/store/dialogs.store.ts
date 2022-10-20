@@ -1,9 +1,9 @@
-import {  IDialog1, IMessage } from "~/types"
+import {  IDialog, IMessage } from "~/types"
 import { defineStore } from "pinia";
 import {ref, computed} from 'vue';
 
 export const useDialogStore = defineStore('dialogs', () => {
-    const items = ref<IDialog1[]>();
+    const items = ref<IDialog[]>();
     const messages = ref<IMessage[]>();
     const currentDialogId = ref<string>();
 

@@ -38,10 +38,10 @@
 
 <script setup lang="ts">
 import { useAuth, useDialogs, useTime } from '~/hooks';
-import { IDialog1 } from '~/types';
+import { IDialog } from '~/types';
 
 interface IProps {
-    item: IDialog1,
+    item: IDialog,
     isActive?: boolean
 }
 

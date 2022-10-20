@@ -25,18 +25,18 @@
 
 <script lang="ts" setup>
 import { compareAsc } from 'date-fns';
-import { IDialog1 } from '~/types';
+import { IDialog } from '~/types';
 import { Empty } from 'ant-design-vue';
 import { LoadingOutlined } from '@ant-design/icons-vue';
 
 interface IEmits {
-    (event: 'selectDialog', dialog: IDialog1): void
+    (event: 'selectDialog', dialog: IDialog): void
 }
 
 const emit = defineEmits<IEmits>()
 
 interface IProps {
-    items: IDialog1[];
+    items: IDialog[];
     isLoading?: boolean;
 }
 
@@ -50,7 +50,7 @@ const sortItems = computed(() => [...props.items].sort((a, b) => {
 const isEmpty = computed(() => !props.items.length);
 const indicator = h(LoadingOutlined, { spin: true})
 
-function onSelectDialog(c: IDialog1) {
+function onSelectDialog(c: IDialog) {
     activeDialogId.value = c._id;
     emit('selectDialog', c);
 }
