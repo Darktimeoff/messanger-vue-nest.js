@@ -20,6 +20,14 @@ export const useDialogStore = defineStore('dialogs', () => {
         })
     }
 
+    function removeDialog(dialog: IDialog) {
+        items.value = items.value?.filter(d => d._id !== dialog._id);
+    }
+
+    function addDialog(dialog: IDialog) {
+        items.value?.push(dialog);
+    }
+
 
     return {
         currentDialog,
@@ -28,6 +36,8 @@ export const useDialogStore = defineStore('dialogs', () => {
         currentDialogId,
         isSelectDialog,
         isOnline,
-        updateOnlines
+        updateOnlines,
+        removeDialog,
+        addDialog
     }
 })

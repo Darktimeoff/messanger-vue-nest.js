@@ -43,6 +43,8 @@ export function useDialogs(store?: Pinia) {
         currentDialogId,
         isSelectDialog,
         isOnline,
-        updateOnlines: dialogsStore.updateOnlines
+        updateOnlines: dialogsStore.updateOnlines,
+        removeDialog: dialogsStore.removeDialog,
+        addDialog: dialogsStore.addDialog
     }
 }

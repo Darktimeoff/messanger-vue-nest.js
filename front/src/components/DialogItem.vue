@@ -102,6 +102,7 @@ const isShowAuthor = computed(() => !item.value.isDialog && !isMe.value)
     height: 100%;
     grid-template: "name date" auto "message unread" 1fr / 1fr auto;
     align-items: center;
+    width: 100%;
 }
 .dialogs__item__name {
     font-weight: 500;

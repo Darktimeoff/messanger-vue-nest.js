@@ -146,7 +146,7 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
     private dialogMembersConnectedEmit<D>(dialog: Dialog, event: `${EMIT_EVENT}`, data: D) {
         dialog.members.forEach(u => {
-            const id = (u as any).toString();
+            const id = typeof u === 'string' ? (u as string).toString() : (u as IUserId)._id.toString();
             console.log(`dialogMembersConnectedEmit: ${event}:${id}`);
             if(id in this.connectedUser) {
                 this.server.to(id).emit(event, data)

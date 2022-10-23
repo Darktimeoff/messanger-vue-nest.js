@@ -23,7 +23,13 @@ export function onlines(data: IOnlinesDataEmit) {
     console.log('event: onlines', data)
 }
 
-export function dialogs(dialog: IDialogsDataEmit) {
+export function dialogs({dialog, isDeleted}: IDialogsDataEmit) {
+    const {removeDialog, addDialog} = useDialogs(store);
+    if(isDeleted) {
+        removeDialog(dialog);
+    } else {
+        addDialog(dialog)
+    }
     console.log('event: dialogs', dialog)
 }
 
