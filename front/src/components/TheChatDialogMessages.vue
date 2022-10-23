@@ -1,5 +1,5 @@
 <template>
-    <div class="messages">
+    <div class="messages" ref="messagesElm">
       <Transition mode="out-in" enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
         <a-spin v-if="isLoading" class="messages__loading" :indicator="indicator" tip="Загрузка сообщений..." />
 
@@ -13,11 +13,12 @@
             <MessageWrapper 
               v-for="m in items"
               :key="m._id"
-              :avatar="(getMessageAuthorInfo(m.author as any) as IUser).avatar || null"
+              :id="m._id"
+              :avatar="(getMessageAuthorInfo(m.author as any) as IUser)?.avatar || null"
               :date="m.createdAt"
               :user="(getMessageAuthorInfo(m.author as any) as IUser)"
               :isMe="isMe(m.author as any)"
-              :isHasAttachment="m.attachments.length > 0"
+              :isHasAttachment="m.attachments?.length > 0"
               :isAudio="Boolean(m.audio)"
               :isReaded="m.isRead"
             >
@@ -43,9 +44,10 @@ const {isMe, getMessageAuthorInfo} = useDialogs()
 
 const props = defineProps<IProps>();
 
+const messagesElm = ref<HTMLDivElement>()
 const isEmpty = computed(() => !props.items?.length);
 
-const indicator = h(LoadingOutlined, { spin: true})
+const indicator = h(LoadingOutlined, { spin: true});
 </script>
 
 <style lang="scss" scoped>

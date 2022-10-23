@@ -21,6 +21,7 @@ export const useDialogStore = defineStore('dialogs', () => {
             dialog.message = message;
         } else {
             dialog.message.push(message);
+            dialog.lastMessage = message;
         }
     }
 

@@ -15,19 +15,22 @@
                 </div>
             </div>
             <TheChatDialogMessages :items="messages" class="chat__dialogs-messages" :isLoading="isLoading" />
-            <TheChatDialogInput class="chat__dialogs-input" />
+            <TheChatDialogInput class="chat__dialogs-input" @send="onSend" />
         </div>
     </Transition>
 </template>
 
 <script setup lang="ts">
 import { EllipsisOutlined } from '@ant-design/icons-vue';
+import { scrollListToBottom } from '~/helpers';
 import { useDialogs } from '~/hooks';
 
-const {messages, isSelectDialog, currentDialog, useDialogQuery, getDialogName, currentDialogId, dialogPartner} = useDialogs();
+const {messages, isSelectDialog, currentDialog, useDialogQuery, getDialogName, currentDialogId, dialogPartner, messageEmit} = useDialogs();
 
 const dialogQuery = useDialogQuery();
 const route = useRoute();
+const router = useRouter();
+const messageElm = ref<HTMLDivElement>()
 
 currentDialogId.value = route.params.id as string;
 
@@ -38,6 +41,38 @@ const isLoading = computed(() => {
 const dialogName = computed(() => (currentDialog.value && getDialogName.value(currentDialog.value)) || '');
 const partner  = computed(() => currentDialog.value && dialogPartner.value(currentDialog.value));
 const isOnline = computed(() => partner.value?.isOnline);
+const data = computed(() => dialogQuery.data.value);
+
+watch(isLoading, notFound);
+
+onMounted(notFound);
+
+function notFound() {
+    messageElm.value = document.querySelector('.chat__dialogs-messages') as HTMLDivElement;
+    if(!isLoading.value && !data.value) {
+        router.push({name: "Home"});
+        currentDialogId.value = undefined;
+    } 
+}
+
+
+function onSend(message: string) {
+    if(!currentDialogId.value) return;
+    
+    messageEmit({
+        message: {
+            text: message
+        },
+        dialogId: currentDialogId.value
+    });
+
+    nextTick(scrollToBottom);
+}
+
+function scrollToBottom() {
+    const div = document.querySelector('.chat__dialogs-messages') as HTMLDivElement
+    if(div) scrollListToBottom(div)
+}
 </script>
 
 <style lang="scss" scoped>

@@ -12,6 +12,7 @@
             :bordered="false" 
             auto-size 
             @focusin="showEmojii = false"
+            @pressEnter="onSendClick"
         />
         <div class="inputarea-prefix">
             <AppFileUpload accept="image/*" multiple>
@@ -29,7 +30,7 @@
                     </AppInlineIcon>
                 </transition>
                 <AppInlineIcon v-else>
-                    <SendOutlined  class="inputarea__icon" />
+                    <SendOutlined  class="inputarea__icon" @click="onSendClick" />
                 </AppInlineIcon>
             </transition>
         </div>
@@ -52,6 +53,12 @@ import { SmileOutlined, SendOutlined, InstagramOutlined, AudioOutlined, PaperCli
 import { Picker, EmojiIndex } from "emoji-mart-vue-fast/src";
 import 'emoji-mart-vue-fast/css/emoji-mart.css';
 import {EmojiSelect} from '~/types'
+
+interface IEmit {
+    (event: 'send', text: string): void
+}
+
+const emit = defineEmits<IEmit>()
 
 const emojiIndex = ref<EmojiIndex>()
 
@@ -77,6 +84,14 @@ function onSelectEmojii(event: EmojiSelect) {
 async function loadEmojiData() {
     const data = (await import('emoji-mart-vue-fast/data/google.json')).default;
     emojiIndex.value = new EmojiIndex(data);
+}
+
+function onSendClick() {
+    emit('send', input.value);
+    clear()
+}
+function clear() {
+    input.value = '';
 }
 </script>
 

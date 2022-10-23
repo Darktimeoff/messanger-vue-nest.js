@@ -2,6 +2,7 @@ import { reactive, ref } from "vue";
 import { io, type Socket } from "socket.io-client";
 import { useAuth } from "./useAuth.hook";
 import * as controllers from '~/socket';
+import { SOCKET_EMIT } from "~/const";
 
 const socket = ref<Socket>();
 const state = reactive({
@@ -49,7 +50,7 @@ export function useSocket() {
         socket.value?.disconnect();
     }
 
-    function send(event: string, data?: any, callback?: (args: any) => void) {
+    function send<T>(event: `${SOCKET_EMIT}`, data?: T, callback?: (args: any) => void) {
         if (callback) {
             socket.value?.emit(event, data, callback);
         } else {

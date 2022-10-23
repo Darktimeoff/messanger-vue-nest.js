@@ -5,6 +5,8 @@ import { useQuery } from "vue-query";
 import { Pinia, storeToRefs } from "pinia";
 import { IDialog } from "~/types";
 import { useAuth } from "./useAuth.hook";
+import { messageEmit } from '~/socket';
+import router from '~/router';
 
 export function useDialogs(store?: Pinia) {
     const dialogsStore = useDialogStore(store);
@@ -31,9 +33,23 @@ export function useDialogs(store?: Pinia) {
             enabled: isSelectDialog,
             select: (dialog) => dialog.data?.message,
             onSuccess(data) {
-                if(currentDialogId.value) dialogsStore.addMessage(currentDialogId.value, data)
+                if(currentDialogId.value) dialogsStore.addMessage(currentDialogId.value, data);
+                console.log('data1', data)
+            },
+            onError(data) {
+                console.log('data', data)
             }
         })
+    }
+
+    function removeDialog(dialog: IDialog) {
+        router.push({
+            name: 'Home'
+        });
+
+        dialogsStore.removeDialog(dialog);
+
+        currentDialogId.value = undefined;
     }
  
 
@@ -51,7 +67,9 @@ export function useDialogs(store?: Pinia) {
         isSelectDialog,
         isOnline,
         updateOnlines: dialogsStore.updateOnlines,
-        removeDialog: dialogsStore.removeDialog,
-        addDialog: dialogsStore.addDialog
+        removeDialog,
+        addDialog: dialogsStore.addDialog,
+        addMessage: dialogsStore.addMessage,
+        messageEmit
     }
 }

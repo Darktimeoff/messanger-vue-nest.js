@@ -1,5 +1,6 @@
 export * from './validations.helper';
 export * as Storage from './storage';
+export * from './dom.helper';
 
 import tinycolor from 'tinycolor2';
 

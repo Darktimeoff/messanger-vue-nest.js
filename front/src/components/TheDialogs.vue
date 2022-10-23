@@ -55,10 +55,11 @@ const indicator = h(LoadingOutlined, { spin: true})
 
 function onSelectDialog(c: IDialog) {
     currentDialogId.value = c._id;
+    console.log("onSelectDialog1", currentDialogId.value, c._id)
     router.push({
         name: 'Dialog',
         params: {
-            id: currentDialogId.value
+            id: c._id
         }
     });
     emit('selectDialog', c);
