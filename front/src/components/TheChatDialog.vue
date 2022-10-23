@@ -4,7 +4,7 @@
             <div class="chat__dialog-header">
                 <div class="chat__dialog-header-center">
                     <div class="chat__dialog-header-username">
-                        {{currentDialog?.name}}
+                        {{dialogName}}
                     </div>
                     <Status class="chat__dialog-header-status" :online="isOnline"/>
                 </div>
@@ -24,11 +24,15 @@
 import { EllipsisOutlined } from '@ant-design/icons-vue';
 import { useDialogs } from '~/hooks';
 
-const {messages, isSelectDialog, currentDialog, isOnline, dialogQuery} = useDialogs();
+const {messages, isSelectDialog, currentDialog, isOnline, useDialogQuery, getDialogName} = useDialogs();
+
+const dialogQuery = useDialogQuery();
 
 const isLoading = computed(() => {
     return dialogQuery.isFetching.value
-})
+});
+
+const dialogName = computed(() => (currentDialog.value && getDialogName.value(currentDialog.value)) || '');
 </script>
 
 <style lang="scss" scoped>

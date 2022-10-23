@@ -5,16 +5,16 @@
                 class="dialogs__item__avatar__img" 
                 :avatar="partner?.avatar || null" 
                 :hash="partner?._id"
-                :username="partner?.fullname"
+                :username="dialogName"
                 :width="40" 
                 :height="40" 
-                :alt="partner?.fullname" 
+                :alt="dialogName" 
                 isRound
             />
         </div>
         <div class="dialogs__item__content">
             <div class="dialogs__item__name">
-                {{partner?.fullname}}
+                {{dialogName}}
             </div>
             <div class="dialogs__item__date">
                 {{getDialogTime(item.lastMessage.createdAt)}}
@@ -56,11 +56,13 @@ const {
 } = useAuth();
 
 const {
-    dialogPartner
+    dialogPartner,
+    getDialogName
 } = useDialogs()
 
 
 const item = computed(() => props.item);
+const dialogName = computed(() => getDialogName.value(item.value));
 const partner = computed(() => dialogPartner.value(item.value));
 const lastMessage = computed(() => item.value.lastMessage);
 const isOnline = computed(() => partner.value?.isOnline);

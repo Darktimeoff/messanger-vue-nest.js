@@ -12,6 +12,7 @@ export function useDialogs(store?: Pinia) {
     const {items, messages, currentDialogId, isSelectDialog, currentDialog,isOnline} = storeToRefs(dialogsStore);
 
     const dialogPartner = computed(() => (dialog: IDialog) => dialog?.members.find(u => !isMe.value(u._id)));
+    const getDialogName = computed(() => (d: IDialog) => dialogPartner.value(d)?.fullname);
 
     function useDialogsQuery() {
         return useQuery('dialogs', DialogsAPI.getAll, {
@@ -25,15 +26,17 @@ export function useDialogs(store?: Pinia) {
     function useDialogQuery() {
         return useQuery(['dialog', currentDialogId], () => DialogsAPI.getById(currentDialogId.value || ''), {
             enabled: isSelectDialog,
-            select: (dialog) => dialog.data,
+            select: (dialog) => dialog.data?.message,
             onSuccess(data) {
-                messages.value = data
+                if(currentDialogId.value) dialogsStore.addMessage(currentDialogId.value, data)
             }
         })
     }
  
 
     return {
+        isMe,
+        getDialogName,
         dialogPartner,
         useDialogQuery,
         currentDialog,

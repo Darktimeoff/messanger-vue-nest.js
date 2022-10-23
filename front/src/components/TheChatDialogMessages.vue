@@ -12,14 +12,16 @@
           <TransitionGroup  enterActiveClass="messageAppear">
             <MessageWrapper 
               v-for="m in items"
-              :key="m.id"
-              :avatar="m.user.avatar"
-              :date="m.created_at"
-              :user="m.user"
-              :isMe="m.isMe"
+              :key="m._id"
+              :avatar="m.author.avatar"
+              :date="m.createdAt"
+              :user="m.author"
+              :isMe="isMe(m.author._id)"
+              :isHasAttachment="m.attachments.length > 0"
+              :isAudio="Boolean(m.audio)"
               :isReaded="m.isRead"
             >
-              <Messsage :text="m.text" />
+              <Messsage :text="m.text" :audio="m.audio" />
             </MessageWrapper>
           </TransitionGroup>
         </div>
@@ -29,12 +31,15 @@
 
 <script lang="ts" setup>
 import { LoadingOutlined } from '@ant-design/icons-vue';
-import { IMessage } from '~/types';
+import { useDialogs } from '~/hooks';
+import { IMessage1 } from '~/types';
 
 interface IProps {
-  items: IMessage[] | undefined,
+  items: IMessage1[] | undefined,
   isLoading?: boolean
 }
+
+const {isMe} = useDialogs()
 
 const props = defineProps<IProps>();
 

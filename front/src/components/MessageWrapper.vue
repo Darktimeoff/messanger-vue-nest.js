@@ -9,7 +9,7 @@
             <Avatar class="message__avatar__img" 
                 :avatar="avatar" 
                 :username="user?.fullname"
-                :hash="user.id"
+                :hash="user._id"
                 :alt="`Avatar ${user?.fullname}`" 
                 isRound
             />
@@ -21,13 +21,13 @@
 </template>
 
 <script setup lang="ts">
-import type {IUser} from '~/types';
+import type {IUser1} from '~/types';
 import { useTime } from '~/hooks';
 
 interface IProps {
     avatar: string | null;
     date?: string;
-    user: IUser;
+    user: IUser1;
     isMe?: boolean;
     isReaded?: boolean;
     isHasAttachment?: boolean;

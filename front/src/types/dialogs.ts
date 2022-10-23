@@ -11,6 +11,7 @@ export interface IMessage {
 }
 
 export interface IMessage1 {
+    _id: string;
     text: string;
     isRead: boolean;
     attachments: string[]

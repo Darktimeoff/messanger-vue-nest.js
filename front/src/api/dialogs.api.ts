@@ -8,5 +8,5 @@ export function getAll() {
 }
 
 export function getById(id: string) {
-    return apiAxios.get<IMessage[]>(`/messsages?dialog=${id}`)
+    return apiAxios.get<IDialog>(`/dialog/${id}/`)
 }
