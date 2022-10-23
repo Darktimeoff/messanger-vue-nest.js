@@ -13,7 +13,7 @@
                         v-for="c in sortItems" 
                         :key="c._id" 
                         :item="c" 
-                        :isActive="c._id === activeDialogId"
+                        :isActive="c._id === currentDialogId"
                         @click="onSelectDialog(c)"
                     />
                 </TransitionGroup>
@@ -38,11 +38,14 @@ const emit = defineEmits<IEmits>()
 interface IProps {
     items: IDialog[];
     isLoading?: boolean;
+    currentDialogId: string | undefined;
 }
 
 const props = defineProps<IProps>()
 
-const activeDialogId = ref();
+const router = useRouter()
+
+const currentDialogId = useVModel(props, 'currentDialogId');
 
 const sortItems = computed(() => [...props.items].sort((a, b) => {
     return compareAsc(new Date(b.lastMessage.createdAt),new Date(a.lastMessage.createdAt))
@@ -51,7 +54,13 @@ const isEmpty = computed(() => !props.items.length);
 const indicator = h(LoadingOutlined, { spin: true})
 
 function onSelectDialog(c: IDialog) {
-    activeDialogId.value = c._id;
+    currentDialogId.value = c._id;
+    router.push({
+        name: 'Dialog',
+        params: {
+            id: currentDialogId.value
+        }
+    });
     emit('selectDialog', c);
 }
 </script>

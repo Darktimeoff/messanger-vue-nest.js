@@ -1,5 +1,5 @@
 <template>
-    <TheChatDialog />
+    <div class="empty"></div>
 </template>
 
 <route lang="yaml">

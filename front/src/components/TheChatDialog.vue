@@ -24,9 +24,12 @@
 import { EllipsisOutlined } from '@ant-design/icons-vue';
 import { useDialogs } from '~/hooks';
 
-const {messages, isSelectDialog, currentDialog, isOnline, useDialogQuery, getDialogName} = useDialogs();
+const {messages, isSelectDialog, currentDialog, isOnline, useDialogQuery, getDialogName, currentDialogId} = useDialogs();
 
 const dialogQuery = useDialogQuery();
+const route = useRoute();
+
+currentDialogId.value = route.params.id as string;
 
 const isLoading = computed(() => {
     return dialogQuery.isFetching.value

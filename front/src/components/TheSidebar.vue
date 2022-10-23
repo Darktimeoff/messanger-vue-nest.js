@@ -9,7 +9,7 @@
     </div>
 
     <TheSidebarSearch @input="onTextInput" />
-    <TheDialogs :items="filtredItems" @selectDialog="currentDialogId = $event._id" :isLoading="isLoading"/>
+    <TheDialogs v-model:currentDialogId="currentDialogId" :items="filtredItems" :isLoading="isLoading"/>
   </div>
 </template>
 
