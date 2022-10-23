@@ -1,4 +1,4 @@
-import {  IDialog,IMessage1 } from "~/types"
+import {  IDialog,IMessage } from "~/types"
 import { defineStore } from "pinia";
 import {ref, computed} from 'vue';
 import type {IOnlinesDataEmit} from '~/socket'
@@ -13,7 +13,7 @@ export const useDialogStore = defineStore('dialogs', () => {
     })
     const messages = computed(() => currentDialog.value?.message)
 
-    function addMessage(dialogId: string, message: IMessage1 | IMessage1[]) {
+    function addMessage(dialogId: string, message: IMessage | IMessage[]) {
         const dialog = items.value?.find(d => d._id === dialogId);
         if(!dialog) return;
         

@@ -1,9 +1,9 @@
 import { apiAxios, IErrorResponse, IValidationDataReponse } from "./core";
-import {IUser1} from '~/types';
+import {IUser} from '~/types';
 
 export type ILoginResponseSuccess =  {
     access_token: string;
-} & IUser1;
+} & IUser;
 
 export type ILoginResponseFailed = IValidationDataReponse | IErrorResponse<401, string, 'Unauthorized'>
 

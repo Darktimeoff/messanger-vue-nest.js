@@ -1,11 +1,4 @@
 export interface IUser {
-    id: string;
-    fullname: string;
-    avatar: string | null;
-    isOnline?: boolean;
-}
-
-export interface IUser1 {
     _id: string;
     email: string;
     avatar: string;

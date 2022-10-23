@@ -1,6 +1,6 @@
 import { useDialogs } from "~/hooks";
 import { store } from "~/store";
-import { IDialog, IMessage1 } from "~/types";
+import { IDialog, IMessage } from "~/types";
 
 export interface IOnlinesDataEmit {
     userId: string;
@@ -14,7 +14,7 @@ interface IDialogsDataEmit {
 
 interface IMessageDataEmit {
     dialogId: string;
-    message: IMessage1;
+    message: IMessage;
 }
 
 export function onlines(data: IOnlinesDataEmit) {

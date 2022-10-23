@@ -1,4 +1,4 @@
-import {  IUser1 } from "~/types"
+import {  IUser } from "~/types"
 import { defineStore } from "pinia";
 import {ref, computed} from 'vue';
 import { Storage } from "~/helpers";
@@ -6,7 +6,7 @@ import { token as tokenLocal } from "~/const";
 import { computedEager } from "@vueuse/core";
 
 export const useUserStore = defineStore('user', () => {
-    const user = ref<IUser1>();
+    const user = ref<IUser>();
     const token = ref(Storage.get<string, null>(tokenLocal, null));
 
     const isAuth = computedEager(() => Boolean(token.value));

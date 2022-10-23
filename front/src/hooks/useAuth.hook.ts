@@ -1,7 +1,7 @@
 import {computed} from 'vue';
 import { AuthAPI, UserAPI } from "~/api";
 import { useUserStore } from "~/store";
-import { IUser1 } from "~/types";
+import { IUser } from "~/types";
 import {Pinia, storeToRefs} from 'pinia'
 import { useQuery } from "vue-query";
 
@@ -11,7 +11,7 @@ export function useAuth(store?: Pinia) {
 
     const isMe = computed(() => (id: string) => userId.value === id);
 
-    function onLogin(userData: IUser1, access_token: string) {
+    function onLogin(userData: IUser, access_token: string) {
         user.value = userData;
         userStore.setToken(access_token)
     }

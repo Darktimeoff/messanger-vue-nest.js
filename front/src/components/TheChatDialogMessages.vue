@@ -32,10 +32,10 @@
 <script lang="ts" setup>
 import { LoadingOutlined } from '@ant-design/icons-vue';
 import { useDialogs } from '~/hooks';
-import { IMessage1 } from '~/types';
+import { IMessage } from '~/types';
 
 interface IProps {
-  items: IMessage1[] | undefined,
+  items: IMessage[] | undefined,
   isLoading?: boolean
 }
 

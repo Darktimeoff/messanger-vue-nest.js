@@ -1,4 +1,4 @@
-import { IDialog, IMessage } from "~/types";
+import { IDialog } from "~/types";
 import { apiAxios } from "./core";
 
 export type IGetAllSuccessResponse = IDialog[];

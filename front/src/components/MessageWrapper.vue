@@ -21,13 +21,13 @@
 </template>
 
 <script setup lang="ts">
-import type {IUser1} from '~/types';
+import type {IUser} from '~/types';
 import { useTime } from '~/hooks';
 
 interface IProps {
     avatar: string | null;
     date?: string;
-    user: IUser1;
+    user: IUser;
     isMe?: boolean;
     isReaded?: boolean;
     isHasAttachment?: boolean;
