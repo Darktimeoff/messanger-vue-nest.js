@@ -10,6 +10,8 @@
                 :avatar="avatar" 
                 :username="user?.fullname"
                 :hash="user._id"
+                :width="40" 
+                :height="40" 
                 :alt="`Avatar ${user?.fullname}`" 
                 isRound
             />

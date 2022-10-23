@@ -13,10 +13,10 @@
             <MessageWrapper 
               v-for="m in items"
               :key="m._id"
-              :avatar="m.author.avatar"
+              :avatar="(getMessageAuthorInfo(m.author as any) as IUser).avatar || null"
               :date="m.createdAt"
-              :user="m.author"
-              :isMe="isMe(m.author._id)"
+              :user="(getMessageAuthorInfo(m.author as any) as IUser)"
+              :isMe="isMe(m.author as any)"
               :isHasAttachment="m.attachments.length > 0"
               :isAudio="Boolean(m.audio)"
               :isReaded="m.isRead"
@@ -32,14 +32,14 @@
 <script lang="ts" setup>
 import { LoadingOutlined } from '@ant-design/icons-vue';
 import { useDialogs } from '~/hooks';
-import { IMessage } from '~/types';
+import { IMessage, IUser } from '~/types';
 
 interface IProps {
   items: IMessage[] | undefined,
   isLoading?: boolean
 }
 
-const {isMe} = useDialogs()
+const {isMe, getMessageAuthorInfo} = useDialogs()
 
 const props = defineProps<IProps>();
 

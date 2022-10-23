@@ -13,6 +13,9 @@ export function useDialogs(store?: Pinia) {
 
     const dialogPartner = computed(() => (dialog: IDialog) => dialog?.members.find(u => !isMe.value(u._id)));
     const getDialogName = computed(() => (d: IDialog) => dialogPartner.value(d)?.fullname);
+    const getMessageAuthorInfo = computed(() => (authorId: string) => {
+        return currentDialog.value?.members.find(u => u._id === authorId)
+    })
 
     function useDialogsQuery() {
         return useQuery('dialogs', DialogsAPI.getAll, {
@@ -35,6 +38,7 @@ export function useDialogs(store?: Pinia) {
  
 
     return {
+        getMessageAuthorInfo,
         isMe,
         getDialogName,
         dialogPartner,
