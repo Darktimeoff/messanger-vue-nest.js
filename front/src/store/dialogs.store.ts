@@ -11,7 +11,7 @@ export const useDialogStore = defineStore('dialogs', () => {
     const isOnline = computed<boolean>(() => {
         return Boolean(currentDialog.value?.lastMessage.author?.isOnline || false)
     })
-    const messages = computed(() => currentDialog.value?.message)
+    const messages = computed<IMessage[]>(() => currentDialog.value?.message || [])
 
     function addMessage(dialogId: string, message: IMessage | IMessage[]) {
         const dialog = items.value?.find(d => d._id === dialogId);
