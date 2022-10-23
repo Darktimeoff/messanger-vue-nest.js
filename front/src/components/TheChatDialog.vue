@@ -42,13 +42,14 @@ const dialogName = computed(() => (currentDialog.value && getDialogName.value(cu
 const partner  = computed(() => currentDialog.value && dialogPartner.value(currentDialog.value));
 const isOnline = computed(() => partner.value?.isOnline);
 const data = computed(() => dialogQuery.data.value);
+const messagesLength = computed(() => messages.value.length);
 
 watch(isLoading, notFound);
 
-watch(messages, (v) => {
+watch(messagesLength, (v) => {
     console.log('messages')
-    messageViewIndex.value = v.length;
-}, {deep: true})
+    messageViewIndex.value = v - 1;
+})
 
 onMounted(notFound);
 
