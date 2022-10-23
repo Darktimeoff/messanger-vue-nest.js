@@ -24,7 +24,7 @@
 import { EllipsisOutlined } from '@ant-design/icons-vue';
 import { useDialogs } from '~/hooks';
 
-const {messages, isSelectDialog, currentDialog, isOnline, useDialogQuery, getDialogName, currentDialogId} = useDialogs();
+const {messages, isSelectDialog, currentDialog, useDialogQuery, getDialogName, currentDialogId, dialogPartner} = useDialogs();
 
 const dialogQuery = useDialogQuery();
 const route = useRoute();
@@ -36,6 +36,8 @@ const isLoading = computed(() => {
 });
 
 const dialogName = computed(() => (currentDialog.value && getDialogName.value(currentDialog.value)) || '');
+const partner  = computed(() => currentDialog.value && dialogPartner.value(currentDialog.value));
+const isOnline = computed(() => partner.value?.isOnline);
 </script>
 
 <style lang="scss" scoped>
