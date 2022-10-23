@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import {ref, computed} from 'vue';
 import type {IOnlinesDataEmit} from '~/socket'
 export const useDialogStore = defineStore('dialogs', () => {
-    const items = ref<IDialog[]>();
+    const items = ref<IDialog[]>([]);
     const currentDialogId = ref<string>();
 
     const isSelectDialog = computed(() => Boolean(currentDialogId.value));
@@ -54,11 +54,6 @@ export const useDialogStore = defineStore('dialogs', () => {
     }
 
     function addDialog(dialog: IDialog) {
-        if(!items.value) {
-            items.value = [dialog];
-            return;
-        }
-        
         items.value?.push(dialog);
     }
 
