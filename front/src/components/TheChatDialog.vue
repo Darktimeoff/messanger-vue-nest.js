@@ -14,15 +14,14 @@
                     </AppInlineIcon>
                 </div>
             </div>
-            <TheChatDialogMessages :items="messages" class="chat__dialogs-messages" :isLoading="isLoading" />
+            <TheChatDialogMessages v-model:indexView="messageViewIndex" :items="messages" class="chat__dialogs-messages" :isLoading="isLoading" />
             <TheChatDialogInput class="chat__dialogs-input" @send="onSend" />
         </div>
     </Transition>
 </template>
 
 <script setup lang="ts">
-import { EllipsisOutlined } from '@ant-design/icons-vue';
-import { scrollListToBottom } from '~/helpers';
+import { EllipsisOutlined } from '@ant-design/icons-vue';;
 import { useDialogs } from '~/hooks';
 
 const {messages, isSelectDialog, currentDialog, useDialogQuery, getDialogName, currentDialogId, dialogPartner, messageEmit} = useDialogs();
@@ -30,7 +29,8 @@ const {messages, isSelectDialog, currentDialog, useDialogQuery, getDialogName, c
 const dialogQuery = useDialogQuery();
 const route = useRoute();
 const router = useRouter();
-const messageElm = ref<HTMLDivElement>()
+const messageElm = ref<HTMLDivElement>();
+const messageViewIndex = ref<number>(0)
 
 currentDialogId.value = route.params.id as string;
 
@@ -45,6 +45,11 @@ const data = computed(() => dialogQuery.data.value);
 
 watch(isLoading, notFound);
 
+watch(messages, (v) => {
+    console.log('messages')
+    messageViewIndex.value = v.length;
+}, {deep: true})
+
 onMounted(notFound);
 
 function notFound() {
@@ -52,26 +57,21 @@ function notFound() {
     if(!isLoading.value && !data.value) {
         router.push({name: "Home"});
         currentDialogId.value = undefined;
-    } 
+    } else if(data.value) {
+        messageViewIndex.value = messages.value.length - 1;
+    }
 }
 
 
 function onSend(message: string) {
     if(!currentDialogId.value) return;
-    
+    console.log('onSend socket')
     messageEmit({
         message: {
             text: message
         },
         dialogId: currentDialogId.value
     });
-
-    nextTick(scrollToBottom);
-}
-
-function scrollToBottom() {
-    const div = document.querySelector('.chat__dialogs-messages') as HTMLDivElement
-    if(div) scrollListToBottom(div)
 }
 </script>
 

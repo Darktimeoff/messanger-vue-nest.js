@@ -36,14 +36,15 @@ import { IMessage, IUser } from '~/types';
 
 interface IProps {
   items: IMessage[] | undefined,
-  isLoading?: boolean
+  isLoading?: boolean;
+  indexView?: number;
 }
+const props = defineProps<IProps>();
 
 const {isMe, getMessageAuthorInfo} = useDialogs();
 const messagesList = ref<IMessage[]>([])
-const {list, wrapperProps, containerProps} = useVirtualList(messagesList, {itemHeight: 60})
-
-const props = defineProps<IProps>();
+const {list, wrapperProps, containerProps, scrollTo} = useVirtualList(messagesList, {itemHeight: 80});
+const indexView = useVModel(props, 'indexView');
 
 const messagesElm = ref<HTMLDivElement>()
 const isEmpty = computed(() => !props.items?.length);
@@ -54,9 +55,17 @@ watch(() => props.items, (v) => {
   if(v) messagesList.value  = v;
 });
 
+watch(indexView, scrollToIndexView);
+
 onMounted(() => {
-  if(props.items) messagesList.value = props.items
+  if(props.items) messagesList.value = props.items;
+  if(props.items) setTimeout(scrollToIndexView, 500)
 })
+
+function scrollToIndexView() {
+  console.log('scrollToIndexView', indexView.value)
+  if(typeof indexView.value === 'number') scrollTo(indexView.value);
+}
 </script>
 
 <style lang="scss" scoped>

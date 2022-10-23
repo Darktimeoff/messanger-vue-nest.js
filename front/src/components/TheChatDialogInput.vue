@@ -12,7 +12,7 @@
             :bordered="false" 
             auto-size 
             @focusin="showEmojii = false"
-            @pressEnter="onSendClick"
+            @pressEnter.prevent="onSendClick"
         />
         <div class="inputarea-prefix">
             <AppFileUpload accept="image/*" multiple>
@@ -53,6 +53,7 @@ import { SmileOutlined, SendOutlined, InstagramOutlined, AudioOutlined, PaperCli
 import { Picker, EmojiIndex } from "emoji-mart-vue-fast/src";
 import 'emoji-mart-vue-fast/css/emoji-mart.css';
 import {EmojiSelect} from '~/types'
+import { KeyboardEventHandler } from 'ant-design-vue/lib/_util/EventInterface';
 
 interface IEmit {
     (event: 'send', text: string): void
@@ -86,7 +87,8 @@ async function loadEmojiData() {
     emojiIndex.value = new EmojiIndex(data);
 }
 
-function onSendClick() {
+function onSendClick(e: KeyboardEventHandler) {
+    console.log('send emit');
     emit('send', input.value);
     clear()
 }

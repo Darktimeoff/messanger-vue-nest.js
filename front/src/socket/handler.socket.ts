@@ -39,3 +39,11 @@ export function messages({dialogId, message}: IMessageDataEmit) {
     addMessage(dialogId, message);
     console.log('event: message', message)
 }
+
+export function connect_error(data: any) {
+    console.error('connect_error', data)
+}
+
+export function exception(data: any) {
+    console.error('exception', data)
+}
