@@ -54,6 +54,11 @@ export const useDialogStore = defineStore('dialogs', () => {
     }
 
     function addDialog(dialog: IDialog) {
+        if(!items.value) {
+            items.value = [dialog];
+            return;
+        }
+        
         items.value?.push(dialog);
     }
 
