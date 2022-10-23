@@ -18,7 +18,7 @@ export function useDialogs(store?: Pinia) {
         return useQuery('dialogs', DialogsAPI.getAll, {
             select: (dialog) => dialog.data,
             onSuccess(data) {
-                items.value = data
+                dialogsStore.setDialogs(data);
             },
         });
     }

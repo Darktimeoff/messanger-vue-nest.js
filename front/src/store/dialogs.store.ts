@@ -18,11 +18,29 @@ export const useDialogStore = defineStore('dialogs', () => {
         if(!dialog) return;
         
         if(typeof message === 'object' && Array.isArray(message)) {
-            dialog.message = dialog.message.concat(message)
+            dialog.message = message;
         } else {
             dialog.message.push(message);
         }
     }
+
+    function setDialogs(dialogs: IDialog[]) {
+        if(!items.value?.length) {
+            items.value = dialogs;
+
+            return;
+        }
+
+        dialogs.forEach(newDialog => {
+            let dialog = items.value?.find(d => d._id === newDialog._id);
+            if(!dialog) {
+                addDialog(newDialog);
+            } else {
+                const message = dialog.message;
+                dialog = {...newDialog, message}
+            }
+        })
+    } 
 
     function updateOnlines({userId, isOnline}: IOnlinesDataEmit) {
         items.value?.forEach(d => {
@@ -50,6 +68,7 @@ export const useDialogStore = defineStore('dialogs', () => {
         updateOnlines,
         removeDialog,
         addDialog,
-        addMessage
+        addMessage,
+        setDialogs
     }
 })
