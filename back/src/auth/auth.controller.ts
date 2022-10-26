@@ -73,7 +73,9 @@ export class AuthController {
         user = await this.userService.updateUser(user._id.toString(), {
             isConfirmed: true
         });
-
+        
+        //ToDo add send real email
+        
         return {
             message: 'VERIFY_HASH_SUCCESS'
         }
