@@ -17,7 +17,7 @@ export function useAuth(store?: Pinia) {
     }
 
     function onLogout() {
-        userStore.$reset();
+        userStore.reset();
         userStore.removeToken();
     }
 

@@ -22,12 +22,19 @@ export const useUserStore = defineStore('user', () => {
         token.value = '';
     }
 
+    function reset() {
+        user.value = undefined;
+        token.value = '';
+        removeToken();
+    }
+
     return {
         userId,
         token,
         user,
         isAuth,
         setToken,
-        removeToken
+        removeToken,
+        reset
     }
 })
