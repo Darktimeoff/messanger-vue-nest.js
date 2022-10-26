@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AButton: typeof import('ant-design-vue/es')['Button']
     AEmpty: typeof import('ant-design-vue/es')['Empty']
     AForm: typeof import('ant-design-vue/es')['Form']
     AFormItem: typeof import('ant-design-vue/es')['FormItem']
@@ -18,8 +19,10 @@ declare module '@vue/runtime-core' {
     AppButton: typeof import('./src/components/AppButton.vue')['default']
     AppFileUpload: typeof import('./src/components/AppFileUpload.vue')['default']
     AppImage: typeof import('./src/components/AppImage.vue')['default']
+    AppInfoPage: typeof import('./src/components/AppInfoPage.vue')['default']
     AppInlineIcon: typeof import('./src/components/AppInlineIcon.vue')['default']
     AppSvgIcon: typeof import('./src/components/AppSvgIcon.vue')['default']
+    AResult: typeof import('ant-design-vue/es')['Result']
     ASpin: typeof import('ant-design-vue/es')['Spin']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     Avatar: typeof import('./src/components/Avatar.vue')['default']

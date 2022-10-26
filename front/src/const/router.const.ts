@@ -1,0 +1,1 @@
+export const UnAuthPages = ['Login', 'Register', 'RegisterCheck'];

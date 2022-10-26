@@ -1,10 +1,10 @@
-import { BadRequestException, Body, Controller, HttpCode, Post } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { BadRequestException, Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { TypesFailedResponse } from '~/types';
 import { CreateUserDto } from '~/user/dto/create-user.dto';
 import UserService from '~/user/user.service';
 import { AuthService } from './auth.service';
-import { USER_EXISTS, USER_NOT_FOUND, USER_WRONG_PASSWORD } from './const';
+import { INVALID_HASH, USER_EXISTS } from './const';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { LoginReponse } from './interface/jwt.interface';
 
@@ -56,5 +56,26 @@ export class AuthController {
         const response = await this.authService.login(user.toObject());
 
         return response;
+    }
+
+    @Get('verify')
+    async verify(@Query('hash') hash: string) {
+        if(!hash) {
+            throw new BadRequestException(INVALID_HASH)
+        }
+
+        let user = await this.userService.findByVerifyHash(hash);
+
+        if(!user) {
+            throw new BadRequestException(INVALID_HASH);
+        }
+
+        user = await this.userService.updateUser(user._id.toString(), {
+            isConfirmed: true
+        });
+
+        return {
+            message: 'VERIFY_HASH_SUCCESS'
+        }
     }
 }

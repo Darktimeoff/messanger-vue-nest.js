@@ -12,25 +12,30 @@ export class UpdateUserDto implements Partial<Omit<IUser, 'password' | 'email'>>
     @ApiPropertyOptional()
     @IsString()
     @IsOptional()
-    fullname: string;
+    fullname?: string;
     
     @ApiPropertyOptional()
     @IsString()
     @IsOptional()
-    avatar: string;
+    avatar?: string;
 
     @ApiPropertyOptional()
     @IsOptional()
     @IsString()
-    username: string;
+    username?: string;
 
     @ApiPropertyOptional()
     @IsOptional()
     @IsBoolean()
-    isOnline: boolean
+    isOnline?: boolean
 
     @ApiPropertyOptional()
     @IsOptional()
     @IsDate()
-    last_seen: Date
+    last_seen?: Date
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsBoolean()
+    isConfirmed?: boolean;
 }

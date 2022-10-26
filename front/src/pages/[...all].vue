@@ -1,16 +1,11 @@
 <template>
-    <div class="notfound">
-        <h1>404 Not Found</h1>
-    </div>
+    <AppInfoPage 
+        :status="404"
+        title="404"
+        description="Sorry, the page you visited does not exist."
+    />
 </template>
 
-
-<style lang="scss" scoped>
-.notfound {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-</style>
+<route lang="yaml">
+name: 'NotFound'
+</route>

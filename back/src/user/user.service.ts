@@ -21,10 +21,12 @@ class UserService {
         const salt = await genSalt(10)
 
         const passwordHash = await hash(dto.password, salt);
+        const confirm_hash = await hash(dto.email, salt);
         
         return this.userModel.create({
             ...dto,
-            password: passwordHash
+            password: passwordHash,
+            confirm_hash
         });
     }
 
@@ -43,6 +45,12 @@ class UserService {
         return this.userModel.findOne({
             email
         }).exec()
+    }
+
+    async findByVerifyHash(confirm_hash: string) {
+        return this.userModel.findOne({
+            confirm_hash
+        })
     }
 
     async deleteUser(id: string) {

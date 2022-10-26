@@ -1,6 +1,5 @@
 <template>
     <a-form
-        v-if="!isSuccuses"
         name="register"
         class="register-form"
     >
@@ -64,7 +63,7 @@
   
         <RouterLink  class="auth__link" :to="{name: 'Login'}">Войти в аккаунт</RouterLink>
     </a-form>
-    <TheRegisterFormSuccess v-else />
+    <!-- <TheRegisterFormSuccess v-else /> -->
 </template>
 <script lang="ts" setup>
 import { MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons-vue';
@@ -100,7 +99,7 @@ const {
 
 const router = useRouter()
 
-const isSuccuses = ref(false);
+// const isSuccuses = ref(false);
 const data = computed<IRegisterRequest>(() => ({
     email: email.value,
     fullname: name.value,
@@ -120,7 +119,7 @@ async function onSubmit() {
         submitForm();
         resetForm();
 
-        router.push({name: "Home"})
+        router.push({name: "RegisterCheck"})
     } catch(e) {
         if(e instanceof AxiosError<ILoginResponseFailed>) {
             const error = e as AxiosError<ILoginResponseFailed>;

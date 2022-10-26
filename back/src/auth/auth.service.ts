@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import UserService from '~/user/user.service';
 import { JWT_SECRET, USER_NOT_FOUND, USER_WRONG_PASSWORD } from './const';

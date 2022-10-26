@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiHideProperty, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 import { Document, Types } from 'mongoose';
 import {Dialog} from 'src/dialog/entities/dialog.entity'
 
@@ -23,6 +24,7 @@ export class User {
     @Prop()
     avatar: string
 
+    @Exclude()
     @ApiProperty()
     @Prop({required: true})
     password: string;
@@ -30,6 +32,11 @@ export class User {
     @ApiProperty()
     @Prop({default: false})
     isOnline: boolean;
+
+    @Exclude()
+    @ApiHideProperty()
+    @Prop()
+    confirm_hash: string;
 
     @ApiHideProperty()
     @Prop({default: false}) 
