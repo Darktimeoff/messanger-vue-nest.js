@@ -4,7 +4,7 @@ import { TypesFailedResponse } from '~/types';
 import { CreateUserDto } from '~/user/dto/create-user.dto';
 import UserService from '~/user/user.service';
 import { AuthService } from './auth.service';
-import { INVALID_HASH, USER_EXISTS } from './const';
+import { INVALID_HASH, USER_EXISTS, VERIFY_HASH_SUCCESS } from './const';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { LoginReponse } from './interface/jwt.interface';
 
@@ -58,6 +58,10 @@ export class AuthController {
         return response;
     }
 
+    @ApiBadRequestResponse({
+        description: INVALID_HASH
+    })
+    @ApiOkResponse()
     @Get('verify')
     async verify(@Query('hash') hash: string) {
         if(!hash) {
@@ -77,7 +81,7 @@ export class AuthController {
         //ToDo add send real email
         
         return {
-            message: 'VERIFY_HASH_SUCCESS'
+            message: VERIFY_HASH_SUCCESS
         }
     }
 }

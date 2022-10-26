@@ -3,14 +3,14 @@ import { useAuth } from '~/hooks';
 import router from '~/router';
 import { store } from '~/store';
 
-export interface IErrorResponse<T extends number, D extends string | string[], S extends string> {
+export interface IErrorResponse<T extends number, D extends string | string[]> {
     statusCode: T;
     message: D;
-    error: S;
+    error: string;
     
 }
 
-export type IValidationDataReponse = IErrorResponse<400, string[], 'Bad Request'> 
+export type IValidationDataReponse = IErrorResponse<400, string[]> 
 
 
 export const  apiAxios = axios.create({
