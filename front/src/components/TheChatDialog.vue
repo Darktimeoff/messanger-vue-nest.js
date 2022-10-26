@@ -21,7 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import { EllipsisOutlined } from '@ant-design/icons-vue';;
+import { EllipsisOutlined } from '@ant-design/icons-vue';import { scrollListToBottom } from '~/helpers';
+;
 import { useDialogs } from '~/hooks';
 
 const {messages, isSelectDialog, currentDialog, useDialogQuery, getDialogName, currentDialogId, dialogPartner, messageEmit} = useDialogs();
@@ -48,7 +49,7 @@ watch(isLoading, notFound);
 
 watch(messagesLength, (v) => {
     console.log('messages')
-    messageViewIndex.value = v - 1;
+    nextTick(scrollToBottom)
 })
 
 onMounted(notFound);
@@ -73,6 +74,10 @@ function onSend(message: string) {
         },
         dialogId: currentDialogId.value
     });
+}
+function scrollToBottom() {
+    const scroll = document.querySelector('.chat__dialogs-messages') as HTMLDivElement;
+    scrollListToBottom(scroll)
 }
 </script>
 

@@ -10,6 +10,6 @@ export interface IMessageEmit {
 
 export function messageEmit(data: IMessageEmit) {
     const {send} = useSocket();
-
+    console.log('messageEmit')
     send<IMessageEmit>(SOCKET_EMIT.message, data);
 }
