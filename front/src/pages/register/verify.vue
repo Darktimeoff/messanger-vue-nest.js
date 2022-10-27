@@ -3,7 +3,13 @@
         :status="isHash ? status : 'success'"
         :title="isHash ? title : 'Готово!'"
         :description="isHash ? description : 'Ссылка с потверждением отправлена на E-Mail'"
-    />
+    >
+        <template v-if="isSuccess" #extra>
+            <AppButton type="primary" htmlType="submit" size="large" @click="onLoginClick" class="login-form-button">
+                Войти в аккаунт
+            </AppButton>
+        </template>
+    </AppInfoPage>
 </template>
 
 <script lang="ts" setup>
@@ -12,11 +18,12 @@ import { AuthAPI } from '~/api';
 
 
 const route = useRoute();
+const router = useRouter();
 
 const hash = computed(() => route.query?.hash as string);
 const isHash = computedEager(() => Boolean(hash.value));
 
-const {isLoading, isError} = useQuery(
+const {isLoading, isError, isSuccess} = useQuery(
     ['verify', hash], 
     () => AuthAPI.verifyHash(hash.value), {
         enabled: isHash,
@@ -39,7 +46,13 @@ const description = computed(() => {
         isError.value ? 
         'Ошибка при потверждение аккаунта' : 
         'Aккаунт успешно потвержден'
-})
+});
+
+function onLoginClick() {
+    router.push({
+        name: 'Login'
+    })
+}
 </script>
 
 <route lang="yaml">

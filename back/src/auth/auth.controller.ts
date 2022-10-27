@@ -1,10 +1,10 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, NotFoundException, Post, Query } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { TypesFailedResponse } from '~/types';
 import { CreateUserDto } from '~/user/dto/create-user.dto';
 import UserService from '~/user/user.service';
 import { AuthService } from './auth.service';
-import { INVALID_HASH, USER_EXISTS, VERIFY_HASH_SUCCESS } from './const';
+import { INVALID_HASH, USER_EXISTS, USER_NOT_FOUND, VERIFY_HASH_SUCCESS } from './const';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { LoginReponse } from './interface/jwt.interface';
 
@@ -51,7 +51,7 @@ export class AuthController {
         if(existUser) {
             throw new BadRequestException(USER_EXISTS)
         }
-
+        //ToDO when rewrite on send mail verifycation remove this part and 
         const user = await this.userService.create(dto);
         const response = await this.authService.login(user.toObject());
 
@@ -61,7 +61,10 @@ export class AuthController {
     @ApiBadRequestResponse({
         description: INVALID_HASH
     })
-    @ApiOkResponse()
+    @ApiOkResponse({
+        description: "Verify User",
+        type: LoginReponse
+    })
     @Get('verify')
     async verify(@Query('hash') hash: string) {
         if(!hash) {
@@ -77,11 +80,16 @@ export class AuthController {
         user = await this.userService.updateUser(user._id.toString(), {
             isConfirmed: true
         });
+
+
+        if(!user) {
+            throw new NotFoundException(USER_NOT_FOUND);
+        }
         
         //ToDo add send real email
         
         return {
             message: VERIFY_HASH_SUCCESS
-        }
+        };
     }
 }

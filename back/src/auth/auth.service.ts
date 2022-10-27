@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import UserService from '~/user/user.service';
-import { JWT_SECRET, USER_NOT_FOUND, USER_WRONG_PASSWORD } from './const';
+import { JWT_SECRET, USER_NOT_CONFIRMED_EMAIL, USER_NOT_FOUND, USER_WRONG_PASSWORD } from './const';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '~/user/entities/user.entity';
@@ -50,6 +50,8 @@ export class AuthService {
     }
 
     async login(user: Omit<User & {_id: string | Types.ObjectId}, 'password'>) {
+        if(!user.isConfirmed) throw new BadRequestException(USER_NOT_CONFIRMED_EMAIL)
+
         const payload: IJWTPayload = {email: user.email, sub: user._id as any}
         const token = await this.jwtService.signAsync(payload);
 

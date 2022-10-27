@@ -112,14 +112,16 @@ async function onSubmit() {
         const response = await AuthAPI.register(data.value);
 
         const respData = response.data;
-        const {access_token, ...user} = respData;
+        const {access_token,confirm_hash, ...user} = respData;
 
         onLogin(user, access_token);
 
         submitForm();
         resetForm();
 
-        router.push({name: "RegisterCheck"})
+        router.push({name: "RegisterCheck", query: {
+            hash: confirm_hash
+        }})
     } catch(e) {
         if(e instanceof AxiosError<ILoginResponseFailed>) {
             const error = e as AxiosError<ILoginResponseFailed>;

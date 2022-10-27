@@ -5,3 +5,4 @@ export const JWT_SECRET= 'JWT_SECRET';
 export const USER_UNATHORIZED = 'не авторизированый пользователь'
 export const INVALID_HASH = 'Invalid hash';
 export const VERIFY_HASH_SUCCESS = 'Аккаунт успешно потвержден';
+export const USER_NOT_CONFIRMED_EMAIL = 'Пользователь не потвердил e-mail';

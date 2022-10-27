@@ -28,7 +28,7 @@ export function login(data: ILoginRequest) {
 }
 
 export function register(data: IRegisterRequest) {
-    return apiAxios.post<ILoginResponseSuccess>('/auth/register/', data);
+    return apiAxios.post<ILoginResponseSuccess & {confirm_hash: string}>('/auth/register/', data);
 }
 
 export function verifyHash(hash: string) {
