@@ -12,7 +12,7 @@ export interface ILoginRequest {
     password: string;
 }
 
-export interface IVerify {
+export interface IVerifyResponse {
     message: string;
 }
 
@@ -32,5 +32,5 @@ export function register(data: IRegisterRequest) {
 }
 
 export function verifyHash(hash: string) {
-    return apiAxios.get(`/auth/verify/${hash}`);
+    return apiAxios.get<IVerifyResponse>(`/auth/verify?hash=${hash}`);
 }

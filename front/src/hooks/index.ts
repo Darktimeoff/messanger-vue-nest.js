@@ -6,3 +6,4 @@ export * from './useInitApp.hook';
 export * from './useFileUpload.hook';
 export * from './useAuth.hook';
 export * from './useSocket.hook';
+export * from './useFetch.hook';

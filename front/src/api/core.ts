@@ -18,11 +18,12 @@ export const  apiAxios = axios.create({
 });
 
 apiAxios.interceptors.response.use(undefined, error => {
-
     if(error.response.status === 401) {
         const {onLogout} = useAuth()
         router.push({name: "Login"})
         onLogout();
+    } else {
+        throw error;
     }
 });
 

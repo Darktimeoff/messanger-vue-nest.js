@@ -1,4 +1,4 @@
-import {computed} from 'vue';
+import {computed, ComputedRef} from 'vue';
 import { AuthAPI, UserAPI } from "~/api";
 import { useUserStore } from "~/store";
 import { IUser } from "~/types";
@@ -29,7 +29,6 @@ export function useAuth(store?: Pinia) {
             },
         });
     }
-
     return {
         userId,
         user,
