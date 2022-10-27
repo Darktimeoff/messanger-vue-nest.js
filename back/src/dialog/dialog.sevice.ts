@@ -49,7 +49,12 @@ export class DialogService {
                     $in: new Types.ObjectId(userId)
                 }
             }
-        }).populate(['members', 'lastMessage']).exec()
+        }).populate(['members', {
+            path: 'lastMessage',
+            populate: {
+                path: 'user'
+            }
+        }]).exec()
     }
 
     async find(id: string, populate: string | string[] = 'message') {
