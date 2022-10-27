@@ -94,7 +94,6 @@ const {
 
 const {
  AuthAPI,
- onLogin
 } = useAuth();
 
 const router = useRouter()
@@ -112,9 +111,7 @@ async function onSubmit() {
         const response = await AuthAPI.register(data.value);
 
         const respData = response.data;
-        const {access_token,confirm_hash, ...user} = respData;
-
-        onLogin(user, access_token);
+        const {confirm_hash} = respData;
 
         submitForm();
         resetForm();

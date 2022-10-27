@@ -2,6 +2,7 @@ import { BadRequestException, Body, Controller, Get, HttpCode, NotFoundException
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { TypesFailedResponse } from '~/types';
 import { CreateUserDto } from '~/user/dto/create-user.dto';
+import { User } from '~/user/entities/user.entity';
 import UserService from '~/user/user.service';
 import { AuthService } from './auth.service';
 import { INVALID_HASH, USER_EXISTS, USER_NOT_FOUND, VERIFY_HASH_SUCCESS } from './const';
@@ -36,8 +37,8 @@ export class AuthController {
     }
 
     @ApiOkResponse({
-        description: 'User register and login',
-        type: LoginReponse
+        description: 'User register',
+        type: User
     })
     @ApiBadRequestResponse({
         description: USER_EXISTS,
@@ -53,9 +54,8 @@ export class AuthController {
         }
         //ToDO when rewrite on send mail verifycation remove this part and 
         const user = await this.userService.create(dto);
-        const response = await this.authService.login(user.toObject());
 
-        return response;
+        return user;
     }
 
     @ApiBadRequestResponse({
