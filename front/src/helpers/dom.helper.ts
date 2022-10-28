@@ -5,5 +5,5 @@ export function scrollListToBottom(scrollElm: HTMLDivElement) {
   
     if(!haveScroll) return;
     console.log('scrollListToBottom', scrollHeight)
-    scrollElm.scrollTop = scrollHeight + 10;
+    scrollElm.scrollTo(0, scrollHeight + 1000);
 }
