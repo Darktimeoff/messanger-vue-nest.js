@@ -7,12 +7,9 @@ import { IDialog, IUser } from "~/types";
 import { useAuth } from "./useAuth.hook";
 import { messageEmit } from '~/socket';
 import router from '~/router';
-import { AxiosError } from 'axios';
-import { useErrorReponse } from './useErrorResponse.hook';
 
 export function useDialogs(store?: Pinia) {
     const dialogsStore = useDialogStore(store);
-    const {showError} = useErrorReponse()
     const {isMe, user} = useAuth(store)
     const { currentDialogId, isSelectDialog, currentDialog, items, ...dialogsState} = storeToRefs(dialogsStore);
 
@@ -73,26 +70,20 @@ export function useDialogs(store?: Pinia) {
     }
 
     async function findOrCreateAndOpen(partner: IUser) {
-        try {
-            let dialog = getDialogByPartner.value(partner._id);
+        let dialog = getDialogByPartner.value(partner._id);
 
-            if(!dialog) {
-                dialog = await createDialog(partner);
-            }
-
-            currentDialogId.value  = dialog?._id;
-
-            router.push({
-                name: "Dialog",
-                params: {
-                    id: currentDialogId.value
-                }
-            })
-        } catch(e) {
-            showError(e);
-
-            return Promise.reject(e)
+        if(!dialog) {
+            dialog = await createDialog(partner);
         }
+
+        currentDialogId.value  = dialog?._id;
+
+        router.push({
+            name: "Dialog",
+            params: {
+                id: currentDialogId.value
+            }
+        })
     }
  
 

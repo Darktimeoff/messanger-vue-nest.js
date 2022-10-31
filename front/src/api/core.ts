@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useAuth } from '~/hooks';
+import { useAuth, useErrorReponse } from '~/hooks';
 import router from '~/router';
 import { store } from '~/store';
 
@@ -18,11 +18,14 @@ export const  apiAxios = axios.create({
 });
 
 apiAxios.interceptors.response.use(undefined, error => {
+    const {showError} = useErrorReponse();
+
     if(error.response.status === 401) {
         const {onLogout} = useAuth()
         router.push({name: "Login"})
         onLogout();
     } else {
+        showError(error);
         throw error;
     }
 });
