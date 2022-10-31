@@ -17,8 +17,12 @@ const {isFetching, text, sortUserByDate} = useUserSearch();
 const {findOrCreateAndOpen} = useDialogs();
 const {hideModal} = useModal();
 
-function onUserSelect(user: IUser) {
-    hideModal();
-    findOrCreateAndOpen(user);
+async function onUserSelect(user: IUser) {
+    try {
+        await findOrCreateAndOpen(user);
+        hideModal();
+    } catch(e) {
+        console.log('onUserSelect', e)
+    }
 }
 </script>

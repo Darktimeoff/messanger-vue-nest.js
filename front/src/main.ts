@@ -5,6 +5,7 @@ import '@/styles/index.scss';
 import { store } from './store';
 import '@/assets/icons_flat/icons.css';
 import { VueQueryPlugin, VueQueryPluginOptions } from "vue-query";
+import { notification } from 'ant-design-vue';
 
 export const app = createApp(App)
 
@@ -23,3 +24,9 @@ app.use(store)
 app.use(VueQueryPlugin, vueQueryPluginOptions)
 
 app.mount('#app')
+
+
+notification.config({
+  placement: 'topRight',
+  duration: 3,
+})

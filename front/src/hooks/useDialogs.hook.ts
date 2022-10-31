@@ -7,9 +7,12 @@ import { IDialog, IUser } from "~/types";
 import { useAuth } from "./useAuth.hook";
 import { messageEmit } from '~/socket';
 import router from '~/router';
+import { AxiosError } from 'axios';
+import { useErrorReponse } from './useErrorResponse.hook';
 
 export function useDialogs(store?: Pinia) {
     const dialogsStore = useDialogStore(store);
+    const {showError} = useErrorReponse()
     const {isMe, user} = useAuth(store)
     const { currentDialogId, isSelectDialog, currentDialog, items, ...dialogsState} = storeToRefs(dialogsStore);
 
@@ -86,7 +89,9 @@ export function useDialogs(store?: Pinia) {
                 }
             })
         } catch(e) {
-            console.log('findOrCreateAndOpen', 'can`t open dialog');
+            showError(e);
+
+            return Promise.reject(e)
         }
     }
  
