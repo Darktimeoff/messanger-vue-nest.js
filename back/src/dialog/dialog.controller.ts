@@ -15,6 +15,7 @@ import {  IReqAuth } from "~/auth/interface/jwt.interface";
 import { USER_NOT_FOUND } from "~/user/const";
 import { FailedRequestResponse, TypesFailedResponse } from "~/types";
 import { DialogGateway } from "./dialog.gateway";
+import { User } from "~/user/entities/user.entity";
 
 @UseGuards(JwtAuthGuard)
 @ApiUnauthorizedResponse({
@@ -65,6 +66,21 @@ export class DialogController {
 
         return dialog;
     }
+
+    @ApiOkResponse({
+        description: 'Find User',
+        type: [User]
+    })
+    @Get('search/user')
+    async findByText(@Request() req: IReqAuth, @Query('text') search: string) {
+        const users = await this.dialogService.findUsers(
+            req.user._id as any,
+            search
+        );
+
+        return users;
+    }
+
 
 
     @ApiResponse({

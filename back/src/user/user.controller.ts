@@ -69,21 +69,6 @@ export class UserController {
     }
 
     @ApiOkResponse({
-        description: 'Find User',
-        type: [User]
-    })
-    @Get('search')
-    async findByText(@Request() req: IReqAuth, @Query('text') search: string) {
-        const users = await this.userService.findByText(
-            req.user._id as any,
-            search
-        );
-
-        return users;
-    }
-
-
-    @ApiOkResponse({
         description: 'User successfully finded',
         type: User
     })

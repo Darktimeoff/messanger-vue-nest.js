@@ -41,29 +41,29 @@ class UserService {
     }
 
     async findByText(userId: Types.ObjectId, text: string) {
-        if(!text) {
-            return this.userModel.find({
-                _id: {
-                    $ne: userId
-                }
-            }).exec()
-        } else {
-            return this.userModel.find({
-                $and: [
-                    {
-                        _id: {
-                            $ne: userId,
-                        },
+        return this.userModel.find({
+            $and: [
+                {
+                    _id: {
+                        $ne: userId,
                     },
-                    {
-                        $text: {
-                            $search: text,
-                            $caseSensitive: false
-                        }
+                },
+                {
+                    $text: {
+                        $search: text,
+                        $caseSensitive: false
                     }
-                ]
-            }).exec();
-        }
+                }
+            ]
+        }).exec();
+    }
+
+    async  findUsers(ids: Types.ObjectId[]) {
+        return this.userModel.find({
+            _id: {
+                $in: ids
+            }
+        }).exec()
     }
 
     async findByEmail(email: string) {

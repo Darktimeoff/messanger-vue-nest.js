@@ -1,5 +1,5 @@
 import { IMessageEmit } from "~/socket";
-import { IDialog } from "~/types";
+import { IDialog, IUser } from "~/types";
 import { apiAxios, IErrorResponse } from "./core";
 
 export type IGetAllSuccessResponse = IDialog[];
@@ -24,4 +24,9 @@ export function getById(id: string) {
 
 export function createDialog(dialogRequest: ICreateDialogRequest) {
     return apiAxios.post<ICreateDialogResponseSuccess>('/dialog', dialogRequest)
+}
+
+export function findUsers(text: string) {
+    console.log('text', text)
+    return apiAxios.get<IUser[]>(`/dialog/search/user?text=${text}`)
 }

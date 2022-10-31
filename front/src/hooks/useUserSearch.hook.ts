@@ -1,5 +1,5 @@
 import { useQuery } from "vue-query";
-import { UserAPI } from "~/api";
+import { DialogsAPI } from "~/api";
 import {ref, computed} from 'vue';
 import { compareDesc } from "date-fns";
 import { refDebounced } from '@vueuse/core'
@@ -15,8 +15,8 @@ export function useUserSearch() {
 
     function useUserSearch() {
         return useQuery(
-            ['userSearch', debouncedText], 
-            () => UserAPI.findUser(text.value),
+            ['dialog/search/user', debouncedText], 
+            () => DialogsAPI.findUsers(text.value),
             {
                 select: (user) => user.data,
             }

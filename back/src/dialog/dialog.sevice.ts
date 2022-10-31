@@ -29,6 +29,16 @@ export class DialogService {
         }).exec();
     }
 
+    async findUsers(userId: Types.ObjectId, text: string) {
+        if(!text) {
+            const ids = (await this.getAllIdUserWithDialogs(userId)).map(id => new Types.ObjectId(id));
+
+            return this.userService.findUsers(ids);
+        } else {
+            return this.userService.findByText(userId, text)
+        }
+    }
+
     async getAllIdUserWithDialogs(userId: Types.ObjectId) {
         const dialogs = await this.dialogModel.find({
             members: {

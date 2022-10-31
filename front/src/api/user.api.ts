@@ -7,8 +7,3 @@ export type IGetMeFailedReponse = IErrorResponse<404, string> | IErrorResponse<4
 export function getMe() {
     return apiAxios.get<IGetMeSuccessResponse>('/user/')
 }
-
-export function findUser(text: string) {
-    console.log('text', text)
-    return apiAxios.get<IUser[]>(`/user/search?text=${text}`)
-}
