@@ -39,6 +39,7 @@ defineProps<IProps>()
     justify-content: flex-start;
     gap: 0 10px;
     padding: 5px;
+    cursor: pointer;
 }
 .useritem__content {
     display: flex;

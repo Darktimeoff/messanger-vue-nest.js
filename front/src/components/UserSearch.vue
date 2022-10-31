@@ -17,7 +17,7 @@
             </a-empty>
             <div  v-else class="usersearch-list">
                 <TransitionGroup enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
-                    <UserItem v-for="user in props.users" :key="user._id" :user="user" />
+                    <UserItem v-for="user in props.users" :key="user._id" :user="user" @click="emit('userSelect', user)" />
                 </TransitionGroup>
             </div>
         </Transition>
@@ -36,7 +36,8 @@ interface IProps {
 }
 
 interface IEmit { 
-    (event: 'enter'): void
+    (event: 'enter'): void;
+    (event: 'userSelect', user: IUser): void
 }
 
 const props = defineProps<IProps>();

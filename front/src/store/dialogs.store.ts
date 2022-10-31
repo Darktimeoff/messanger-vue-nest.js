@@ -9,9 +9,10 @@ export const useDialogStore = defineStore('dialogs', () => {
     const isSelectDialog = computed(() => Boolean(currentDialogId.value));
     const currentDialog = computed(() => items.value?.find(d => d._id === currentDialogId.value));
     const isOnline = computed<boolean>(() => {
-        return Boolean(currentDialog.value?.lastMessage.author?.isOnline || false)
+        return Boolean(currentDialog.value?.lastMessage?.author?.isOnline || false)
     })
-    const messages = computed<IMessage[]>(() => currentDialog.value?.message || [])
+    const messages = computed<IMessage[]>(() => currentDialog.value?.message || []);
+    const dialogsWithMessages = computed(() => items.value.filter(d => d.lastMessage));
 
     function addMessage(dialogId: string, message: IMessage | IMessage[]) {
         const dialog = items.value?.find(d => d._id === dialogId);
@@ -60,6 +61,7 @@ export const useDialogStore = defineStore('dialogs', () => {
 
 
     return {
+        dialogsWithMessages,
         currentDialog,
         items,
         messages,

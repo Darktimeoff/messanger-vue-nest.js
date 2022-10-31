@@ -47,13 +47,15 @@ export class DialogController {
     async create(@Body() dto: CreateDialogDto, @Request() req: IReqAuth) {
         const dialog = await this.dialogService.create(dto);
 
-        const messageDto: CreateMessageDto = {
-            ...dto.message,
-            dialogId: dialog._id,
-            authorId: req.user._id as any
-        }
+        if(dto?.message) {
+            const messageDto: CreateMessageDto = {
+                ...dto.message,
+                dialogId: dialog._id,
+                authorId: req.user._id as any
+            }
 
-        await this.dialogService.addMessage(dialog._id, messageDto);
+            await this.dialogService.addMessage(dialog._id, messageDto);
+        }   
 
         const dialogActual = await this.dialogService.find(dialog._id, ['lastMessage', 'members']);
         

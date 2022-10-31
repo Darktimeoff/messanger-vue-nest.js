@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsOptional, IsString } from "class-validator";
 import { CreateMessageDto } from "./../../message/dto/create-message.dto";
 
 
@@ -11,6 +11,7 @@ export class CreateDialogDto {
     @IsBoolean()
     isDialog: boolean;
 
+    @IsOptional()
     @Type(() => CreateMessageDto)
-    message: CreateMessageDto
+    message?: CreateMessageDto
 }

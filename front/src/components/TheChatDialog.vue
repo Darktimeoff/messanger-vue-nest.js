@@ -21,11 +21,20 @@
 </template>
 
 <script setup lang="ts">
-import { EllipsisOutlined } from '@ant-design/icons-vue';import { scrollListToBottom } from '~/helpers';
-;
+import { EllipsisOutlined } from '@ant-design/icons-vue';
+import { scrollListToBottom } from '~/helpers';
 import { useDialogs } from '~/hooks';
 
-const {messages, isSelectDialog, currentDialog, useDialogQuery, getDialogName, currentDialogId, dialogPartner, messageEmit} = useDialogs();
+const {
+    messages, 
+    isSelectDialog, 
+    currentDialog, 
+    useDialogQuery, 
+    getDialogName, 
+    currentDialogId, 
+    dialogPartner, 
+    messageEmit,
+} = useDialogs();
 
 const dialogQuery = useDialogQuery();
 const route = useRoute();
@@ -38,6 +47,9 @@ currentDialogId.value = route.params.id as string;
 const isLoading = computed(() => {
     return dialogQuery.isFetching.value
 });
+const isError = computed(() => {
+    return dialogQuery.isError.value;
+})
 
 const dialogName = computed(() => (currentDialog.value && getDialogName.value(currentDialog.value)) || '');
 const partner  = computed(() => currentDialog.value && dialogPartner.value(currentDialog.value));
@@ -45,7 +57,7 @@ const isOnline = computed(() => partner.value?.isOnline);
 const data = computed(() => dialogQuery.data.value);
 const messagesLength = computed(() => messages.value.length);
 
-watch(isLoading, notFound);
+watch(isError, notFound);
 
 watch(messagesLength, (v) => {
     console.log('messages')
@@ -56,7 +68,7 @@ onMounted(notFound);
 
 function notFound() {
     messageElm.value = document.querySelector('.chat__dialogs-messages') as HTMLDivElement;
-    if(!isLoading.value && !data.value) {
+    if(isError.value) {
         router.push({name: "Home"});
         currentDialogId.value = undefined;
     } else if(data.value) {
@@ -67,6 +79,7 @@ function notFound() {
 
 function onSend(message: string) {
     if(!currentDialogId.value) return;
+  
     console.log('onSend socket')
     messageEmit({
         message: {

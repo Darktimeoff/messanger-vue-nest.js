@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
 // @ts-ignore - Generated pages doesn't have type configured
 import generatedRoutes from 'virtual:generated-pages'
-import { useAuth } from './hooks';
+import { useAuth} from './hooks';
 import { UnAuthPages } from './const';
 
 const routes = setupLayouts(generatedRoutes)

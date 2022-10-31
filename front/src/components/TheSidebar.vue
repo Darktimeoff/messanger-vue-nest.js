@@ -17,7 +17,7 @@
 import { TeamOutlined, FormOutlined } from '@ant-design/icons-vue';
 import { useDialogs, useModal } from '~/hooks';
 
-const { items, currentDialogId, useDialogsQuery, dialogPartner} = useDialogs()
+const { dialogsWithMessages,currentDialogId, useDialogsQuery, dialogPartner} = useDialogs()
 const {showModal, MODAL_NAME} = useModal();
 
 
@@ -27,7 +27,7 @@ const dialogsQuery = useDialogsQuery()
 const searchV = ref('');
 
 const filtredItems = computed(() => {
-  return items.value?.filter(d => {
+  return dialogsWithMessages.value?.filter(d => {
     const partner = dialogPartner.value(d);
     const result =  partner?.fullname.toLowerCase().includes(searchV.value.toLowerCase())
     console.log(searchV.value.toLowerCase(), result)

@@ -15,7 +15,9 @@ export interface IMessage {
 export interface IDialog {
     _id: string;
     isDialog: boolean;
-    lastMessage: IMessage;
+    lastMessage: IMessage | undefined;
     members: IUser[];
     message: IMessage[];
+    createdAt: string;
+    updatedAt: string;
 }
