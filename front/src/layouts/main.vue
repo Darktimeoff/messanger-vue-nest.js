@@ -6,7 +6,8 @@
         <a-layout class="chat__content">
            <router-view />
         </a-layout>
-  </a-layout>
+    </a-layout>
+    <TheModals />
 </template>
 
 <script lang="ts" setup>

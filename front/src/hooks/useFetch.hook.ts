@@ -1,5 +1,5 @@
 import {ref, watch, unref, Ref} from 'vue';
-import {AxiosError, AxiosResponse} from 'axios';
+import {AxiosError} from 'axios';
 import { computedEager } from '@vueuse/core';
 
 export type anyFunc = (...args: any[]) => any;

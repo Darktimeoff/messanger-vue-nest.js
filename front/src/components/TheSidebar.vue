@@ -4,7 +4,7 @@
       <TeamOutlined class="sidebar__header__icon" />
       <span class="sidebar__header__title">Список диалогов</span>
       <AppInlineIcon>
-        <FormOutlined class="sidebar__header__icon" />
+        <FormOutlined class="sidebar__header__icon" @click="onShowCreateDialogModalClick" />
       </AppInlineIcon>
     </div>
 
@@ -15,9 +15,12 @@
 
 <script setup lang="ts">
 import { TeamOutlined, FormOutlined } from '@ant-design/icons-vue';
-import { useDialogs } from '~/hooks';
+import { useDialogs, useModal } from '~/hooks';
 
 const { items, currentDialogId, useDialogsQuery, dialogPartner} = useDialogs()
+const {showModal, MODAL_NAME} = useModal();
+
+
 
 const dialogsQuery = useDialogsQuery()
 
@@ -36,6 +39,10 @@ const isLoading = computed(() => dialogsQuery.isLoading.value)
 
 function onTextInput(e: InputEvent) {
   searchV.value = (e.target as HTMLInputElement).value || '';
+}
+
+function onShowCreateDialogModalClick() {
+  showModal(MODAL_NAME.CreateDialog);
 }
 </script>
 
