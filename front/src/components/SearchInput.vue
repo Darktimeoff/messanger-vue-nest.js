@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar__search">
-       <a-input class="sidebar__search-input" placeholder="Поиск среди контактов">
+       <a-input class="sidebar__search-input" :placeholder="placeholder">
             <template #prefix>
                 <SearchOutlined class="sidebar__search__icon" />
             </template>
@@ -10,6 +10,12 @@
 
 <script setup lang="ts">
 import { SearchOutlined } from '@ant-design/icons-vue';
+
+interface IProps {
+    placeholder?: string;
+}
+
+defineProps<IProps>()
 </script>
 
 <style lang="scss" scoped>

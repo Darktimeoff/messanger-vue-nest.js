@@ -24,6 +24,7 @@ declare module '@vue/runtime-core' {
     AppInlineIcon: typeof import('./src/components/AppInlineIcon.vue')['default']
     AppSvgIcon: typeof import('./src/components/AppSvgIcon.vue')['default']
     AResult: typeof import('ant-design-vue/es')['Result']
+    ASelect: typeof import('ant-design-vue/es')['Select']
     ASpin: typeof import('ant-design-vue/es')['Spin']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     Avatar: typeof import('./src/components/Avatar.vue')['default']
@@ -37,6 +38,7 @@ declare module '@vue/runtime-core' {
     ReadedIcon: typeof import('./src/components/ReadedIcon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchInput: typeof import('./src/components/SearchInput.vue')['default']
     Status: typeof import('./src/components/Status.vue')['default']
     TheChatDialog: typeof import('./src/components/TheChatDialog.vue')['default']
     TheChatDialogInput: typeof import('./src/components/TheChatDialogInput.vue')['default']
@@ -49,8 +51,11 @@ declare module '@vue/runtime-core' {
     TheRegisterForm: typeof import('./src/components/TheRegisterForm.vue')['default']
     TheRegisterFormSuccess: typeof import('./src/components/TheRegisterFormSuccess.vue')['default']
     TheSidebar: typeof import('./src/components/TheSidebar.vue')['default']
-    TheSidebarSearch: typeof import('./src/components/TheSidebarSearch.vue')['default']
+    TheSidebarSearch: typeof import('./src/components/SearchInput.vue')['default']
     UnReadCount: typeof import('./src/components/UnReadCount.vue')['default']
     UploadFile: typeof import('./src/components/UploadFile.vue')['default']
+    UserItem: typeof import('./src/components/UserItem.vue')['default']
+    UserSearch: typeof import('./src/components/UserSearch.vue')['default']
+    UserVisitTime: typeof import('./src/components/UserVisitTime.vue')['default']
   }
 }

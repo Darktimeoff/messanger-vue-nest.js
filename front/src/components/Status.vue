@@ -16,7 +16,7 @@ defineProps<IProps>()
 .status {
     display: inline-block;
     position: relative;
-    color: #bfbfbf;
+    color: $gray2;
     &::before {
         position: absolute;
         top: 50%;

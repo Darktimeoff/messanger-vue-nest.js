@@ -8,7 +8,7 @@
       </AppInlineIcon>
     </div>
 
-    <TheSidebarSearch @input="onTextInput" />
+    <SearchInput placeholder="Поиск среди контактов" @input="onTextInput" />
     <TheDialogs v-model:currentDialogId="currentDialogId" :items="filtredItems" :isLoading="isLoading"/>
   </div>
 </template>

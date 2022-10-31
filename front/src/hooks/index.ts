@@ -8,3 +8,4 @@ export * from './useAuth.hook';
 export * from './useSocket.hook';
 export * from './useFetch.hook';
 export * from './useModal.hook';
+export * from './useUserSearch.hook';

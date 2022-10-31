@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, UseGuards, Request} from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, UseGuards, Request, Query} from "@nestjs/common";
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { JwtAuthGuard } from "~/auth/guard/jwt-auth.guard";
 import { IReqAuth } from "~/auth/interface/jwt.interface";
@@ -66,6 +66,20 @@ export class UserController {
         if (!user) {
             throw new NotFoundException(USER_NOT_FOUND);
         }
+    }
+
+    @ApiOkResponse({
+        description: 'Find User',
+        type: [User]
+    })
+    @Get('search')
+    async findByText(@Request() req: IReqAuth, @Query('text') search: string) {
+        const users = await this.userService.findByText(
+            req.user._id as any,
+            search
+        );
+
+        return users;
     }
 
 

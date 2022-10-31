@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { InjectModel } from "@nestjs/mongoose";
 import { genSalt, hash } from "bcrypt";
 import { Model, Types } from "mongoose";
@@ -39,6 +38,32 @@ class UserService {
 
     async getUser(id: string) {
         return this.userModel.findById(id).exec()
+    }
+
+    async findByText(userId: Types.ObjectId, text: string) {
+        if(!text) {
+            return this.userModel.find({
+                _id: {
+                    $ne: userId
+                }
+            }).exec()
+        } else {
+            return this.userModel.find({
+                $and: [
+                    {
+                        _id: {
+                            $ne: userId,
+                        },
+                    },
+                    {
+                        $text: {
+                            $search: text,
+                            $caseSensitive: false
+                        }
+                    }
+                ]
+            }).exec();
+        }
     }
 
     async findByEmail(email: string) {
