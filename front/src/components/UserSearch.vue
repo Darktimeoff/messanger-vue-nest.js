@@ -17,7 +17,13 @@
             </a-empty>
             <div  v-else class="usersearch-list">
                 <TransitionGroup enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
-                    <UserItem v-for="user in props.users" :key="user._id" :user="user" @click="emit('userSelect', user)" />
+                    <UserItem 
+                        v-for="user in props.users" 
+                        :key="user._id" 
+                        :user="user" 
+                        :selectedUser="selectedUser"
+                        @click="emit('userSelect', user)"
+                     />
                 </TransitionGroup>
             </div>
         </Transition>
@@ -33,6 +39,7 @@ interface IProps {
     isLoading: boolean;
     users: IUser[] | undefined;
     text: string;
+    selectedUser: IUser | undefined | null;
 }
 
 interface IEmit { 

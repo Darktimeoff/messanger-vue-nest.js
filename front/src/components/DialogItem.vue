@@ -17,11 +17,11 @@
                 {{dialogName}}
             </div>
             <div class="dialogs__item__date">
-                {{getDialogTime(item.lastMessage.createdAt)}}
+                {{item.lastMessage?.createdAt && getDialogTime(item?.lastMessage.createdAt)}}
             </div>
             <div class="dialogs__item__message">
-                <span v-if="isShowAuthor">{{item.lastMessage.author?.fullname}}</span>
-                {{item.lastMessage.text}}
+                <span v-if="isShowAuthor">{{item.lastMessage?.author?.fullname}}</span>
+                {{item.lastMessage?.text}}
             </div>
             <UnReadCount v-if="isShowUnread" class="dialogs__item__unread">
                 <!-- TODO IMPLEMETED UNREAD MESSAGE COUND -->
@@ -66,9 +66,9 @@ const dialogName = computed(() => getDialogName.value(item.value));
 const partner = computed(() => dialogPartner.value(item.value));
 const lastMessage = computed(() => item.value.lastMessage);
 const isOnline = computed(() => partner.value?.isOnline);
-const authorId = computed(() => lastMessage.value.author._id);
+const authorId = computed(() => lastMessage.value?.author._id || '');
 const isMyMessage = computed(() => isMe.value(authorId.value));
-const isReaded = computed(() => lastMessage.value.isRead);
+const isReaded = computed(() => Boolean(lastMessage.value?.isRead));
 const isShowUnread = computed(() => false);
 const isShowAuthor = computed(() => !item.value.isDialog && !isMe.value)
 </script>
@@ -85,7 +85,7 @@ const isShowAuthor = computed(() => !item.value.isDialog && !isMe.value)
         background-color: #f3f7ff;
     }
     &.active {
-        background-color: #3590ec;
+        background-color: $dialogActive;
         color: $white;
         .dialogs__item__date {
             opacity: 1;
