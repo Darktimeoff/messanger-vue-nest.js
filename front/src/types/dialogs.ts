@@ -10,6 +10,8 @@ export interface IMessage {
     dialog: IDialog;
     createdAt: string;
     updatedAt: string;
+    deletedAt?: string
+    isDeleted?: boolean;
 }
 
 export interface IDialog {

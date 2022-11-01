@@ -1,7 +1,9 @@
 <template>
     <div class="message__content">
-        <div v-if="text || isTyping || audio" class="message__bubble">
-            <p v-if="text" class="message__text">{{text}}</p>
+        <div v-if="text || isTyping || audio || isDeleted" class="message__bubble">
+            <p v-if="text" class="message__text">
+                {{isDeleted ? 'Сообщение удалено' : text}}
+            </p>
             <MessageTyping v-if="isTyping" />
             <MessageAudio v-if="audio" :audio="audio" />
         </div>
@@ -18,6 +20,7 @@ interface IProps {
     isTyping?: boolean;
     attachments?: IAttachment[];
     audio?: string;
+    isDeleted?: boolean | undefined;
 }
 
 

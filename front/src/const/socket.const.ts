@@ -1,3 +1,4 @@
 export enum SOCKET_EMIT {
-    'message' = 'message'
+    'message' = 'message',
+    'messageRemove' = 'messageRemove'
 }

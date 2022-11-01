@@ -35,6 +35,8 @@ interface IProps {
     isHasAttachment?: boolean;
     isTyping?: boolean;
     isAudio?: boolean;
+    isDeleted?: boolean;
+    deletedAt?: string;
 }
 
 const props = defineProps<IProps>()
@@ -42,7 +44,7 @@ const props = defineProps<IProps>()
 const {getDistanceTime} = useTime()
 
 const formatDate = computed(() => {
-    return props.date && getDistanceTime.value(props.date);
+    return props.isDeleted && props.deletedAt ? getDistanceTime.value(props.deletedAt) : props.date && getDistanceTime.value(props.date);
 })
 </script>
 

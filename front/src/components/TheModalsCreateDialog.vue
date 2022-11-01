@@ -1,6 +1,6 @@
 <template>
     <a-modal 
-        okText="Создать" 
+        :okText="buttonText" 
         cancelText="Закрыть"  
         title="Создать диалог"
         :onOk="createDialog"
@@ -24,9 +24,13 @@ import type { IUser } from '~/types';
 const selectedUser = ref<IUser | null>()
 const isLoadingCreateDialog = ref(false)
 const {isFetching, text, sortUserByDate} = useUserSearch();
-const {findOrCreateAndOpen} = useDialogs();
+const {findOrCreateAndOpen, getDialogByPartner} = useDialogs();
 const {info} = useNotification()
 const {hideModal} = useModal();
+
+const buttonText = computed(() => {
+    return selectedUser.value && getDialogByPartner.value(selectedUser.value._id) ? 'Открыть' : 'Создать' 
+})
 
 function onUserSelect(user: IUser) {
     if(selectedUser.value?._id === user._id) {

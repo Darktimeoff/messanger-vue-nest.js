@@ -22,5 +22,6 @@ import { AuthModule } from "~/auth/auth.module";
     ],
     providers: [DialogService, DialogGateway],
     controllers: [DialogController],
+    exports: [DialogGateway]
 })
 export class DialogModule {}

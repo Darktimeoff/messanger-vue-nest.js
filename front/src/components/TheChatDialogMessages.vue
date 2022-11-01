@@ -21,8 +21,20 @@
               :isHasAttachment="m.data.attachments?.length > 0"
               :isAudio="Boolean(m.data.audio)"
               :isReaded="m.data.isRead"
+              :isDeleted="m.data.isDeleted"
+              :deletedAt="m.data.deletedAt"
             >
-              <Messsage :text="m.data.text" :audio="m.data.audio" />
+              <MessagePopover 
+                trigger="click"
+                placement="top"
+                @delete="emit('delete', m.data)"
+              >
+                <Messsage 
+                  :text="m.data.text" 
+                  :audio="m.data.audio"
+                  :isDeleted="m.data.isDeleted"
+                />
+              </MessagePopover>
             </MessageWrapper>
         </div>
       </Transition>
@@ -39,7 +51,12 @@ interface IProps {
   isLoading?: boolean;
   indexView?: number;
 }
+interface IEmit {
+  (event: 'delete', message: IMessage): void;
+}
+
 const props = defineProps<IProps>();
+const emit = defineEmits<IEmit>()
 
 const {isMe, getMessageAuthorInfo} = useDialogs();
 const messagesList = ref<IMessage[]>([])
@@ -47,7 +64,7 @@ const {list, wrapperProps, containerProps, scrollTo} = useVirtualList(messagesLi
 const indexView = useVModel(props, 'indexView');
 
 const messagesElm = ref<HTMLDivElement>()
-const isEmpty = computed(() => !props.items?.length);
+const isEmpty = computed(() => !props.items?.length || messagesList.value.every(m => typeof m !== 'object'));
 
 const indicator = h(LoadingOutlined, { spin: true});
 

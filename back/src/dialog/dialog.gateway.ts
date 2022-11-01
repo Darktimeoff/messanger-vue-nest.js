@@ -5,8 +5,11 @@ import { MongooseError } from "mongoose";
 import { Server, Socket } from "socket.io";
 import { AuthService } from "~/auth/auth.service";
 import { BadRequestTransformationFilter } from "~/filter/badRequestException.filter";
+import { NOT_FOUND } from "~/message/const";
 import { CreateMessageDto } from "~/message/dto/create-message.dto";
+import { MessageDeleteDto } from "~/message/dto/message-delete.dto";
 import { Message } from "~/message/entities/message.entity";
+import { MessageService } from "~/message/message.service";
 import { wsAuthMiddleware } from "~/middleware/ws-auth.middleware";
 import { IUserId } from "~/user/entities/user.entity";
 import UserService from "~/user/user.service";
@@ -23,7 +26,8 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     constructor(
         private readonly authService: AuthService,
         private readonly userService: UserService,
-        private readonly dialogService: DialogService
+        private readonly dialogService: DialogService,
+        private readonly messageService: MessageService
     ) {
 
     }
@@ -75,6 +79,34 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
             }
 
             const message = await this.dialogService.addMessage(messageDto.dialogId, messageDto);
+
+            this.messagesEmit(dialog, message);
+        } catch(e) {
+            if(e instanceof Error) {
+                this.logger.error(`get message ${e}`) 
+                this.messageException(e.message)
+            }
+        }
+    }
+
+    @SubscribeMessage(SUBSCRIBE_EVENT.messageRemove)
+    async messageRemove(
+        @MessageBody() data: MessageDeleteDto,
+        @ConnectedSocket() client: Socket
+    ) {
+        try {
+            const userId = client.data.user._id;
+            let dialog = await this.dialogService.dialogWhereUserMember(data.dialogId, userId);
+
+            if(!dialog) {
+                this.messageException(DIALOG_NOT_FOUND)
+            }
+
+            const message = await this.messageService.remove(data.messageId);
+
+            if(!message) {
+                this.messageException(NOT_FOUND)
+            }
 
             this.messagesEmit(dialog, message);
         } catch(e) {

@@ -5,7 +5,8 @@ export enum EMIT_EVENT  {
 }
 
 export enum SUBSCRIBE_EVENT {
-    'message' = 'message'
+    'message' = 'message',
+    'messageRemove' = 'messageRemove'
 }
 
 export enum EXCEPTION {

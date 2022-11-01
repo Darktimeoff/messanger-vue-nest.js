@@ -1,6 +1,6 @@
 <template>
     <Transition enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
-        <div v-if="isSelectDialog" class="chat__dialog">
+        <div class="chat__dialog">
             <div class="chat__dialog-header">
                 <div class="chat__dialog-header-center">
                     <div class="chat__dialog-header-username">
@@ -14,7 +14,13 @@
                     </AppInlineIcon>
                 </div>
             </div>
-            <TheChatDialogMessages v-model:indexView="messageViewIndex" :items="messages" class="chat__dialogs-messages" :isLoading="isLoading" />
+            <TheChatDialogMessages 
+                v-model:indexView="messageViewIndex" 
+                :items="messages" 
+                class="chat__dialogs-messages" 
+                :isLoading="isLoading"
+                @delete="removeMessageAPI"
+             />
             <TheChatDialogInput class="chat__dialogs-input" @send="onSend" />
         </div>
     </Transition>
@@ -26,14 +32,14 @@ import { scrollListToBottom } from '~/helpers';
 import { useDialogs } from '~/hooks';
 
 const {
-    messages, 
-    isSelectDialog, 
+    messages,  
     currentDialog, 
     useDialogQuery, 
     getDialogName, 
     currentDialogId, 
     dialogPartner, 
     messageEmit,
+    removeMessageAPI
 } = useDialogs();
 
 const dialogQuery = useDialogQuery();
@@ -64,14 +70,27 @@ watch(messagesLength, (v) => {
     nextTick(scrollToBottom)
 })
 
-onMounted(notFound);
+onMounted(mounted);
 
 function notFound() {
-    messageElm.value = document.querySelector('.chat__dialogs-messages') as HTMLDivElement;
     if(isError.value) {
         router.push({name: "Home"});
         currentDialogId.value = undefined;
-    } else if(data.value) {
+    }
+}
+
+function mounted() {
+    messageElm.value = document.querySelector('.chat__dialogs-messages') as HTMLDivElement;
+
+    notFound();
+
+    showLastMessage();
+
+    if(currentDialogId.value) dialogQuery.refetch.value();
+}
+
+function showLastMessage() {
+    if(!isError.value && data.value) {
         messageViewIndex.value = messages.value.length - 1;
     }
 }

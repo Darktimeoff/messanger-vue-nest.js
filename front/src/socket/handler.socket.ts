@@ -1,4 +1,4 @@
-import { useDialogs } from "~/hooks";
+import { useDialogs, useNotification } from "~/hooks";
 import { store } from "~/store";
 import { IDialog, IMessage } from "~/types";
 
@@ -15,6 +15,12 @@ interface IDialogsDataEmit {
 interface IMessageDataEmit {
     dialogId: string;
     message: IMessage;
+}
+
+interface IExceptionEmit {
+    status: string;
+    message: string | string[];
+
 }
 
 export function onlines(data: IOnlinesDataEmit) {
@@ -34,9 +40,10 @@ export function dialogs({dialog, isDeleted}: IDialogsDataEmit) {
 }
 
 export function messages({dialogId, message}: IMessageDataEmit) {
-    const {addMessage} = useDialogs();
+    const {addMessage, removeMessage} = useDialogs();
 
-    addMessage(dialogId, message);
+    if(!message.isDeleted) addMessage(dialogId, message);
+    else removeMessage(dialogId, message)
     console.log('event: message', message)
 }
 
@@ -44,6 +51,10 @@ export function connect_error(data: any) {
     console.error('connect_error', data)
 }
 
-export function exception(data: any) {
-    console.error('exception', data)
+export function exception(data: IExceptionEmit) {
+    const {error} = useNotification();
+    error({
+        message: data.status,
+        description: typeof data.message === 'object' ? data.message[0] : data.message
+    })
 }

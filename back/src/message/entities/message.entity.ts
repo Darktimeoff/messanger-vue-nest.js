@@ -23,7 +23,13 @@ export class Message {
     author: User
 
     @Prop({type: Types.ObjectId, ref: 'Dialog', required: true})
-    dialog: Dialog
+    dialog: Dialog;
+    
+    @Prop()
+    isDeleted: boolean;
+
+    @Prop()
+    deletedAt: string;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

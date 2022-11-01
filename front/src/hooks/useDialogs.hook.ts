@@ -3,9 +3,9 @@ import { DialogsAPI } from "~/api";
 import { useDialogStore } from "~/store";
 import { useQuery } from "vue-query";
 import { Pinia, storeToRefs } from "pinia";
-import { IDialog, IUser } from "~/types";
+import { IDialog, IMessage, IUser } from "~/types";
 import { useAuth } from "./useAuth.hook";
-import { messageEmit } from '~/socket';
+import { messageEmit, messageRemoveEmit } from '~/socket';
 import router from '~/router';
 
 export function useDialogs(store?: Pinia) {
@@ -32,7 +32,7 @@ export function useDialogs(store?: Pinia) {
 
     function useDialogQuery() {
         return useQuery(['dialog', currentDialogId], () => DialogsAPI.getById(currentDialogId.value || ''), {
-            enabled: isSelectDialog.value && !isEmpty.value,
+            enabled: isSelectDialog.value,
             select: (dialog) => dialog.data?.message,
             onSuccess(data) {
                 if(currentDialogId.value) dialogsStore.addMessage(currentDialogId.value, data);
@@ -85,6 +85,17 @@ export function useDialogs(store?: Pinia) {
             }
         })
     }
+
+    function removeMessageAPI(message: IMessage) {
+        if(!currentDialogId.value) return;
+
+        messageRemoveEmit({
+            dialogId: currentDialogId.value,
+            messageId: message._id
+        })
+
+        dialogsStore.removeMessage(currentDialogId.value, {...message, deletedAt: new Date().toISOString()});
+    }
  
 
     return {
@@ -102,6 +113,8 @@ export function useDialogs(store?: Pinia) {
         removeDialog,
         addDialog: dialogsStore.addDialog,
         addMessage: dialogsStore.addMessage,
+        removeMessage: dialogsStore.removeMessage,
+        removeMessageAPI,
         messageEmit,
         createDialog,
         findOrCreateAndOpen,

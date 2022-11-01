@@ -52,7 +52,6 @@ export class DialogService {
     }
 
     async findAll(userId: string): Promise<DialogDocument[]> {
-        console.log('user id',  new Types.ObjectId(userId))
         return this.dialogModel.find({
             members: {
                 $elemMatch: {
@@ -62,6 +61,7 @@ export class DialogService {
         }).populate(['members', {
             path: 'lastMessage',
             populate: {
+                strictPopulate: false,
                 path: 'user'
             }
         }]).exec()

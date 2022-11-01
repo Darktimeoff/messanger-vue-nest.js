@@ -33,7 +33,10 @@ export class MessageService {
     return `This action updates a #${id} message`;
   }
 
-  remove(id: string) {
-    return this.messageModel.findByIdAndDelete(id);
+  async remove(id: string) {
+    return this.messageModel.findByIdAndUpdate(id, {
+      deletedAt: new Date().toISOString(),
+      isDeleted: true
+    }, {new: true}).exec()
   }
 }

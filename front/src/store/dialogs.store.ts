@@ -26,6 +26,17 @@ export const useDialogStore = defineStore('dialogs', () => {
         }
     }
 
+    function removeMessage(dialogId: string, messageData: IMessage) {
+        const dialog = items.value?.find(d => d._id === dialogId);
+        if(!dialog) return;
+
+        const message = dialog.message.find(m => m._id === messageData._id);
+        if(!message) return;
+
+        message.isDeleted = true;
+        message.deletedAt = messageData.deletedAt;
+    }
+
     function setDialogs(dialogs: IDialog[]) {
         if(!items.value?.length) {
             items.value = dialogs;
@@ -72,6 +83,7 @@ export const useDialogStore = defineStore('dialogs', () => {
         removeDialog,
         addDialog,
         addMessage,
-        setDialogs
+        setDialogs,
+        removeMessage
     }
 })
