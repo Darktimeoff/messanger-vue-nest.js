@@ -35,6 +35,10 @@ export const useDialogStore = defineStore('dialogs', () => {
 
         message.isDeleted = true;
         message.deletedAt = messageData.deletedAt;
+
+        if(dialog.lastMessage?._id === messageData._id) {
+            dialog.lastMessage = message;
+        }
     }
 
     function setDialogs(dialogs: IDialog[]) {

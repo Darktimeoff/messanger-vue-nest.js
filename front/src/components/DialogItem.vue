@@ -17,11 +17,14 @@
                 {{dialogName}}
             </div>
             <div class="dialogs__item__date">
-                {{item.lastMessage?.createdAt && getDialogTime(item?.lastMessage.createdAt)}}
+                {{item.lastMessage?.deletedAt ? 
+                    getDialogTime(item?.lastMessage.deletedAt) : 
+                    getDialogTime(item.lastMessage?.createdAt || '')
+                }}
             </div>
             <div class="dialogs__item__message">
                 <span v-if="isShowAuthor">{{item.lastMessage?.author?.fullname}}</span>
-                {{item.lastMessage?.text}}
+                {{item.lastMessage?.isDeleted ? 'Сообщение удалено' : item.lastMessage?.text}}
             </div>
             <UnReadCount v-if="isShowUnread" class="dialogs__item__unread">
                 <!-- TODO IMPLEMETED UNREAD MESSAGE COUND -->
