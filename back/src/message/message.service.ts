@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CreateMessageDto } from './dto/create-message.dto';
+import { EditedMessageDto } from './dto/edited-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { MessageDocument } from './entities/message.entity';
 
@@ -31,6 +32,12 @@ export class MessageService {
 
   update(id: number, updateMessageDto: UpdateMessageDto) {
     return `This action updates a #${id} message`;
+  }
+
+  edited(id: string, dto: EditedMessageDto) {
+    return this.messageModel.findByIdAndUpdate(id, {
+      textEdited: dto.text
+    }, {new: true}).exec()
   }
 
   async remove(id: string) {

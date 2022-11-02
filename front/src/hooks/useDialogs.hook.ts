@@ -5,7 +5,7 @@ import { useQuery } from "vue-query";
 import { Pinia, storeToRefs } from "pinia";
 import { IDialog, IMessage, IUser } from "~/types";
 import { useAuth } from "./useAuth.hook";
-import { messageEmit, messageRemoveEmit } from '~/socket';
+import { messageEditEmit, messageEmit, messageRemoveEmit } from '~/socket';
 import router from '~/router';
 
 export function useDialogs(store?: Pinia) {
@@ -16,6 +16,7 @@ export function useDialogs(store?: Pinia) {
     const getDialogByPartner = computed(() => (id: string) => items.value.find(d => d.members.find(u => u._id === id)));
     const dialogPartner = computed(() => (dialog: IDialog) => dialog?.members.find(u => !isMe.value(u._id)));
     const getDialogName = computed(() => (d: IDialog) => dialogPartner.value(d)?.fullname);
+    const getMessageText = computed(() => (m: IMessage) => m?.textEdited || m?.text)
     const isEmpty  = computed(() =>  !currentDialog.value?.lastMessage);
     const getMessageAuthorInfo = computed(() => (authorId: string) => {
         return currentDialog.value?.members.find(u => u._id === authorId)
@@ -94,8 +95,24 @@ export function useDialogs(store?: Pinia) {
             messageId: message._id
         })
 
-        dialogsStore.removeMessage(currentDialogId.value, {...message, deletedAt: new Date().toISOString()});
+        dialogsStore.updateMessage(currentDialogId.value, {
+            ...message, 
+            deletedAt: new Date().toISOString()
+        });
     }
+
+    function editedMessageAPI(message: IMessage) {
+        if(!currentDialogId.value) return;
+
+        messageEditEmit({
+            dialogId: currentDialogId.value,
+            messageId: message._id,
+            text: message.text
+        })
+
+        dialogsStore.updateMessage(currentDialogId.value, {...message, isEdited: true, textEdited: message.text});
+    }
+ 
  
 
     return {
@@ -113,13 +130,15 @@ export function useDialogs(store?: Pinia) {
         removeDialog,
         addDialog: dialogsStore.addDialog,
         addMessage: dialogsStore.addMessage,
-        removeMessage: dialogsStore.removeMessage,
+        updateMessage: dialogsStore.updateMessage,
         removeMessageAPI,
+        editedMessageAPI,
         messageEmit,
         createDialog,
         findOrCreateAndOpen,
         items,
         getDialogByPartner,
-        isEmpty
+        isEmpty,
+        getMessageText
     }
 }

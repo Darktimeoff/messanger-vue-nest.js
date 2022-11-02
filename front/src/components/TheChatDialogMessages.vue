@@ -22,15 +22,19 @@
               :isAudio="Boolean(m.data.audio)"
               :isReaded="m.data.isRead"
               :isDeleted="m.data.isDeleted"
+              :isEdited="Boolean(m.data.textEdited)"
               :deletedAt="m.data.deletedAt"
+              :updatedAt="m.data.updatedAt"
             >
               <MessagePopover 
                 trigger="click"
                 placement="top"
                 @delete="emit('delete', m.data)"
+                @edit="emit('edit', m.data)"
+                @copy="emit('edit', m.data)"
               >
                 <Messsage 
-                  :text="m.data.text" 
+                  :text="getMessageText(m.data)" 
                   :audio="m.data.audio"
                   :isDeleted="m.data.isDeleted"
                 />
@@ -53,12 +57,14 @@ interface IProps {
 }
 interface IEmit {
   (event: 'delete', message: IMessage): void;
+  (event: 'edit', message: IMessage): void;
+  (event: 'copy', message: IMessage): void;
 }
 
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>()
 
-const {isMe, getMessageAuthorInfo} = useDialogs();
+const {isMe, getMessageAuthorInfo, getMessageText} = useDialogs();
 const messagesList = ref<IMessage[]>([])
 const {list, wrapperProps, containerProps, scrollTo} = useVirtualList(messagesList, {itemHeight: 80});
 const indexView = useVModel(props, 'indexView');

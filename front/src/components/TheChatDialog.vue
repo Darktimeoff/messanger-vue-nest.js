@@ -20,8 +20,13 @@
                 class="chat__dialogs-messages" 
                 :isLoading="isLoading"
                 @delete="removeMessageAPI"
+                @edit="onEditMessage"
              />
-            <TheChatDialogInput class="chat__dialogs-input" @send="onSend" />
+            <TheChatDialogInput 
+                v-model:value="message" 
+                class="chat__dialogs-input" 
+                @send="onSend" 
+            />
         </div>
     </Transition>
 </template>
@@ -30,6 +35,7 @@
 import { EllipsisOutlined } from '@ant-design/icons-vue';
 import { scrollListToBottom } from '~/helpers';
 import { useDialogs } from '~/hooks';
+import { IMessage } from '~/types';
 
 const {
     messages,  
@@ -39,12 +45,17 @@ const {
     currentDialogId, 
     dialogPartner, 
     messageEmit,
-    removeMessageAPI
+    removeMessageAPI,
+    editedMessageAPI,
+    getMessageText
 } = useDialogs();
 
 const dialogQuery = useDialogQuery();
 const route = useRoute();
 const router = useRouter();
+
+const editedMessage = ref<IMessage | null>()
+const message = ref<string>('');
 const messageElm = ref<HTMLDivElement>();
 const messageViewIndex = ref<number>(0)
 
@@ -68,7 +79,7 @@ watch(isError, notFound);
 watch(messagesLength, (v) => {
     console.log('messages')
     nextTick(scrollToBottom)
-})
+});
 
 onMounted(mounted);
 
@@ -96,14 +107,26 @@ function showLastMessage() {
 }
 
 
-function onSend(message: string) {
+function onSend(m: string) {
     if(!currentDialogId.value) return;
-    if(!message.trim()) return;
+    if(!m.trim()) {
+        editedMessage.value = null;
+        return;
+    };
+
+    if(editedMessage.value) {
+        editedMessageAPI({
+            ...editedMessage.value,
+            text: message.value
+        })
+
+        editedMessage.value = null;
+        return;
+    }
   
-    console.log('onSend socket')
     messageEmit({
         message: {
-            text: message
+            text: m
         },
         dialogId: currentDialogId.value
     });
@@ -111,6 +134,11 @@ function onSend(message: string) {
 function scrollToBottom() {
     const scroll = document.querySelector('.chat__dialogs-messages') as HTMLDivElement;
     scrollListToBottom(scroll)
+}
+
+function onEditMessage(m: IMessage) {
+    editedMessage.value = m;
+    message.value = getMessageText.value(m);
 }
 </script>
 

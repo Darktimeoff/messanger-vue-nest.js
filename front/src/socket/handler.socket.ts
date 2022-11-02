@@ -40,10 +40,10 @@ export function dialogs({dialog, isDeleted}: IDialogsDataEmit) {
 }
 
 export function messages({dialogId, message}: IMessageDataEmit) {
-    const {addMessage, removeMessage} = useDialogs();
+    const {addMessage, updateMessage} = useDialogs();
 
-    if(!message.isDeleted) addMessage(dialogId, message);
-    else removeMessage(dialogId, message)
+    if(message.isDeleted || message?.textEdited) updateMessage(dialogId, message)
+    else addMessage(dialogId, message)
     console.log('event: message', message)
 }
 

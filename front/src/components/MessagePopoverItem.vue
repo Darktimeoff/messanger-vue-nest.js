@@ -14,12 +14,15 @@
 .popoveritem {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
     gap: 0 10px;
     font-size: 16px;
     transition: $animationDuration;;
     padding: 10px 16px;
+    &:hover {
+        background: $gray;
+    }
     &:active {
         background: $gray;
     }

@@ -17,7 +17,7 @@
             />
         </div>
         <slot />
-        <div class="message__date">{{formatDate}}</div>
+        <div class="message__date">{{isEdited ? `Изменено ${formatDate}` : formatDate}}</div>
         <ReadedIcon :isRead="Boolean(isMe && isReaded)" :isSend="Boolean(isMe)" />
     </div>
 </template>
@@ -36,7 +36,9 @@ interface IProps {
     isTyping?: boolean;
     isAudio?: boolean;
     isDeleted?: boolean;
+    isEdited?: boolean;
     deletedAt?: string;
+    updatedAt?: string;
 }
 
 const props = defineProps<IProps>()
@@ -44,7 +46,7 @@ const props = defineProps<IProps>()
 const {getDistanceTime} = useTime()
 
 const formatDate = computed(() => {
-    return props.isDeleted && props.deletedAt ? getDistanceTime.value(props.deletedAt) : props.date && getDistanceTime.value(props.date);
+    return props.updatedAt && getDistanceTime.value(props.updatedAt)
 })
 </script>
 

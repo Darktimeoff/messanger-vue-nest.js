@@ -26,3 +26,10 @@ export function generateGradientFromStr(str: string) {
         lightenColor: lightenColor.toHex()
     }
 }
+
+export function updateObj(cur: object, newObj: object) {
+    Object.keys(cur).forEach(k => {
+        //@ts-ignore
+        cur[k] = newObj[k];
+    })
+}

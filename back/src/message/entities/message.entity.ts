@@ -9,6 +9,9 @@ export type MessageDocument = Message & Document
 export class Message {
     @Prop()
     text: string;
+
+    @Prop()
+    textEdited: string;
     
     @Prop({default: false})
     isRead: boolean;
@@ -33,3 +36,6 @@ export class Message {
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
+MessageSchema.virtual('isEdited').get(function() {
+    return Boolean(this.textEdited?.trim())
+})

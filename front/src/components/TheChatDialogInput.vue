@@ -59,12 +59,17 @@ interface IEmit {
     (event: 'send', text: string): void
 }
 
-const emit = defineEmits<IEmit>()
+interface IProps {
+    value: string;
+}
+
+const emit = defineEmits<IEmit>();
+const props = defineProps<IProps>();
 
 const emojiIndex = ref<EmojiIndex>()
 
 const isAudio = ref(true);
-const input = ref('');
+const input = useVModel(props, 'value');
 const showEmojii = ref(false)
 
 const isEmpty = computed(() => {

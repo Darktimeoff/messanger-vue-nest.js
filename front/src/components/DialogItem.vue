@@ -24,7 +24,7 @@
             </div>
             <div class="dialogs__item__message">
                 <span v-if="isShowAuthor">{{item.lastMessage?.author?.fullname}}</span>
-                {{item.lastMessage?.isDeleted ? 'Сообщение удалено' : item.lastMessage?.text}}
+                {{item.lastMessage?.isDeleted ? 'Сообщение удалено' :  getMessageText(item.lastMessage as any)}}
             </div>
             <UnReadCount v-if="isShowUnread" class="dialogs__item__unread">
                 <!-- TODO IMPLEMETED UNREAD MESSAGE COUND -->
@@ -60,7 +60,8 @@ const {
 
 const {
     dialogPartner,
-    getDialogName
+    getDialogName,
+    getMessageText
 } = useDialogs()
 
 

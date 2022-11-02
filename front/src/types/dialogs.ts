@@ -3,6 +3,7 @@ import { IUser } from "./user";
 export interface IMessage {
     _id: string;
     text: string;
+    textEdited: string;
     isRead: boolean;
     attachments: string[]
     audio: string;
@@ -12,6 +13,7 @@ export interface IMessage {
     updatedAt: string;
     deletedAt?: string
     isDeleted?: boolean;
+    isEdited?: boolean;
 }
 
 export interface IDialog {

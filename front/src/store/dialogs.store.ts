@@ -2,6 +2,7 @@ import {  IDialog,IMessage } from "~/types"
 import { defineStore } from "pinia";
 import {ref, computed} from 'vue';
 import type {IOnlinesDataEmit} from '~/socket'
+import { updateObj } from "~/helpers";
 export const useDialogStore = defineStore('dialogs', () => {
     const items = ref<IDialog[]>([]);
     const currentDialogId = ref<string>();
@@ -26,20 +27,22 @@ export const useDialogStore = defineStore('dialogs', () => {
         }
     }
 
-    function removeMessage(dialogId: string, messageData: IMessage) {
+    function updateMessage(dialogId: string, messageData: IMessage) {
         const dialog = items.value?.find(d => d._id === dialogId);
         if(!dialog) return;
 
         const message = dialog.message.find(m => m._id === messageData._id);
         if(!message) return;
 
-        message.isDeleted = true;
-        message.deletedAt = messageData.deletedAt;
+        messageData.updatedAt = new Date().toISOString();
+
+        updateObj(message, messageData)
 
         if(dialog.lastMessage?._id === messageData._id) {
             dialog.lastMessage = message;
         }
     }
+
 
     function setDialogs(dialogs: IDialog[]) {
         if(!items.value?.length) {
@@ -88,6 +91,6 @@ export const useDialogStore = defineStore('dialogs', () => {
         addDialog,
         addMessage,
         setDialogs,
-        removeMessage
+        updateMessage
     }
 })

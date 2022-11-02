@@ -1,11 +1,23 @@
 <template>
-    <a-popover class="messagepopover" :title="title" :trigger="trigger" :placement="placement">
+    <a-popover v-model:visible="visiable" class="messagepopover" :title="title" :trigger="trigger" :placement="placement">
         <template #content>
-            <MessagePopoverItem icon="delete-outlined" @click="emit('delete')">
+            <MessagePopoverItem @click="emit('delete'), visiable = false">
                 <template #icon>
                     <DeleteOutlined />
                 </template>
                 Delete
+            </MessagePopoverItem>
+            <MessagePopoverItem icon="delete-outlined" @click="emit('edit'), visiable = false">
+                <template #icon>
+                    <EditOutlined />
+                </template>
+                Edit
+            </MessagePopoverItem>
+            <MessagePopoverItem icon="delete-outlined" @click="emit('copy'), visiable = false">
+                <template #icon>
+                    <EditOutlined />
+                </template>
+                Copy
             </MessagePopoverItem>
         </template>
         <slot />
@@ -13,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { DeleteOutlined } from '@ant-design/icons-vue';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue';
 
 interface IProps {
     title?: string;
@@ -23,10 +35,13 @@ interface IProps {
 
 interface  IEmit {
     (event: 'delete'): void;
+    (event: 'edit'): void;
+    (event: 'copy'): void;
 }
 
 defineProps<IProps>();
-const emit = defineEmits<IEmit>()
+const emit = defineEmits<IEmit>();
+const visiable = ref<boolean>();
 </script>
 
 <style lang="scss">
