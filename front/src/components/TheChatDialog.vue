@@ -98,6 +98,7 @@ function showLastMessage() {
 
 function onSend(message: string) {
     if(!currentDialogId.value) return;
+    if(!message.trim()) return;
   
     console.log('onSend socket')
     messageEmit({
