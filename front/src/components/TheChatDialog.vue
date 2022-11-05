@@ -21,6 +21,7 @@
                 :isLoading="isLoading"
                 @delete="removeMessageAPI"
                 @edit="onEditMessage"
+                @copy="copy"
              />
             <TheChatDialogInput 
                 v-model:value="message" 
@@ -54,10 +55,13 @@ const dialogQuery = useDialogQuery();
 const route = useRoute();
 const router = useRouter();
 
+
 const editedMessage = ref<IMessage | null>()
 const message = ref<string>('');
 const messageElm = ref<HTMLDivElement>();
 const messageViewIndex = ref<number>(0)
+
+const {  copy } = useClipboard({ source: message })
 
 currentDialogId.value = route.params.id as string;
 
