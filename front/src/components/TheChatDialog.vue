@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { EllipsisOutlined } from '@ant-design/icons-vue';
+import { onBeforeRouteLeave } from 'vue-router';
 import { scrollListToBottom } from '~/helpers';
 import { useDialogs } from '~/hooks';
 import { IMessage } from '~/types';
@@ -86,6 +87,13 @@ watch(messagesLength, (v) => {
 });
 
 onMounted(mounted);
+onBeforeRouteLeave((to, from, next) => {
+    if(to.name != from.name) {
+        currentDialogId.value = undefined;
+    }
+    
+    next(true)
+})
 
 function notFound() {
     if(isError.value) {
