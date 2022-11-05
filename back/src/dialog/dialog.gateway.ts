@@ -9,6 +9,7 @@ import { NOT_FOUND } from "~/message/const";
 import { CreateMessageDto } from "~/message/dto/create-message.dto";
 import { EditedDialogMessageDto } from "~/message/dto/edited-message.dto";
 import { MessageDeleteDto } from "~/message/dto/message-delete.dto";
+import { ReadMessageDto } from "~/message/dto/read-message.dto";
 import { Message } from "~/message/entities/message.entity";
 import { MessageService } from "~/message/message.service";
 import { wsAuthMiddleware } from "~/middleware/ws-auth.middleware";
@@ -146,6 +147,46 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         }
     }
 
+    @SubscribeMessage(SUBSCRIBE_EVENT.messageRead) 
+    async messageRead( 
+        @MessageBody() data: ReadMessageDto,
+        @ConnectedSocket() client: Socket
+    ) {
+        try {
+            const userId = client.data.user._id;
+            let dialog = await this.dialogService.dialogWhereUserMember(data.dialogId, userId);
+
+            if(!dialog) {
+                this.messageException(DIALOG_NOT_FOUND)
+            }
+
+            if(!data.messageId) {
+                const messages = await this.messageService.readUserDialogMessage(userId, dialog._id as any);
+                console.log('messages', messages)
+                if(!messages) return;
+
+                this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.messageRead, {
+                    dialogId: dialog._id,
+                    userId,
+                })
+            } else {
+                const message = await this.messageService.readOneMessage(data.messageId);
+                if(!message) return;
+
+                this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.messageRead, {
+                    dialogId: dialog._id,
+                    userId,
+                    messageId: message._id
+                })
+            }
+        } catch(e) {
+            if(e instanceof Error) {
+                this.logger.error(`read message ${e}`) 
+                this.messageException(e.message)
+            }
+        }
+    }
+
     async onlinesEmit(user: IUserId, isOnline: boolean) {
         const data = {
             userId: user._id.toString(),
@@ -171,6 +212,8 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         });
         this.logger.log(`dialogsEmit\n members: ${dialog.members}`)
     }
+
+    
 
     messagesEmit(dialog: Dialog & {_id: any}, message: Message & {_id: any}) {
         this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.messages, {

@@ -1,6 +1,7 @@
 import { useDialogs, useNotification } from "~/hooks";
 import { store } from "~/store";
 import { IDialog, IMessage } from "~/types";
+import { IMessageReadEmit } from "./emit.socket";
 
 export interface IOnlinesDataEmit {
     userId: string;
@@ -45,6 +46,12 @@ export function messages({dialogId, message}: IMessageDataEmit) {
     if(message.isDeleted || message?.textEdited) updateMessage(dialogId, message)
     else addMessage(dialogId, message)
     console.log('event: message', message)
+}
+
+export function messageRead(data: IMessageReadEmit & {userId: string}) {
+    const {readMessage} = useDialogs();
+    console.log('event: messageRead', data)
+    readMessage(data);
 }
 
 export function connect_error(data: any) {

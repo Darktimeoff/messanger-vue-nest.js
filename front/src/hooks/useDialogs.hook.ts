@@ -5,12 +5,12 @@ import { useQuery } from "vue-query";
 import { Pinia, storeToRefs } from "pinia";
 import { IDialog, IMessage, IUser } from "~/types";
 import { useAuth } from "./useAuth.hook";
-import { messageEditEmit, messageEmit, messageRemoveEmit } from '~/socket';
+import { messageEditEmit, messageEmit, messageReadEmit, messageRemoveEmit } from '~/socket';
 import router from '~/router';
 
 export function useDialogs(store?: Pinia) {
     const dialogsStore = useDialogStore(store);
-    const {isMe, user} = useAuth(store)
+    const {isMe, user, getUserId, userId} = useAuth(store)
     const { currentDialogId, isSelectDialog, currentDialog, items, ...dialogsState} = storeToRefs(dialogsStore);
 
     const getDialogByPartner = computed(() => (id: string) => items.value.find(d => d.members.find(u => u._id === id)));
@@ -87,6 +87,24 @@ export function useDialogs(store?: Pinia) {
         })
     }
 
+    async function readMessageAPI(messageId?: string) {
+        if(!currentDialogId.value) return;
+
+        const partnerId = currentDialog.value?.members.find(u => getUserId.value(u) !== userId.value) as any
+        console.log("readMessageAPI", currentDialog.value, partnerId)
+        if(!partnerId) return;
+
+        const data = {
+            dialogId: currentDialogId.value,
+            messageId,
+            userId: partnerId
+        }
+
+        messageReadEmit(data);
+
+        dialogsStore.readMessage(data);
+    }
+
     function removeMessageAPI(message: IMessage) {
         if(!currentDialogId.value) return;
 
@@ -131,14 +149,17 @@ export function useDialogs(store?: Pinia) {
         addDialog: dialogsStore.addDialog,
         addMessage: dialogsStore.addMessage,
         updateMessage: dialogsStore.updateMessage,
+        readMessage: dialogsStore.readMessage,
         removeMessageAPI,
         editedMessageAPI,
+        readMessageAPI,
         messageEmit,
         createDialog,
         findOrCreateAndOpen,
         items,
         getDialogByPartner,
         isEmpty,
-        getMessageText
+        getMessageText,
+        getUserId,
     }
 }

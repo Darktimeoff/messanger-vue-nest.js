@@ -17,6 +17,11 @@ export interface IMessageEditedEmit extends IMessageRemoveEmit {
     text: string;
 }
 
+export interface IMessageReadEmit {
+    dialogId: string;
+    messageId?: string;
+}
+
 export function messageEmit(data: IMessageEmit) {
     const {send} = useSocket();
     console.log('messageEmit')
@@ -25,12 +30,18 @@ export function messageEmit(data: IMessageEmit) {
 
 export function messageRemoveEmit(data: IMessageRemoveEmit) {
     const {send} = useSocket();
-    console.log('messageEmit');
+    console.log('messageRemoveEmit');
     send<IMessageRemoveEmit>(SOCKET_EMIT.messageRemove, data);
 }
 
 export function messageEditEmit(data: IMessageEditedEmit) {
     const {send} = useSocket();
-    console.log('messageEmit');
+    console.log('messageEditEmit');
     send<IMessageEditedEmit>(SOCKET_EMIT.messageEdited, data);
+}
+
+export function messageReadEmit(data: IMessageReadEmit) {
+    const {send} = useSocket();
+    console.log('messageReadEmit');
+    send<IMessageReadEmit>(SOCKET_EMIT.messageRead, data);
 }

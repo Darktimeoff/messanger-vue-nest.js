@@ -1,8 +1,9 @@
 import {  IDialog,IMessage } from "~/types"
 import { defineStore } from "pinia";
 import {ref, computed} from 'vue';
-import type {IOnlinesDataEmit} from '~/socket'
+import type {IMessageReadEmit, IOnlinesDataEmit} from '~/socket'
 import { updateObj } from "~/helpers";
+
 export const useDialogStore = defineStore('dialogs', () => {
     const items = ref<IDialog[]>([]);
     const currentDialogId = ref<string>();
@@ -41,6 +42,27 @@ export const useDialogStore = defineStore('dialogs', () => {
         if(dialog.lastMessage?._id === messageData._id) {
             dialog.lastMessage = message;
         }
+    }
+
+    function readMessage({dialogId, userId, messageId}: IMessageReadEmit & {userId: string}) {
+        const dialog = items.value?.find(d => d._id === dialogId);
+        if(!dialog) return;
+
+        if(messageId) {
+            const message = dialog.message.find(m => m._id === messageId);
+            if(!message) return;
+            
+            message.isRead = true;
+            return 
+        }
+
+        dialog.message = dialog.message.map(m => {
+            if(m.author && (typeof m.author === 'string' ? m.author === userId : m.author._id === userId)) {
+                m.isRead = true;
+            }
+
+            return m;
+        });
     }
 
 
@@ -91,6 +113,7 @@ export const useDialogStore = defineStore('dialogs', () => {
         addDialog,
         addMessage,
         setDialogs,
-        updateMessage
+        updateMessage,
+        readMessage
     }
 })

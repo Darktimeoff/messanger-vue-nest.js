@@ -34,11 +34,32 @@ export class MessageService {
     return `This action updates a #${id} message`;
   }
 
-  edited(id: string, dto: EditedMessageDto) {
+  async edited(id: string, dto: EditedMessageDto) {
     return this.messageModel.findByIdAndUpdate(id, {
       textEdited: dto.text
     }, {new: true}).exec()
   }
+
+  async readOneMessage(messageId: string) {
+    return this.messageModel.findByIdAndUpdate(messageId, {
+      isRead: true
+    })
+  }
+
+  async readUserDialogMessage(userId: string, dialogId: string) {
+    return this.messageModel.updateMany({
+      dialog: new Types.ObjectId(dialogId),
+      author: new Types.ObjectId(userId),
+      isRead: false
+    }, {
+      isRead: true
+    }, {
+      new: true,
+      sort: {
+        createdAt: 1
+      }
+    }).exec()
+  } 
 
   async remove(id: string) {
     return this.messageModel.findByIdAndUpdate(id, {

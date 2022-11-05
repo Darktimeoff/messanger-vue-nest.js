@@ -49,7 +49,10 @@ const {
     messageEmit,
     removeMessageAPI,
     editedMessageAPI,
-    getMessageText
+    getMessageText,
+    readMessageAPI,
+    isMe,
+    getUserId,
 } = useDialogs();
 
 const dialogQuery = useDialogQuery();
@@ -78,13 +81,17 @@ const partner  = computed(() => currentDialog.value && dialogPartner.value(curre
 const isOnline = computed(() => partner.value?.isOnline);
 const data = computed(() => dialogQuery.data.value);
 const messagesLength = computed(() => messages.value.length);
+const isHaveCurrentDialog = computed(() => Boolean(currentDialog.value));
 
 watch(isError, notFound);
 
 watch(messagesLength, (v) => {
     console.log('messages')
-    nextTick(scrollToBottom)
+    nextTick(scrollToBottom);
+    readLastMessage();
 });
+
+watch(isHaveCurrentDialog, () => readMessageAPI())
 
 onMounted(mounted);
 onBeforeRouteLeave((to, from, next) => {
@@ -108,14 +115,25 @@ function mounted() {
     notFound();
 
     showLastMessage();
-
-    if(currentDialogId.value) dialogQuery.refetch.value();
+    console.log('mounted', currentDialogId.value)
+    if(currentDialogId.value) {
+        dialogQuery.refetch.value();
+    }
 }
 
 function showLastMessage() {
     if(!isError.value && data.value) {
         messageViewIndex.value = messages.value.length - 1;
     }
+}
+
+function readLastMessage() {
+    const message = messages.value[messagesLength.value - 1];
+    if(!message?.author) return;
+    
+    if(isMe.value(getUserId.value(message.author))) return;
+
+    readMessageAPI(message._id);
 }
 
 

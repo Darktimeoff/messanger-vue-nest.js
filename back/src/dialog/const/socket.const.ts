@@ -1,13 +1,15 @@
 export enum EMIT_EVENT  {
     'onlines' = 'onlines',
     'dialogs' = 'dialogs',
-    'messages' = 'messages'
+    'messages' = 'messages',
+    'messageRead' = 'messageRead'
 }
 
 export enum SUBSCRIBE_EVENT {
     'message' = 'message',
     'messageRemove' = 'messageRemove',
-    'messageEdited' = 'messageEdited'
+    'messageEdited' = 'messageEdited',
+    'messageRead' = 'messageRead'
 }
 
 export enum EXCEPTION {

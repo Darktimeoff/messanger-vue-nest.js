@@ -10,6 +10,9 @@ export function useAuth(store?: Pinia) {
     const {user, token, isAuth, userId} = storeToRefs(userStore);
 
     const isMe = computed(() => (id: string) => userId.value === id);
+    const getUserId = computed(() => (user: IUser | string) => {
+        return typeof user === 'object' ? user._id : user;
+    })
 
     function onLogin(userData: IUser, access_token: string) {
         user.value = userData;
@@ -38,6 +41,7 @@ export function useAuth(store?: Pinia) {
         onLogin,
         onLogout,
         useUserQuery,
-        isMe
+        isMe,
+        getUserId
     }
 }
