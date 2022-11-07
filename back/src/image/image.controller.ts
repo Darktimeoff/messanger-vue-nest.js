@@ -10,8 +10,8 @@ export class ImageController {
         dest: 'uploads/',
     }))
     @Post()
-    async create(@UploadFiles() files: Express.Multer.File[]) {
-        console.log(files[0]);
+    async create(@UploadFiles() file: Express.Multer.File) {
+        console.log(file);
     }
 
     @Delete()
