@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ImageSchema } from './entities/image.entity';
 import { ImageService } from './image.service';
+import { ImageController } from './image.controller';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { ImageService } from './image.service';
       }
     ])
   ],
-  providers: [ImageService]
+  providers: [ImageService],
+  controllers: [ImageController]
 })
 export class ImageModule {
 }
