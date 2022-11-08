@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Types } from "mongoose";
 import { Dialog } from "src/dialog/entities/dialog.entity";
 import { User } from "src/user/entities/user.entity";
-import { Image } from "~/image/entities/image.entity";
+import { File } from "~/file/entities/file.entity";
 
 export type MessageDocument = Message & Document
 
@@ -18,7 +18,7 @@ export class Message {
     isRead: boolean;
 
     @Prop({type: Types.ObjectId, ref: "Image"})
-    attachments: Image[]
+    attachments: File[]
 
     @Prop()
     audio: string;

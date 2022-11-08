@@ -4,12 +4,21 @@ import { Dialog } from "~/dialog/entities/dialog.entity";
 import { Message } from "~/message/entities/message.entity";
 import { User } from "~/user/entities/user.entity";
 
-export type ImageDocument = Image & Document;
+export type FileDocument = File & Document;
 
 @Schema({ timestamps: true, _id: true, id: true})
-export class Image {
+export class File {
     @Prop({required: true})
     filename: string;
+
+    @Prop()
+    public_id: string;
+
+    @Prop()
+    width: number;
+
+    @Prop()
+    height: number;
 
     @Prop()
     size: number;
@@ -17,8 +26,14 @@ export class Image {
     @Prop({required: true})
     orig_url: string;
 
+    @Prop()
+    optimize_url: string
+
     @Prop({required: true})
-    webp_url: string
+    resource_type: string;
+
+    @Prop({required: true})
+    format: string;
 
     @Prop({type: Types.ObjectId, ref: 'User', required: true}) 
     user: User;
@@ -30,4 +45,4 @@ export class Image {
     dialog: Dialog;
 }
 
-export const ImageSchema = SchemaFactory.createForClass(Image);
+export const FileSchema = SchemaFactory.createForClass(File);

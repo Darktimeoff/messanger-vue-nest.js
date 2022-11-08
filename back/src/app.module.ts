@@ -6,7 +6,8 @@ import { UserModule } from './user/user.module';
 import { DialogModule } from './dialog/dialog.module';
 import { MessageModule } from './message/message.module';
 import { AuthModule } from './auth/auth.module';
-import { ImageModule } from './image/image.module';
+import { FileModule } from './file/file.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { ImageModule } from './image/image.module';
     DialogModule,
     MessageModule,
     AuthModule,
-    ImageModule
+    FileModule,
+    CloudinaryModule
   ]
 })
 export class AppModule { }
