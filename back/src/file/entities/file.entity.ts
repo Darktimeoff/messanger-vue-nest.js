@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Exclude } from "class-transformer";
 import { Types } from "mongoose";
 import { Dialog } from "~/dialog/entities/dialog.entity";
 import { Message } from "~/message/entities/message.entity";
@@ -11,6 +12,7 @@ export class File {
     @Prop({required: true})
     filename: string;
 
+    @Exclude()
     @Prop()
     public_id: string;
 
@@ -20,7 +22,7 @@ export class File {
     @Prop()
     height: number;
 
-    @Prop()
+    @Prop({required: true})
     size: number;
 
     @Prop({required: true})
@@ -38,7 +40,7 @@ export class File {
     @Prop({type: Types.ObjectId, ref: 'User', required: true}) 
     user: User;
 
-    @Prop({type: Types.ObjectId, ref: "Message", required: true})
+    @Prop({type: Types.ObjectId, ref: "Message"})
     message: Message;
 
     @Prop({type: Types.ObjectId, ref: 'Dialog'})
