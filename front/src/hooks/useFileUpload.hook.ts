@@ -1,16 +1,12 @@
 import { useFileDialog } from '@vueuse/core';
-import {ref, watch} from 'vue';
+import { UploadFile } from 'ant-design-vue';
+import {Ref, watch} from 'vue';
+import { getBase64 } from '~/helpers';
+import {ObjectId} from 'bson';
+import { FileType } from 'ant-design-vue/lib/upload/interface';
 
-export function useFileUpload() {
-    interface IFile {
-        file: File,
-        src: string | ArrayBuffer | null | undefined;
-        name: string;
-    }
-
+export function useFileUpload(files: Ref<UploadFile<any>[]>) {
     const {files: fileList, open, reset} = useFileDialog()
-    
-    const files = ref<IFile[]>();
 
     watch(fileList, async (v) => {
         if(!v?.length) {
@@ -31,29 +27,30 @@ export function useFileUpload() {
     }
 
     async function createPreviewImage(file: File) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-
-        const ev = await new Promise<ProgressEvent<FileReader>>((res) => {
-            reader.onload = (ev) => {
-                res(ev)
-            };
-        })
-
+        const ev = await getBase64(file)
         return imageObj(file, ev)
     }
 
-    function  imageObj(file: File, event: ProgressEvent<FileReader>): IFile {
+    function  imageObj(file: File, preview: string): UploadFile & {_id: string} {
+        const uid = new ObjectId().toString();
+        Object.defineProperty(file, 'uid', {
+            value: uid,
+        })
+        
+
         return {
-            file,
-            src: event.target?.result,
-            name: `${file.name}${Date.now()}`,
+            _id: uid,
+            uid,
+            originFileObj: file as FileType,
+            preview,
+            fileName: `${file.name}`,
+            name: `${file.name}`,
+            status: 'uploading'
         };
     }
 
     return {
         open,
-        files,
         reset,
     }
 }

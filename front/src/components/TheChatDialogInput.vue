@@ -15,7 +15,7 @@
             @pressEnter.prevent="onSendClick"
         />
         <div class="inputarea-prefix">
-            <AppFileUpload accept="image/*" multiple>
+            <AppFileUpload accept="image/*" v-model:fileList="fileList" multiple>
                 <AppInlineIcon>
                     <PaperClipOutlined class="inputarea__icon" />
                 </AppInlineIcon>
@@ -44,6 +44,10 @@
                 @select="onSelectEmojii"
             />
         </transition>
+        <AppFilesUploadPreview 
+            class="inputarea-files" 
+            v-model:fileList="fileList" 
+        />
     </div>
 </template>
 
@@ -54,6 +58,7 @@ import { Picker, EmojiIndex } from "emoji-mart-vue-fast/src";
 import 'emoji-mart-vue-fast/css/emoji-mart.css';
 import {EmojiSelect} from '~/types'
 import { KeyboardEventHandler } from 'ant-design-vue/lib/_util/EventInterface';
+import { UploadFile } from 'ant-design-vue';
 
 interface IEmit {
     (event: 'send', text: string): void
@@ -67,6 +72,9 @@ const emit = defineEmits<IEmit>();
 const props = defineProps<IProps>();
 
 const emojiIndex = ref<EmojiIndex>()
+
+
+const fileList = ref<UploadFile[]>([]);
 
 const isAudio = ref(true);
 const input = useVModel(props, 'value');
@@ -125,5 +133,10 @@ function clear() {
     padding-top: 12px;
     overflow: hidden;
     padding-bottom: 0;
+}
+
+.inputarea-files {
+    position: absolute;
+    bottom: 100%;
 }
 </style>

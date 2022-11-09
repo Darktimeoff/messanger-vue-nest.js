@@ -29,6 +29,7 @@ declare module '@vue/runtime-core' {
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASpin: typeof import('ant-design-vue/es')['Spin']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    AUpload: typeof import('ant-design-vue/es')['Upload']
     Avatar: typeof import('./src/components/Avatar.vue')['default']
     DialogItem: typeof import('./src/components/DialogItem.vue')['default']
     FileUpload: typeof import('./src/components/FileUpload.vue')['default']
