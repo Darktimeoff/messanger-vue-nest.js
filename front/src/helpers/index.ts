@@ -1,6 +1,7 @@
 export * from './validations.helper';
 export * as Storage from './storage';
 export * from './dom.helper';
+export * from './js-api.helper';
 
 import tinycolor from 'tinycolor2';
 

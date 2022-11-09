@@ -19,6 +19,7 @@ declare module '@vue/runtime-core' {
     APopover: typeof import('ant-design-vue/es')['Popover']
     AppBlock: typeof import('./src/components/AppBlock.vue')['default']
     AppButton: typeof import('./src/components/AppButton.vue')['default']
+    AppFilesUploadPreview: typeof import('./src/components/AppFilesUploadPreview.vue')['default']
     AppFileUpload: typeof import('./src/components/AppFileUpload.vue')['default']
     AppImage: typeof import('./src/components/AppImage.vue')['default']
     AppInfoPage: typeof import('./src/components/AppInfoPage.vue')['default']
