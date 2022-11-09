@@ -52,7 +52,7 @@ export class User {
 }
 
 export type IUserId = User  & {_id: Types.ObjectId};
-export type IUser = Omit<User, 'dialog' | 'isConfirmed'>
+export type IUser = Omit<User, 'dialog' | 'isConfirmed'> & {_id: Types.ObjectId}
 
 export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.index({

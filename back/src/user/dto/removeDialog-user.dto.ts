@@ -1,9 +1,9 @@
-import { IsString } from "class-validator";
+import { IsString, IsMongoId } from "class-validator";
 
 export class RemoveDialogDto {
-    @IsString()
+    @IsMongoId()
     userId: string;
 
-    @IsString()
+    @IsMongoId()
     dialogId: string;
 }

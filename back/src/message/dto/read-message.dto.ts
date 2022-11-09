@@ -1,10 +1,10 @@
-import { IsOptional, IsString } from "class-validator";
+import { IsMongoId, IsOptional } from "class-validator";
 
 export class ReadMessageDto {
-    @IsString()
+    @IsMongoId()
     dialogId: string;
 
     @IsOptional()
-    @IsString()
+    @IsMongoId()
     messageId?: string;
 }

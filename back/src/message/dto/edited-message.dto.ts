@@ -1,7 +1,7 @@
-import { IsString } from "class-validator";
+import { IsMongoId, IsString } from "class-validator";
 
 export class EditedMessageDto {
-    @IsString()
+    @IsMongoId()
     messageId: string;
 
     @IsString()
@@ -9,6 +9,6 @@ export class EditedMessageDto {
 }
 
 export class EditedDialogMessageDto extends EditedMessageDto {
-    @IsString()
+    @IsMongoId()
     dialogId: string;
 }

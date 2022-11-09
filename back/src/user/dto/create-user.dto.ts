@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsString,
+  IsMongoId
 } from 'class-validator';
 
 export class CreateUserDto {
