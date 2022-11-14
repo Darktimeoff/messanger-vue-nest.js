@@ -82,7 +82,7 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
             const message = await this.dialogService.addMessage(messageDto.dialogId, messageDto);
 
-            this.messagesEmit(dialog, message);
+            if(message) this.messagesEmit(dialog, message);
         } catch(e) {
             if(e instanceof Error) {
                 this.logger.error(`get message ${e}`) 

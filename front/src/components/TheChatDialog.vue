@@ -26,7 +26,7 @@
             <TheChatDialogInput 
                 v-model:value="message" 
                 v-model:fileList="fileList"
-                :isLoading="isLoading || isLoadingFile"
+                :disabled="isDisabled"
                 class="chat__dialogs-input" 
                 @send="onSend" 
             />
@@ -43,6 +43,7 @@ import { useDialogs } from '~/hooks';
 import {  IMessage, IUploadFile } from '~/types';
 import {FileAPI} from '~/api';
 import { AxiosError } from 'axios';
+import { IMessageEmit } from '~/socket';
 
 const {
     messages,  
@@ -89,6 +90,7 @@ const isOnline = computed(() => partner.value?.isOnline);
 const data = computed(() => dialogQuery.data.value);
 const messagesLength = computed(() => messages.value.length);
 const isHaveCurrentDialog = computed(() => Boolean(currentDialog.value));
+const isDisabled = computed(() => !currentDialogId.value || isLoading.value || isLoadingFile.value)
 
 watch(isError, notFound);
 watchArray(fileList, (_, __, added) => loadFiles(added));
@@ -177,7 +179,8 @@ function readLastMessage() {
 
 
 function onSend(m: string) {
-    if(!currentDialogId.value) return;
+    if(isDisabled.value) return;
+
     if(!m.trim()) {
         editedMessage.value = null;
         return;
@@ -192,13 +195,20 @@ function onSend(m: string) {
         editedMessage.value = null;
         return;
     }
-  
-    messageEmit({
+
+    const data: IMessageEmit = {
         message: {
             text: m
         },
-        dialogId: currentDialogId.value
-    });
+        dialogId: currentDialogId.value as string
+    }
+    
+    if(fileList.value.length) {
+        data.message.attachments = fileList.value.map(f => f.uid);
+    }
+
+
+    messageEmit(data);
 }
 function scrollToBottom() {
     const scroll = document.querySelector('.chat__dialogs-messages') as HTMLDivElement;

@@ -102,6 +102,7 @@ async function loadEmojiData() {
 }
 
 function onSendClick(e: KeyboardEventHandler) {
+    if(props.disabled) return;
     console.log('send emit');
     emit('send', input.value);
     clear()

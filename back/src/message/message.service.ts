@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { FileService } from '~/file/file.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { EditedMessageDto } from './dto/edited-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
@@ -9,29 +10,58 @@ import { MessageDocument } from './entities/message.entity';
 @Injectable()
 export class MessageService {
   constructor(
-    @InjectModel('Message') private readonly messageModel: Model<MessageDocument>
+    @InjectModel('Message') private readonly messageModel: Model<MessageDocument>,
+    private readonly fileService: FileService
   ) {
 
   }
 
-  create(dto: CreateMessageDto) {
-    return this.messageModel.create({
+  async create(dto: CreateMessageDto) {
+    const attachments = dto.attachments?.map(id => new Types.ObjectId(id)) || [];
+
+    const message = await this.messageModel.create({
       text: dto.text,
       author: new Types.ObjectId(dto.authorId),
-      dialog: dto.dialogId
-    })
+      dialog: dto.dialogId,
+      attachments: {
+        $push: attachments
+      }
+    });
+
+    if(attachments.length) { 
+      await Promise.all((attachments).map(async f => {
+        await this.fileService.linkFile({
+          dialogId: dto.dialogId,
+          messageId: message._id.toString(),
+          attachmentId: f.toString()
+        })
+      }))
+    }
+
+    return message
+   
   }
 
   findAll() {
     return `This action returns all message`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} message`;
+  findOne(id: string) {
+    return this.messageModel.findById(id);
   }
 
   update(id: number, updateMessageDto: UpdateMessageDto) {
     return `This action updates a #${id} message`;
+  }
+
+  getPopulate() {
+    return [{
+      strictPopulate: false,
+      path: 'author',
+    }, {
+      strictPopulate: false,
+      path: 'attachments'
+    }]
   }
 
   async edited(id: string, dto: EditedMessageDto) {

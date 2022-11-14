@@ -16,9 +16,10 @@
     &:deep(span[role="img"]) {
         opacity: $opDis;
     }
-    &:disabled {
+    &[disabled="true"]{
         opacity: $opDis;
         cursor: not-allowed;
+        pointer-events: none;
     }
     &:active {
         background: $gray;

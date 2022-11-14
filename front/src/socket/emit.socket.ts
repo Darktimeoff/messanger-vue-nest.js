@@ -4,6 +4,7 @@ import { useSocket } from "~/hooks";
 export interface IMessageEmit {
     message: {
         text: string;
+        attachments?: string[]
     }
     dialogId: string;
 }

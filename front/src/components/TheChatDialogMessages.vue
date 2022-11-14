@@ -34,6 +34,7 @@
                 @copy="emit('edit', m.data)"
               >
                 <Messsage 
+                  :attachments="m.data.attachments"
                   :text="getMessageText(m.data)" 
                   :audio="m.data.audio"
                   :isDeleted="m.data.isDeleted"

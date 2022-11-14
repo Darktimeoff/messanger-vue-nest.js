@@ -1,14 +1,14 @@
 <template>
     <div class="messageattachment" :class="{'large': isLarge}">
-        <AppImage class="messageattachment-img" v-for="a in attachments" :key="a.url" :url="a.url" :alt="a.filename" />
+        <AppImage class="messageattachment-img" v-for="a in attachments" :key="a._id" :url="a.orig_url" :alt="a.filename" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { IAttachment } from '~/types';
+import { IFile } from '~/types';
 
 interface IProps {
-    attachments: IAttachment[],
+    attachments: IFile[],
     isLarge?: boolean;
 }
 

@@ -5,6 +5,10 @@ export class CreateMessageDto {
     text: string;
 
     @IsOptional()
+    @IsMongoId({each: true})
+    attachments?: string[]
+
+    @IsOptional()
     @IsMongoId()
     authorId?: string;
 

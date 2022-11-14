@@ -8,17 +8,17 @@
             <MessageAudio v-if="audio" :audio="audio" />
         </div>
 
-        <MessageAttachments v-if="isHasAttachment" :attachments="(attachments as IAttachment[])" :isLarge="!text"/>
+        <MessageAttachments v-if="isHasAttachment" :attachments="(attachments as IFile[])" :isLarge="!text"/>
     </div>
 </template>
 
 <script setup lang="ts">
-import { IAttachment } from '~/types';
+import { IFile } from '~/types';
 
 interface IProps {
     text: string | null;
     isTyping?: boolean;
-    attachments?: IAttachment[];
+    attachments?: IFile[];
     audio?: string;
     isDeleted?: boolean | undefined;
 }

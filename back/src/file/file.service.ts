@@ -6,6 +6,7 @@ import { FileDocument } from './entities/file.entity';
 import { UploadApiErrorResponse} from 'cloudinary';
 import { CreateDto } from './dto/create.dto';
 import { FILE_NOT_FOUND } from './const';
+import { LinkAttachmentDto } from './dto/link-attachment.dto';
 @Injectable()
 export class FileService {
     constructor(
@@ -54,6 +55,13 @@ export class FileService {
                 throw new HttpException(error.message, error.http_code);
             }
         }
+    }
+
+    async linkFile(dto: LinkAttachmentDto) {
+        return this.fileModel.findByIdAndUpdate(dto.attachmentId, {
+            dialog: dto.dialogId ? new Types.ObjectId(dto.dialogId) : undefined,
+            message: new Types.ObjectId(dto.messageId)
+        })
     }
 }
 

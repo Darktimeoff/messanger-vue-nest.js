@@ -68,7 +68,10 @@ export class DialogService {
     }
 
     async find(id: string, populate: string | string[] = 'message') {
-        return this.dialogModel.findById(id).populate(populate).exec();
+        return this.dialogModel.findById(id).populate([...populate, {
+            path: 'message',
+            populate: this.messageService.getPopulate()
+        }]).exec();
     }
 
     async create(dto: CreateDialogDto) {
@@ -88,12 +91,13 @@ export class DialogService {
     }
 
     async addMessage(dialogId: string, messageDto: CreateMessageDto) {
-        const message  = await this.messageService.create(messageDto);
+        const messageId = (await this.messageService.create(messageDto))._id;
+        const message = (await this.messageService.findOne(messageId.toString()).populate(this.messageService.getPopulate()).exec())
 
         await this.dialogModel.findByIdAndUpdate(dialogId, {
-            lastMessage: message._id,
+            lastMessage: messageId,
             $push: {
-                message: message._id
+                message: messageId
             }
         }).exec()
 

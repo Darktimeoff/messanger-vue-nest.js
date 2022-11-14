@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MessageSchema } from './entities/message.entity';
+import { FileModule } from '~/file/file.module';
 
 @Module({
   imports: [
@@ -10,7 +11,8 @@ import { MessageSchema } from './entities/message.entity';
         name: 'Message',
         schema: MessageSchema
       }
-    ])
+    ]),
+    FileModule
   ],
   providers: [MessageService],
   exports: [MessageService]
