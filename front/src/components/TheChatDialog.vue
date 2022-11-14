@@ -25,6 +25,8 @@
              />
             <TheChatDialogInput 
                 v-model:value="message" 
+                v-model:fileList="fileList"
+                :isLoading="isLoading || isLoadingFile"
                 class="chat__dialogs-input" 
                 @send="onSend" 
             />
@@ -34,10 +36,13 @@
 
 <script setup lang="ts">
 import { EllipsisOutlined } from '@ant-design/icons-vue';
+import { UploadFile } from 'ant-design-vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { scrollListToBottom } from '~/helpers';
 import { useDialogs } from '~/hooks';
-import { IMessage } from '~/types';
+import {  IMessage, IUploadFile } from '~/types';
+import {FileAPI} from '~/api';
+import { AxiosError } from 'axios';
 
 const {
     messages,  
@@ -62,6 +67,8 @@ const router = useRouter();
 
 const editedMessage = ref<IMessage | null>()
 const message = ref<string>('');
+const fileList = ref<IUploadFile[]>([]);
+const isLoadingFile = ref<boolean>(false)
 const messageElm = ref<HTMLDivElement>();
 const messageViewIndex = ref<number>(0)
 
@@ -84,6 +91,7 @@ const messagesLength = computed(() => messages.value.length);
 const isHaveCurrentDialog = computed(() => Boolean(currentDialog.value));
 
 watch(isError, notFound);
+watchArray(fileList, (_, __, added) => loadFiles(added));
 
 watch(messagesLength, (v) => {
     console.log('messages')
@@ -102,10 +110,41 @@ onBeforeRouteLeave((to, from, next) => {
     next(true)
 })
 
+async function loadFiles(files: UploadFile[]) {
+    try {
+        isLoadingFile.value = true;
+        await Promise.allSettled(files.map(loadFile))
+    } finally{
+        isLoadingFile.value = false;
+    }
+}
+
 function notFound() {
     if(isError.value) {
         router.push({name: "Home"});
         currentDialogId.value = undefined;
+    }
+}
+
+async function loadFile(fileReq: UploadFile) {
+    try {
+        const {data: file} = await FileAPI.uploadFile({
+            id: fileReq.uid,
+            file: fileReq.originFileObj as File
+        });
+        console.log('loadFile', file)
+        fileReq.fileName = file.filename;
+        fileReq.name = file.filename;
+        fileReq.response = file;
+        fileReq.url = file.orig_url;
+        fileReq.preview = file.orig_url;
+        fileReq.status = 'success';
+        fileReq.size = file.size;
+    } catch(e) {
+        if(e instanceof AxiosError) {
+            fileReq.error = e.response?.data;
+        } 
+        fileReq.status = 'error';
     }
 }
 

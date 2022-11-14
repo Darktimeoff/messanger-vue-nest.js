@@ -1,18 +1,19 @@
 <template>
-    <div class="file-upload" @click="onFileClick">
+    <div class="file-upload" @click="onFileClick" :disabled="disabled">
         <slot />
     </div>
 </template>
 
 <script lang="ts" setup>
-import { UploadFile } from 'ant-design-vue';
 import {useFileUpload} from '~/hooks';
+import { IUploadFile } from '~/types';
 
 interface IProps {
     accept: HTMLInputElement['accept'],
     multiple?: HTMLInputElement['multiple'],
     capture?: HTMLInputElement['capture'],
-    fileList: UploadFile[]
+    fileList: IUploadFile[];
+    disabled?: boolean;
 }
 
 const props = defineProps<IProps>();
@@ -30,7 +31,10 @@ function onFileClick() {
 </script>
 
 <style lang="scss" scoped>
-.file-upload__input {
-    display: none;
+.file-upload {
+    &:disabled {
+        opacity: $opDis;
+        cursor: not-allowed;
+    }
 }
 </style>

@@ -1,10 +1,11 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CloudinaryService } from '~/cloudinary/cloudinary.service';
 import { FileDocument } from './entities/file.entity';
 import { UploadApiErrorResponse} from 'cloudinary';
 import { CreateDto } from './dto/create.dto';
+import { FILE_NOT_FOUND } from './const';
 @Injectable()
 export class FileService {
     constructor(
@@ -36,4 +37,23 @@ export class FileService {
             }
         }
     }
+
+    async deleteFile(id: Types.ObjectId | string) {
+        try {
+            const file = await this.fileModel.findById(id).exec();
+            if(!file) {
+                throw new NotFoundException(FILE_NOT_FOUND)
+            }
+
+            await this.cloudinaryService.removeImage(file.public_id);
+            
+            file.remove()
+        } catch(e) {
+            if(e instanceof Error  && 'http_code' in e) {
+                const error = e as UploadApiErrorResponse;
+                throw new HttpException(error.message, error.http_code);
+            }
+        }
+    }
 }
+

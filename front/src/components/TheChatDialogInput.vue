@@ -15,21 +15,21 @@
             @pressEnter.prevent="onSendClick"
         />
         <div class="inputarea-prefix">
-            <AppFileUpload accept="image/*" v-model:fileList="fileList" multiple>
+            <AppFileUpload  v-model:fileList="fileList" accept="image/*" :multiple="true" :disabled="disabled">
                 <AppInlineIcon>
                     <PaperClipOutlined class="inputarea__icon" />
                 </AppInlineIcon>
             </AppFileUpload>
             <transition mode="out-in" enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
                 <transition v-if="isEmpty" mode="out-in" enterActiveClass="fadeIn" leaveActiveClass="fadeOut">
-                    <AppInlineIcon v-if="!isAudio" @click="toggleAudio">
+                    <AppInlineIcon v-if="!isAudio" :disabled="disabled" @click="toggleAudio">
                         <InstagramOutlined class="inputarea__icon" />
                     </AppInlineIcon>
-                    <AppInlineIcon v-else @click="toggleAudio">
+                    <AppInlineIcon v-else :disabled="disabled"  @click="toggleAudio">
                         <AudioOutlined  class="inputarea__icon" />
                     </AppInlineIcon>
                 </transition>
-                <AppInlineIcon v-else>
+                <AppInlineIcon :disabled="disabled" v-else>
                     <SendOutlined  class="inputarea__icon" @click="onSendClick" />
                 </AppInlineIcon>
             </transition>
@@ -56,9 +56,8 @@ import { SmileOutlined, SendOutlined, InstagramOutlined, AudioOutlined, PaperCli
 //@ts-ignore
 import { Picker, EmojiIndex } from "emoji-mart-vue-fast/src";
 import 'emoji-mart-vue-fast/css/emoji-mart.css';
-import {EmojiSelect} from '~/types'
+import {EmojiSelect, IUploadFile} from '~/types'
 import { KeyboardEventHandler } from 'ant-design-vue/lib/_util/EventInterface';
-import { UploadFile } from 'ant-design-vue';
 
 interface IEmit {
     (event: 'send', text: string): void
@@ -66,6 +65,8 @@ interface IEmit {
 
 interface IProps {
     value: string;
+    fileList: IUploadFile[]
+    disabled?: boolean;
 }
 
 const emit = defineEmits<IEmit>();
@@ -74,14 +75,14 @@ const props = defineProps<IProps>();
 const emojiIndex = ref<EmojiIndex>()
 
 
-const fileList = ref<UploadFile[]>([]);
+const fileList = useVModel(props, 'fileList');
 
 const isAudio = ref(true);
 const input = useVModel(props, 'value');
 const showEmojii = ref(false)
 
 const isEmpty = computed(() => {
-    return !input.value.trim()
+    return !input.value.trim() && !fileList.value.length && !props.disabled
 })
 
 loadEmojiData();

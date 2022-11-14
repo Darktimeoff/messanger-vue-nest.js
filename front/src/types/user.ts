@@ -10,8 +10,3 @@ export interface IUser {
     createdAt: string;
     updatedAt: string;
 }
-
-export interface IAttachment {
-    filename: string;
-    url: string;
-}

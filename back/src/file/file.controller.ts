@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Post, Request, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Request, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '~/auth/guard/jwt-auth.guard';
 import { IReqAuth } from '~/auth/interface/jwt.interface';
 import { CloudinaryService } from '~/cloudinary/cloudinary.service';
 import { UploadFiles } from '~/decorators/files.decorator';
 import { User } from '~/decorators/user-email.decorator';
+import { IdValidationPipe } from '~/pipe/id-validation.pipe';
 import { IUser } from '~/user/entities/user.entity';
 import { CreateDto } from './dto/create.dto';
 import { FileService } from './file.service';
@@ -31,8 +32,8 @@ export class FileController {
         return fileDoc
     }
 
-    @Delete()
-    async delete() {
-
+    @Delete(':id')
+    async delete(@Param('id', IdValidationPipe) id: string) {
+        await this.fileService.deleteFile(id);
     }
 }

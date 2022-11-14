@@ -4,8 +4,9 @@ import {Ref, watch} from 'vue';
 import { getBase64 } from '~/helpers';
 import {ObjectId} from 'bson';
 import { FileType } from 'ant-design-vue/lib/upload/interface';
+import { IUploadFile } from '~/types';
 
-export function useFileUpload(files: Ref<UploadFile<any>[]>) {
+export function useFileUpload(files: Ref<IUploadFile[]>) {
     const {files: fileList, open, reset} = useFileDialog()
 
     watch(fileList, async (v) => {
@@ -15,7 +16,6 @@ export function useFileUpload(files: Ref<UploadFile<any>[]>) {
         };
 
         files.value = await convertImages(v);
-        console.log('fileList,', files.value);
     })
     
     async function convertImages(eventFiles: FileList) {
@@ -31,7 +31,7 @@ export function useFileUpload(files: Ref<UploadFile<any>[]>) {
         return imageObj(file, ev)
     }
 
-    function  imageObj(file: File, preview: string): UploadFile & {_id: string} {
+    function  imageObj(file: File, preview: string): IUploadFile {
         const uid = new ObjectId().toString();
         Object.defineProperty(file, 'uid', {
             value: uid,
@@ -42,12 +42,15 @@ export function useFileUpload(files: Ref<UploadFile<any>[]>) {
             _id: uid,
             uid,
             originFileObj: file as FileType,
+            url: preview,
             preview,
             fileName: `${file.name}`,
             name: `${file.name}`,
             status: 'uploading'
         };
     }
+
+    
 
     return {
         open,

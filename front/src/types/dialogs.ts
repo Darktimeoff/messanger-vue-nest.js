@@ -1,3 +1,4 @@
+import { IFile } from "./file";
 import { IUser } from "./user";
 
 export interface IMessage {
@@ -5,7 +6,7 @@ export interface IMessage {
     text: string;
     textEdited: string;
     isRead: boolean;
-    attachments: string[]
+    attachments: IFile[]
     audio: string;
     author: IUser;
     dialog: IDialog;
