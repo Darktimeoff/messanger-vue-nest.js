@@ -67,11 +67,12 @@ export class DialogService {
         }]).exec()
     }
 
-    async find(id: string, populate: string | string[] = 'message') {
-        return this.dialogModel.findById(id).populate([...populate, {
+    async find(id: string, populate?: string[]) {
+        const populateQuery = populate ? populate : [{
             path: 'message',
             populate: this.messageService.getPopulate()
-        }]).exec();
+        }]
+        return this.dialogModel.findById(id).populate(populateQuery).exec();
     }
 
     async create(dto: CreateDialogDto) {

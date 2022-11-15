@@ -14,10 +14,10 @@
               :key="m.index"
               :data-index="m.index"
               :id="m.data._id"
-              :avatar="(getMessageAuthorInfo(m.data.author as any) as IUser)?.avatar || null"
+              :avatar="m.data.author?.avatar || null"
               :date="m.data.createdAt"
-              :user="(getMessageAuthorInfo(m.data.author as any) as IUser)"
-              :isMe="isMe(m.data.author as any)"
+              :user="m.data.author"
+              :isMe="isMe(m.data.author._id)"
               :isHasAttachment="m.data.attachments?.length > 0"
               :isAudio="Boolean(m.data.audio)"
               :isReaded="m.data.isRead"
@@ -49,7 +49,7 @@
 <script lang="ts" setup>
 import { LoadingOutlined } from '@ant-design/icons-vue';
 import { useDialogs } from '~/hooks';
-import { IMessage, IUser } from '~/types';
+import { IMessage } from '~/types';
 
 interface IProps {
   items: IMessage[] | undefined,
@@ -65,7 +65,7 @@ interface IEmit {
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmit>()
 
-const {isMe, getMessageAuthorInfo, getMessageText} = useDialogs();
+const {isMe, getMessageText} = useDialogs();
 const messagesList = ref<IMessage[]>([])
 const {list, wrapperProps, containerProps, scrollTo} = useVirtualList(messagesList, {itemHeight: 80});
 const indexView = useVModel(props, 'indexView');

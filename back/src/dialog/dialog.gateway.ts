@@ -162,7 +162,7 @@ export class DialogGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
             if(!data.messageId) {
                 const messages = await this.messageService.readUserDialogMessage(userId, dialog._id as any);
-                console.log('messages', messages)
+                
                 if(!messages) return;
 
                 this.dialogMembersConnectedEmit(dialog, EMIT_EVENT.messageRead, {

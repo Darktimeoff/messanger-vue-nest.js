@@ -106,7 +106,7 @@ export class DialogController {
     @Get(':id')
     async find(@Param('id', IdValidationPipe) dialogId: string) {
         const dialog = await this.dialogService.find(dialogId);
-
+      
         if(!dialog) {
             throw new NotFoundException(DIALOG_NOT_FOUND)
         }
