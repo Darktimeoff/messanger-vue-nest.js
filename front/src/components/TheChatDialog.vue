@@ -181,7 +181,7 @@ function readLastMessage() {
 function onSend(m: string) {
     if(isDisabled.value) return;
 
-    if(!m.trim()) {
+    if(!m.trim() && !fileList.value.length) {
         editedMessage.value = null;
         return;
     };
@@ -209,6 +209,7 @@ function onSend(m: string) {
 
 
     messageEmit(data);
+    fileList.value = []
 }
 function scrollToBottom() {
     const scroll = document.querySelector('.chat__dialogs-messages') as HTMLDivElement;

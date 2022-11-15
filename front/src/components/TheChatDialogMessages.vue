@@ -99,6 +99,10 @@ function scrollToIndexView() {
     overflow-y: overlay;
 }
 
+.messages__list {
+  height: 100% !important;
+}
+
 .messages__loading {
   display: block;
   &:deep([role="img"]) {

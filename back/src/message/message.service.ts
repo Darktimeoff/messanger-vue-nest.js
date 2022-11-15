@@ -18,14 +18,11 @@ export class MessageService {
 
   async create(dto: CreateMessageDto) {
     const attachments = dto.attachments?.map(id => new Types.ObjectId(id)) || [];
-
     const message = await this.messageModel.create({
       text: dto.text,
       author: new Types.ObjectId(dto.authorId),
       dialog: dto.dialogId,
-      attachments: {
-        $push: attachments
-      }
+      attachments
     });
 
     if(attachments.length) { 

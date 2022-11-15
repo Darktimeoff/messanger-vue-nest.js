@@ -17,7 +17,7 @@ export class Message {
     @Prop({default: false})
     isRead: boolean;
 
-    @Prop({type: Types.ObjectId, ref: "File"})
+    @Prop({type: [{type: Types.ObjectId, ref: "File"}]})
     attachments: File[]
 
     @Prop()
